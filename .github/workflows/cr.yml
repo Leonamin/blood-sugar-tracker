@@ -30,6 +30,9 @@ jobs:
           INCLUDE_PATTERNS:
             - "*.js"
             - "*.ts"
+            - "*.jsx"
+            - "*.tsx"
+            - "*.css"
 
           # IF you are using azure openai
           AZURE_API_VERSION: xx
