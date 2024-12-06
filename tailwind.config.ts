@@ -102,6 +102,10 @@ export default {
             dark: "#404040", // gray-700 for dark mode
           },
         },
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          foreground: "hsl(var(--foreground))",
+        },
         text: {
           brand: {
             DEFAULT: "#6366F1", // indigo-500
