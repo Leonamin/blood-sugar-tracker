@@ -92,7 +92,7 @@
 
 @layer base {
   * {
-    @apply border-primary;
+    @apply border-[#D4D4D4] dark:border-[#404040];
   }
 
   body {

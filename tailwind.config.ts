@@ -95,6 +95,13 @@ export default {
           800: "#9A3412",
           900: "#7C2D12",
         },
+        border: {
+          DEFAULT: "hsl(var(--border))",
+          primary: {
+            DEFAULT: "#D4D4D4", // gray-300 for light mode
+            dark: "#404040", // gray-700 for dark mode
+          },
+        },
         text: {
           brand: {
             DEFAULT: "#6366F1", // indigo-500
@@ -108,7 +115,6 @@ export default {
             dark: "#fff", // white
             "dark-hover": "#fff", // white
           },
-          // ... similar pattern for secondary, tertiary, etc.
         },
         bg: {
           brand: {
@@ -119,7 +125,6 @@ export default {
             "dark-subtle": "#4F46E5", // indigo-600
             "dark-hover": "#818CF8", // indigo-400
           },
-          // ... similar pattern for primary, secondary, etc.
         },
         icon: {
           brand: {
@@ -128,16 +133,6 @@ export default {
             dark: "#A5B4FC", // indigo-300
             "dark-hover": "#818CF8", // indigo-400
           },
-          // ... similar pattern for primary, secondary, etc.
-        },
-        border: {
-          brand: {
-            DEFAULT: "#6366F1", // indigo-500
-            hover: "#4338CA", // indigo-700
-            dark: "#A5B4FC", // indigo-300
-            "dark-hover": "#818CF8", // indigo-400
-          },
-          // ... similar pattern for primary, secondary, etc.
         },
       },
       borderRadius: {
