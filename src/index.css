@@ -96,6 +96,6 @@
   }
 
   body {
-    @apply bg-background-DEFAULT text-foreground;
+    @apply bg-background dark:bg-background-dark text-foreground dark:text-foreground-dark;
   }
 }

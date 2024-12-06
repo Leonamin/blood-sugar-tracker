@@ -103,8 +103,12 @@ export default {
           },
         },
         background: {
-          DEFAULT: "hsl(var(--background))",
-          foreground: "hsl(var(--foreground))",
+          DEFAULT: "#FFFFFF",
+          dark: "#1A1F2C",
+        },
+        foreground: {
+          DEFAULT: "#171717",
+          dark: "#FFFFFF",
         },
         text: {
           brand: {
