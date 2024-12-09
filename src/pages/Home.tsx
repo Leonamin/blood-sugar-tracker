@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import CustomButton from "@/components/ui/custom-button";
 import { useState } from "react";
 
 const Home = () => {
@@ -30,10 +31,14 @@ const Home = () => {
         </div>
       </Card>
 
-      <Card className="p-6">
-        <h2 className="text-lg font-semibold mb-4">Today's Readings</h2>
-        <div className="text-center text-gray-500">
-          No readings recorded today
+      <Card className="p-6 space-y-4">
+        <h2 className="text-lg font-semibold mb-4">Button Examples</h2>
+        <div className="flex flex-col gap-4">
+          <CustomButton color="primary" size="40">Primary Button</CustomButton>
+          <CustomButton color="secondary" size="40">Secondary Button</CustomButton>
+          <CustomButton color="outline" size="40">Outline Button</CustomButton>
+          <CustomButton color="error" size="40">Error Button</CustomButton>
+          <CustomButton color="tertiary" size="40">Tertiary Button</CustomButton>
         </div>
       </Card>
     </div>
