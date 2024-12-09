@@ -96,6 +96,95 @@ export default {
           900: "#7C2D12",
         },
       },
+      fontFamily: {
+        pretendard: ["Pretendard", "sans-serif"],
+      },
+      fontSize: {
+        'h1b': ['32px', {
+          lineHeight: '140%',
+          fontWeight: '700',
+        }],
+        'h1m': ['32px', {
+          lineHeight: '140%',
+          fontWeight: '500',
+        }],
+        'h2b': ['28px', {
+          lineHeight: '140%',
+          fontWeight: '700',
+        }],
+        'h2m': ['28px', {
+          lineHeight: '140%',
+          fontWeight: '500',
+        }],
+        'h3b': ['24px', {
+          lineHeight: '140%',
+          fontWeight: '700',
+        }],
+        'h3m': ['24px', {
+          lineHeight: '140%',
+          fontWeight: '500',
+        }],
+        'h4b': ['20px', {
+          lineHeight: '140%',
+          fontWeight: '700',
+        }],
+        'h4m': ['20px', {
+          lineHeight: '140%',
+          fontWeight: '500',
+        }],
+        'h5b': ['18px', {
+          lineHeight: '140%',
+          fontWeight: '700',
+        }],
+        'h5m': ['18px', {
+          lineHeight: '140%',
+          fontWeight: '500',
+        }],
+        'h5r': ['18px', {
+          lineHeight: '140%',
+          fontWeight: '400',
+        }],
+        'body1sb': ['16px', {
+          lineHeight: '140%',
+          fontWeight: '600',
+        }],
+        'body1m': ['16px', {
+          lineHeight: '140%',
+          fontWeight: '500',
+        }],
+        'body1r': ['16px', {
+          lineHeight: '140%',
+          fontWeight: '400',
+        }],
+        'body2sb': ['14px', {
+          lineHeight: '140%',
+          fontWeight: '600',
+        }],
+        'body2m': ['14px', {
+          lineHeight: '140%',
+          fontWeight: '500',
+        }],
+        'body2r': ['14px', {
+          lineHeight: '140%',
+          fontWeight: '400',
+        }],
+        'caption1m': ['13px', {
+          lineHeight: '140%',
+          fontWeight: '500',
+        }],
+        'caption1r': ['13px', {
+          lineHeight: '140%',
+          fontWeight: '400',
+        }],
+        'caption2m': ['11px', {
+          lineHeight: '140%',
+          fontWeight: '500',
+        }],
+        'caption2r': ['11px', {
+          lineHeight: '140%',
+          fontWeight: '400',
+        }],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
