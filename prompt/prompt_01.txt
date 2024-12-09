@@ -1,0 +1,193 @@
+나는 사용자의 혈당을 기록하는 웹 어플리케이션을 구현하려고해
+
+구현하는 기능은 다음과 같아,
+
+1. 혈당 입력
+1-1. 홈 화면에서 혈당 입력
+1-2. 캘린더 -> 날짜 선택 -> 혈당 입력
+
+2. 혈당 읽기
+혈당을 읽을 때는 모두 페이지네이션 처리를 해서 무한 스크롤이 가능하도록 구현하고 싶어
+
+2-1. 홈 화면에서 오늘 입력한 혈당 목록 표시
+2-2. 홈 화면 -> 혈당 목록 -> 혈당 상세보기
+2-3. 캘린더 -> 날짜 선택 -> 혈당 목록 표시
+2-4. 캘린더 -> 날짜 선택 -> 혈당 목록 -> 혈당 상세보기
+2-5. 통계 화면에서 혈당 통계 표시
+
+3. 혈당 수정 / 삭제
+혈당 상세 보기 화면에서 혈당을 수정, 삭제할 수 있어
+혈당 상세화면은 읽기, 수정, 삭제가 가능한 화면이야
+
+4. 다크 모드 지원
+
+5. 언어 선택 지원
+
+6. 혈당 단위 선택 지원
+
+
+따라서 화면은 다음 종류가 있어
+
+- 메인 화면(bottom navigation 및 래핑) 
+    - 홈
+        - 혈당 목표 설정(1. 혈당 목표설정은 같은 화면)
+    - 캘린더
+        - 기록하기
+    - 통계
+    일간, 주간, 월간 통계
+    - 설정
+        - 혈당 목표 설정(1. 혈당 목표설정은 같은 화면)
+        - 언어 설정
+
+기록은 로컬 데이터베이스에 저장하고, 서버에는 저장하지 않아
+
+다만 추후 Cordova 사용을 대비해서 Storage 계층을 다음과 같이 추상화 했으면 좋겠어
+
+class Storage {
+  open() {
+    throw new Error("open() must be implemented");
+  }
+
+  createTable(tableName, schema) {
+    throw new Error("createTable() must be implemented");
+  }
+
+  insert(tableName, data) {
+    throw new Error("insert() must be implemented");
+  }
+
+  query(tableName, conditions) {
+    throw new Error("query() must be implemented");
+  }
+
+  delete(tableName, conditions) {
+    throw new Error("delete() must be implemented");
+  }
+}
+
+class IndexedDBStorage extends Storage {
+  constructor(dbName) {
+    super();
+    this.dbName = dbName;
+    this.db = null;
+  }
+
+  async open() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this.dbName, 1);
+
+      request.onupgradeneeded = (event) => {
+        this.db = event.target.result;
+        console.log("IndexedDB 업그레이드 완료");
+      };
+
+      request.onsuccess = (event) => {
+        this.db = event.target.result;
+        resolve();
+      };
+
+      request.onerror = (event) => {
+        reject("IndexedDB 열기 실패: " + event.target.errorCode);
+      };
+    });
+  }
+
+  createTable(tableName, schema) {
+    const transaction = this.db.transaction([tableName], "readwrite");
+    transaction.oncomplete = () => console.log(`${tableName} 생성 완료`);
+  }
+
+  insert(tableName, data) {
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([tableName], "readwrite");
+      const store = transaction.objectStore(tableName);
+      const request = store.add(data);
+
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  query(tableName, conditions) {
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([tableName], "readonly");
+      const store = transaction.objectStore(tableName);
+      const request = store.getAll();
+
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  delete(tableName, conditions) {
+    // 조건에 따라 삭제 구현
+  }
+}
+
+class SQLiteStorage extends Storage {
+  constructor(dbName) {
+    super();
+    this.dbName = dbName;
+    this.db = null;
+  }
+
+  open() {
+    return new Promise((resolve, reject) => {
+      this.db = window.sqlitePlugin.openDatabase({ name: this.dbName, location: "default" });
+      if (this.db) {
+        console.log("SQLite 데이터베이스 열림");
+        resolve();
+      } else {
+        reject("SQLite 데이터베이스 열기 실패");
+      }
+    });
+  }
+
+  createTable(tableName, schema) {
+    const schemaStr = schema.map(({ name, type }) => `${name} ${type}`).join(", ");
+    this.db.transaction((txn) => {
+      txn.executeSql(
+        `CREATE TABLE IF NOT EXISTS ${tableName} (${schemaStr})`,
+        [],
+        () => console.log(`${tableName} 생성 완료`),
+        (tx, error) => console.error(`${tableName} 생성 실패: `, error)
+      );
+    });
+  }
+
+  insert(tableName, data) {
+    const keys = Object.keys(data);
+    const placeholders = keys.map(() => "?").join(", ");
+    const values = Object.values(data);
+
+    this.db.transaction((txn) => {
+      txn.executeSql(
+        `INSERT INTO ${tableName} (${keys.join(", ")}) VALUES (${placeholders})`,
+        values,
+        () => console.log("데이터 삽입 성공"),
+        (tx, error) => console.error("데이터 삽입 실패: ", error)
+      );
+    });
+  }
+
+  query(tableName, conditions) {
+    return new Promise((resolve, reject) => {
+      const whereClause = conditions ? "WHERE " + conditions : "";
+      this.db.transaction((txn) => {
+        txn.executeSql(
+          `SELECT * FROM ${tableName} ${whereClause}`,
+          [],
+          (tx, resultSet) => resolve(resultSet.rows),
+          (tx, error) => reject(error)
+        );
+      });
+    });
+  }
+
+  delete(tableName, conditions) {
+    // 조건에 따라 삭제 구현
+  }
+}
+
+
+이게 내 생각에 대한 주요 개요야 우선 스켈레톤으로 UI만 그려보자

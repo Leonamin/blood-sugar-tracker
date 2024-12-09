@@ -2,100 +2,302 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+/* 텍스트 색상 */
+.text-brand {
+  @apply text-indigo-500 dark:text-indigo-300;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+.text-brand-hover {
+  @apply text-indigo-700 dark:text-indigo-400;
+}
 
-  body {
-    @apply bg-background text-foreground;
-  }
+.text-primary {
+  @apply text-gray-900 dark:text-white;
+}
+
+.text-primary-hover {
+  @apply text-base-black dark:text-base-white;
+}
+
+.text-secondary {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
+.text-secondary-hover {
+  @apply text-gray-800 dark:text-gray-100;
+}
+
+.text-tertiary {
+  @apply text-gray-600 dark:text-gray-300;
+}
+
+.text-tertiary-hover {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
+.text-disabled {
+  @apply text-gray-400 dark:text-gray-500;
+}
+
+.text-inverse {
+  @apply text-base-white dark:text-base-black;
+}
+
+.text-danger {
+  @apply text-red-500 dark:text-red-300;
+}
+
+.text-danger-bold {
+  @apply text-red-700 dark:text-red-400;
+}
+
+.text-info {
+  @apply text-indigo-500 dark:text-indigo-200;
+}
+
+.text-info-bold {
+  @apply text-indigo-700 dark:text-indigo-300;
+}
+
+.text-warning {
+  @apply text-yellow-500 dark:text-yellow-200;
+}
+
+.text-warning-bold {
+  @apply text-yellow-800 dark:text-yellow-400;
+}
+
+.text-success {
+  @apply text-green-400 dark:text-green-200;
+}
+
+.text-success-bold {
+  @apply text-green-700 dark:text-green-300;
+}
+
+.text-orange {
+  @apply text-orange-500 dark:text-orange-300;
+}
+
+.text-orange-bold {
+  @apply text-orange-800 dark:text-orange-400;
+}
+
+/* 배경 색상 */
+.bg-brand-subtle {
+  @apply bg-indigo-50 dark:bg-indigo-600;
+}
+
+.bg-brand {
+  @apply bg-indigo-500 dark:bg-indigo-300;
+}
+
+.bg-brand-hover {
+  @apply bg-indigo-700 dark:bg-indigo-400;
+}
+
+.bg-primary {
+  @apply bg-gray-50 dark:bg-black;
+}
+.bg-primary-hover {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+.bg-secondary {
+  @apply bg-green-400 dark:bg-green-200;
+}
+
+.bg-secondary-hover {
+  @apply bg-green-700 dark:bg-green-300;
+}
+
+.bg-tertiary {
+  @apply bg-gray-700 dark:bg-gray-50;
+}
+
+.bg-tertiary-hover {
+  @apply bg-gray-800 dark:bg-gray-200;
+}
+
+.bg-disabled {
+  @apply bg-gray-300 dark:bg-gray-400;
+}
+
+
+.bg-inverse {
+  @apply bg-base-white dark:bg-base-black;
+}
+
+.bg-danger-subtle {
+  @apply bg-red-50 dark:bg-red-800;
+}
+
+.bg-danger {
+  @apply bg-red-500 dark:bg-red-300;
+}
+
+.bg-danger-bold {
+  @apply bg-red-700 dark:bg-red-400;
+}
+
+.bg-info-subtle {
+  @apply bg-indigo-50 dark:bg-indigo-600;
+}
+
+.bg-info {
+  @apply bg-indigo-500 dark:bg-indigo-400;
+}
+
+.bg-warning-subtle {
+  @apply bg-yellow-50 dark:bg-yellow-800;
+}
+
+.bg-warning {
+  @apply bg-yellow-500 dark:bg-yellow-600;
+}
+
+.bg-success-subtle {
+  @apply bg-green-50 dark:bg-green-600;
+}
+
+.bg-success {
+  @apply bg-green-400 dark:bg-green-200;
+}
+
+.bg-orange-subtle {
+  @apply bg-orange-50 dark:bg-orange-800;
+}
+
+.bg-orange {
+  @apply bg-orange-500 dark:bg-orange-300;
+}
+
+/* 아이콘 색상 */
+.text-brand {
+  @apply text-indigo-500 dark:text-indigo-300;
+}
+
+.text-brand-hover {
+  @apply text-indigo-700 dark:text-indigo-400;
+}
+
+.text-primary {
+  @apply text-gray-900 dark:text-base-white;
+}
+
+.text-primary-hover {
+  @apply text-base-black dark:text-base-white;
+}
+
+.text-secondary {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
+.text-secondary-hover {
+  @apply text-gray-800 dark:text-gray-100;
+}
+
+.text-tertiary {
+  @apply text-gray-600 dark:text-gray-300;
+}
+
+.text-tertiary-hover {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
+.text-disabled {
+  @apply text-gray-300 dark:text-gray-400;
+}
+
+.text-inverse {
+  @apply text-base-white dark:text-base-black;
+}
+
+.text-danger {
+  @apply text-red-500 dark:text-red-300;
+}
+
+.text-danger-bold {
+  @apply text-red-700 dark:text-red-400;
+}
+
+.text-info {
+  @apply text-indigo-500 dark:text-indigo-400;
+}
+
+.text-warning {
+  @apply text-yellow-500 dark:text-yellow-200;
+}
+
+.text-success {
+  @apply text-green-400 dark:text-green-200;
+}
+
+.text-orange {
+  @apply text-orange-500 dark:text-orange-300;
+}
+
+/* 테두리 색상 */
+.border-brand {
+  @apply border-indigo-500 dark:border-indigo-300;
+}
+
+.border-brand-hover {
+  @apply border-indigo-700 dark:border-indigo-400;
+}
+
+.border-primary {
+  @apply border-gray-300 dark:border-gray-700;
+}
+
+.border-primary-hover {
+  @apply border-gray-400 dark:border-gray-600;
+}
+
+.border-secondary {
+  @apply border-gray-700 dark:border-gray-200;
+}
+
+.border-disabled {
+  @apply border-gray-500 dark:border-gray-500;
+}
+
+.border-danger-subtle {
+  @apply border-red-50 dark:border-red-800;
+}
+
+.border-danger {
+  @apply border-red-500 dark:border-red-300;
+}
+
+.border-info-subtle {
+  @apply border-indigo-50 dark:border-indigo-800;
+}
+
+.border-info {
+  @apply border-indigo-500 dark:border-indigo-400;
+}
+
+.border-warning-subtle {
+  @apply border-yellow-50 dark:border-yellow-800;
+}
+
+.border-warning {
+  @apply border-yellow-500 dark:border-yellow-200;
+}
+
+.border-success-subtle {
+  @apply border-green-50 dark:border-green-800;
+}
+
+.border-success {
+  @apply border-green-400 dark:border-green-300;
+}
+
+.border-orange-subtle {
+  @apply border-orange-50 dark:border-orange-800;
+}
+
+.border-orange {
+  @apply border-orange-500 dark:border-orange-300;
 }
