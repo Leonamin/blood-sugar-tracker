@@ -18,6 +18,12 @@ export default {
       },
     },
     extend: {
+      boxShadow: {
+        'shadow2': '2px 2px 10px 0px rgba(0, 0, 0, 0.05)',
+        'shadow4': '2px 2px 20px 0px rgba(0, 0, 0, 0.06), 2px 2px 10px 0px rgba(0, 0, 0, 0.04)',
+        'shadow8': '2px 4px 12px 0px rgba(0, 0, 0, 0.10), 0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+        'shadow16': '0px 4px 12px 0px rgba(0, 0, 0, 0.10), 4px 8px 28px 0px rgba(0, 0, 0, 0.04)',
+      },
       colors: {
         base: {
           black: "#000000",
