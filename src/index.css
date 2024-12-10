@@ -174,12 +174,68 @@
 }
 
 /* Border colors */
+.border-brand {
+  @apply border-indigo-500 dark:border-indigo-300;
+}
+
+.border-brand-hover {
+  @apply border-indigo-700 dark:border-indigo-400;
+}
+
 .border-primary {
   @apply border-gray-300 dark:border-gray-700;
 }
 
 .border-primary-hover {
   @apply border-gray-400 dark:border-gray-600;
+}
+
+.border-secondary {
+  @apply border-gray-700 dark:border-gray-200;
+}
+
+.border-disabled {
+  @apply border-gray-500 dark:border-gray-500;
+}
+
+.border-danger-subtle {
+  @apply border-red-50 dark:border-red-800;
+}
+
+.border-danger {
+  @apply border-red-500 dark:border-red-300;
+}
+
+.border-info-subtle {
+  @apply border-indigo-50 dark:border-indigo-800;
+}
+
+.border-info {
+  @apply border-indigo-500 dark:border-indigo-400;
+}
+
+.border-warning-subtle {
+  @apply border-yellow-50 dark:border-yellow-800;
+}
+
+.border-warning {
+  @apply border-yellow-500 dark:border-yellow-200;
+}
+
+.border-success-subtle {
+  @apply border-green-50 dark:border-green-800;
+}
+
+.border-success {
+  @apply border-green-400 dark:border-green-300;
+}
+
+.border-orange-subtle {
+  @apply border-orange-50 dark:border-orange-800;
+}
+
+.border-orange {
+  @apply border-orange-500 dark:border-orange-300;
 }
 
 /* Font sizes */
@@ -193,4 +249,69 @@
 
 .text-body2m {
   @apply text-[14px] leading-[140%] font-medium;
+}
+
+/* Icon colors */
+.icon-brand {
+  @apply text-indigo-500 dark:text-indigo-300;
+}
+
+.icon-brand-hover {
+  @apply text-indigo-700 dark:text-indigo-400;
+}
+
+.icon-primary {
+  @apply text-gray-900 dark:text-white;
+}
+
+.icon-primary-hover {
+  @apply text-base-black dark:text-base-white;
+}
+
+.icon-secondary {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
+.icon-secondary-hover {
+  @apply text-gray-800 dark:text-gray-100;
+}
+
+.icon-tertiary {
+  @apply text-gray-600 dark:text-gray-300;
+}
+
+.icon-tertiary-hover {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
+.icon-disabled {
+  @apply text-gray-300 dark:text-gray-400;
+}
+
+.icon-inverse {
+  @apply text-base-white dark:text-base-black;
+}
+
+.icon-danger {
+  @apply text-red-500 dark:text-red-300;
+}
+
+.icon-danger-bold {
+  @apply text-red-700 dark:text-red-400;
+}
+
+.icon-info {
+  @apply text-indigo-500 dark:text-indigo-400;
+}
+
+.icon-warning {
+  @apply text-yellow-500 dark:text-yellow-200;
+}
+
+.icon-success {
+  @apply text-green-400 dark:text-green-200;
+}
+
+.icon-orange {
+  @apply text-orange-500 dark:text-orange-300;
 }
