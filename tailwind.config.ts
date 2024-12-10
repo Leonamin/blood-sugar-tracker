@@ -23,6 +23,10 @@ export default {
         'shadow4': '2px 2px 20px 0px rgba(0, 0, 0, 0.06), 2px 2px 10px 0px rgba(0, 0, 0, 0.04)',
         'shadow8': '2px 4px 12px 0px rgba(0, 0, 0, 0.10), 0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
         'shadow16': '0px 4px 12px 0px rgba(0, 0, 0, 0.10), 4px 8px 28px 0px rgba(0, 0, 0, 0.04)',
+        'primaryShadow': '0px 0px 0px 3px rgba(99, 102, 241, 0.40)',
+        'secondaryShadow': '0px 0px 0px 3px rgba(45, 212, 191, 0.40)',
+        'tertiaryShadow': '0px 0px 0px 3px rgba(64, 64, 64, 0.10)',
+        'dangerShadow': '0px 0px 0px 3px rgba(244, 63, 94, 0.40)',
       },
       borderRadius: {
         '2': '2px',
