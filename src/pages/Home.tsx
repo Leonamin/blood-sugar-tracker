@@ -5,6 +5,7 @@ import Chip from "@/components/ui/chip/chip";
 import { IconPlus,  } from "@/components/icons";
 import SolidButton from "@/components/ui/button/solid-button";
 import Tag from "@/components/ui/tag/tag";
+import { CheckBox } from "@/components/ui/button/check-box";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -14,10 +15,25 @@ const Home = () => {
   const [isChecked5, setIsChecked5] = useState(false);
   const [isChecked6, setIsChecked6] = useState(true);
 
-  // chip
   const [isChecked7, setIsChecked7] = useState(false);
+  const [isChecked8, setIsChecked8] = useState(true);
+  const [isChecked9, setIsChecked9] = useState(false);
+  const [isChecked10, setIsChecked10] = useState(true);
+
+  // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+      <h1 className="text-2xl font-bold mb-6">CheckBox Examples</h1>
+      <Card className="p-6 space-y-4">
+        <div className="flex items-center gap-4">
+          <CheckBox
+            checked={isChecked8}
+            onChanged={setIsChecked8}
+            size="small"
+          />
+        </div>
+      </Card>
+
       <h1 className="text-2xl font-bold mb-6">Solid Button Examples</h1>
 
       <Card className="p-6 space-y-4">
