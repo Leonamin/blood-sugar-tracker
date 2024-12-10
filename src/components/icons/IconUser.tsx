@@ -6,7 +6,7 @@ interface IconUserProps extends SVGProps<SVGSVGElement> {
   color?: string;
 }
 
-const SvgIconUser = ({ size = 24, color = "#171717", ...props }: IconUserProps) => (
+const SvgIconUser = ({ size = 24, color = "currentColor", ...props }: IconUserProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}

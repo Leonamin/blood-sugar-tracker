@@ -8,7 +8,7 @@ interface IconLoaderProps extends SVGProps<SVGSVGElement> {
 
 const SvgIconLoader = ({
   size = 24,
-  color = "#171717",
+  color = "currentColor",
   ...props
 }: IconLoaderProps) => (
   <svg

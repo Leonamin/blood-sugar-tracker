@@ -6,7 +6,7 @@ interface IconSearchProps extends SVGProps<SVGSVGElement> {
   color?: string;
 }
 
-const SvgIconSearch = ({ size = 24, color = "#171717", ...props }: IconSearchProps) => (
+const SvgIconSearch = ({ size = 24, color = "currentColor", ...props }: IconSearchProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
