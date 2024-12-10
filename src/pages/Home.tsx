@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import SolidButton from "@/components/ui/button/solid-button";
 import { useState } from "react";
+import IconAlertOctagon from "@/components/icons/IconAlertOctagon";
 
 const Home = () => {
   const [bloodSugar, setBloodSugar] = useState("");
@@ -10,7 +11,7 @@ const Home = () => {
   return (
     <div className="p-4 pb-20 animate-fade-in">
       <h1 className="text-2xl font-bold mb-6">Blood Sugar Tracker</h1>
-      
+
       <Card className="p-6 mb-6">
         <h2 className="text-lg font-semibold mb-4">Add New Reading</h2>
         <div className="space-y-4">
@@ -34,7 +35,13 @@ const Home = () => {
       <Card className="p-6 space-y-4">
         <h2 className="text-lg font-semibold mb-4">Button Examples</h2>
         <div className="flex flex-col gap-4">
-          <SolidButton color="primary" size="40">Primary Button</SolidButton>
+          <div className="inline-flex items-center gap-2">
+            <SolidButton color="primary" size="40"
+              prefixIcon={<IconAlertOctagon />}
+              suffixIcon={<IconAlertOctagon />}
+
+            >Primary Button</SolidButton>
+          </div>
           <SolidButton color="secondary" size="40">Secondary Button</SolidButton>
           <SolidButton color="outline" size="40">Outline Button</SolidButton>
           <SolidButton color="error" size="40">Error Button</SolidButton>

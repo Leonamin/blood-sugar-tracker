@@ -1,16 +1,22 @@
 import * as React from "react";
 import type { SVGProps } from "react";
-const SvgIconMinus = (props: SVGProps<SVGSVGElement>) => (
+
+interface IconMinusProps extends SVGProps<SVGSVGElement> {
+  size?: number;
+  color?: string;
+}
+
+const SvgIconMinus = ({ size = 24, color = "#171717", ...props }: IconMinusProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="1em"
-    height="1em"
+    width={size}
+    height={size}
     fill="none"
     viewBox="0 0 24 24"
     {...props}
   >
     <path
-      fill="#171717"
+      fill={color}
       fillRule="evenodd"
       d="M7 12a1 1 0 0 1 1-1h8a1 1 0 1 1 0 2H8a1 1 0 0 1-1-1"
       clipRule="evenodd"

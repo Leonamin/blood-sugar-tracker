@@ -3,13 +3,16 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 
 export type ButtonSize = "34" | "36" | "40" | "48";
 export type ButtonColor = "primary" | "secondary" | "outline" | "error" | "tertiary";
+export type ButtonRadius = "2" | "4" | "8" | "12" | "16" | "20" | "24" | "28" | "32" | "circle";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   color?: ButtonColor;
   fullWidth?: boolean;
   className?: string;
-  borderRadius?: string;
+  borderRadius?: ButtonRadius;
+  prefixIcon?: React.ReactNode;
+  suffixIcon?: React.ReactNode;
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -27,36 +30,67 @@ const colorStyles: Record<ButtonColor, string> = {
   tertiary: "bg-tertiary text-white hover:bg-tertiary-hover disabled:opacity-40",
 };
 
+const borderRadiusStyles: Record<ButtonRadius, string> = {
+  "2": "rounded-2",
+  "4": "rounded-4",
+  "8": "rounded-8",
+  "12": "rounded-12",
+  "16": "rounded-16",
+  "20": "rounded-20",
+  "24": "rounded-24",
+  "28": "rounded-28",
+  "32": "rounded-32",
+  "circle": "rounded-circle",
+};
+
+const iconSizes: Record<ButtonSize, number> = {
+  "34": 16,
+  "36": 16,
+  "40": 20,
+  "48": 24,
+};
+
 const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ size = "40", color = "primary", fullWidth, className, children, disabled, borderRadius: borderRadius = '12', ...props}, ref) => {
-    const borderRadiusClass = {
-      '2': 'rounded-2',
-      '4': 'rounded-4',
-      '8': 'rounded-8',
-      '12': 'rounded-12',
-      '16': 'rounded-16',
-      '20': 'rounded-20',
-      '24': 'rounded-24',
-      '28': 'rounded-28',
-      '32': 'rounded-32',
-      'circle': 'rounded-circle',
-    }[borderRadius] || '';
-    
+  ({ 
+    size = "40", 
+    color = "primary", 
+    fullWidth, 
+    className, 
+    children,
+    disabled,
+    borderRadius = "12",
+    prefixIcon,
+    suffixIcon,
+    ...props
+  }, ref) => {
     return (
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center transition-colors",
+          "inline-flex items-center transition-colors duration-200",
+          fullWidth
+            ? "justify-between px-6"
+            : "justify-center gap-2",
           sizeStyles[size],
           colorStyles[color],
+          borderRadiusStyles[borderRadius],
           fullWidth && "w-full",
-          borderRadiusClass,
           className
         )}
         disabled={disabled}
         {...props}
       >
-        {children}
+        {prefixIcon && (
+          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+            {prefixIcon}
+          </span>
+        )}
+        <span className="flex-1 text-center">{children}</span>
+        {suffixIcon && (
+          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+            {suffixIcon}
+          </span>
+        )}
       </button>
     );
   }
