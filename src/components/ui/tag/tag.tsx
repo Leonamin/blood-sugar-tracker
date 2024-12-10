@@ -26,34 +26,112 @@ const sizeStyles: Record<TagSizeType, { container: string; icon: string; text: s
     }
 }
 
-const emptyStyles: Record<TagColorType, string> = {
-    'error': 'bg-inverse text-danger',
-    'success': 'bg-inverse text-success',
-    'warning': 'bg-inverse text-warning',
-    'info': 'bg-inverse text-info',
-    'black': 'bg-inverse text-primary',
-    'orange': 'bg-inverse text-orange',
+interface ColorApplyType {
+    text?: string;
+    icon?: string;
+    bg?: string;
 }
 
-const filledStyles: Record<TagColorType, string> = {
-    'error': 'bg-danger-subtle text-danger',
-    'success': 'bg-success-subtle text-success',
-    'warning': 'bg-warning-subtle text-warning',
-    'info': 'bg-info-subtle text-info',
-    'black': 'bg-primary-hover text-primary',
-    'orange': 'bg-orange-subtle text-orange',
+const emptyStyles: Record<TagColorType, ColorApplyType> = {
+    'error': {
+        text: 'text-danger',    
+        icon: 'text-danger',
+        bg: 'bg-inverse'
+    },
+    'success': {
+        text: 'text-success',
+        icon: 'text-success',
+        bg: 'bg-inverse'
+    },
+    'warning': {
+        text: 'text-warning',
+        icon: 'text-warning',
+        bg: 'bg-inverse'
+    },
+    'info': {
+        text: 'text-info',
+        icon: 'text-info',
+        bg: 'bg-inverse'
+    },
+    'black': {
+        text: 'text-primary',
+        icon: 'text-primary',
+        bg: 'bg-inverse'
+    },
+    'orange': {
+        text: 'text-orange',
+        icon: 'text-orange',
+        bg: 'bg-inverse'
+    }
 }
 
-const solidStyles: Record<TagColorType, string> = {
-    'error': 'bg-danger text-inverse',
-    'success': 'bg-success text-inverse',
-    'warning': 'bg-warning text-primary',
-    'info': 'bg-info text-inverse',
-    'black': 'bg-tertiary text-inverse',
-    'orange': 'bg-orange text-inverse',
+const filledStyles: Record<TagColorType, ColorApplyType> = {
+    'error': {
+        text: 'text-danger-bold',
+        icon: 'text-danger',
+        bg: 'bg-danger-subtle'
+    },
+    'success': {
+        text: 'text-success-bold',
+        icon: 'text-success',
+        bg: 'bg-success-subtle'
+    },
+    'warning': {
+        text: 'text-warning-bold',
+        icon: 'text-warning',
+        bg: 'bg-warning-subtle'
+    },
+    'info': {
+        text: 'text-info-bold',
+        icon: 'text-info',
+        bg: 'bg-info-subtle'
+    },
+    'black': {
+        text: 'text-primary-bold',
+        icon: 'text-primary',
+        bg: 'bg-primary-hover'
+    },
+    'orange': {
+        text: 'text-orange-bold',
+        icon: 'text-orange',
+        bg: 'bg-orange-subtle'
+    }
 }
 
-const variantStyles: Record<TagVariantType, Record<TagColorType, string>> = {
+const solidStyles: Record<TagColorType, ColorApplyType> = {
+    'error': {
+        text: 'text-inverse',
+        icon: 'text-inverse',
+        bg: 'bg-danger'
+    },
+    'success': {
+        text: 'text-inverse',
+        icon: 'text-inverse',
+        bg: 'bg-success'
+    },
+    'warning': {
+        text: 'text-inverse',
+        icon: 'text-inverse',
+        bg: 'bg-warning'
+    },
+    'info': {
+        text: 'text-inverse',
+        icon: 'text-inverse',
+        bg: 'bg-info'
+    },
+    'black': {
+        text: 'text-inverse',
+        icon: 'text-inverse',
+        bg: 'bg-tertiary'
+    },
+    'orange': {
+        text: 'text-inverse',
+        icon: 'text-inverse',
+        bg: 'bg-orange'
+    }
+}
+
+const variantStyles: Record<TagVariantType, Record<TagColorType, ColorApplyType>> = {
     empty: emptyStyles,
     filled: filledStyles,
     solid: solidStyles,
@@ -72,10 +150,10 @@ const Tag = ({
     return (
         <div className={cn(
             'inline-flex items-center justify-center gap-0.5 rounded-4',
-            sizeStyles[size].container, variantStyles[variant][color], className)} {...props}>
-            {prefixIcon && <div className={cn('flex items-center justify-center', sizeStyles[size].icon)}>{prefixIcon}</div>}
-            <span className={cn('flex items-center justify-center', sizeStyles[size].text)}>{label}</span>
-            {suffixIcon && <div className={cn('flex items-center justify-center', sizeStyles[size].icon)}>{suffixIcon}</div>}
+            sizeStyles[size].container, variantStyles[variant][color].bg, className)} {...props}>
+            {prefixIcon && <div className={cn('flex items-center justify-center', sizeStyles[size].icon, variantStyles[variant][color].icon)}>{prefixIcon}</div>}
+            <span className={cn('flex items-center justify-center', sizeStyles[size].text, variantStyles[variant][color].text)}>{label}</span>
+            {suffixIcon && <div className={cn('flex items-center justify-center', sizeStyles[size].icon, variantStyles[variant][color].icon)}>{suffixIcon}</div>}
         </div>
     );
 }
