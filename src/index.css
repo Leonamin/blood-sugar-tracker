@@ -108,11 +108,11 @@
   @apply bg-gray-800 dark:bg-gray-200;
 }
 
-.bg-error {
+.bg-danger {
   @apply bg-red-500 dark:bg-red-300;
 }
 
-.bg-error-hover {
+.bg-danger-hover {
   @apply bg-red-700 dark:bg-red-400;
 }
 

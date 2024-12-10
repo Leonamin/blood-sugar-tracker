@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import CustomButton from "@/components/ui/custom-button";
+import SolidButton from "@/components/ui/button/solid-button";
 import { useState } from "react";
 
 const Home = () => {
@@ -34,11 +34,17 @@ const Home = () => {
       <Card className="p-6 space-y-4">
         <h2 className="text-lg font-semibold mb-4">Button Examples</h2>
         <div className="flex flex-col gap-4">
-          <CustomButton color="primary" size="40">Primary Button</CustomButton>
-          <CustomButton color="secondary" size="40">Secondary Button</CustomButton>
-          <CustomButton color="outline" size="40">Outline Button</CustomButton>
-          <CustomButton color="error" size="40">Error Button</CustomButton>
-          <CustomButton color="tertiary" size="40">Tertiary Button</CustomButton>
+          <SolidButton color="primary" size="40">Primary Button</SolidButton>
+          <SolidButton color="secondary" size="40">Secondary Button</SolidButton>
+          <SolidButton color="outline" size="40">Outline Button</SolidButton>
+          <SolidButton color="error" size="40">Error Button</SolidButton>
+          <SolidButton color="tertiary" size="40">Tertiary Button</SolidButton>
+          <br></br>
+          <SolidButton color="primary" size="40" disabled={true}>Primary Button</SolidButton>
+          <SolidButton color="secondary" size="40" disabled={true}>Secondary Button</SolidButton>
+          <SolidButton color="outline" size="40" disabled={true}>Outline Button</SolidButton>
+          <SolidButton color="error" size="40" disabled={true}>Error Button</SolidButton>
+          <SolidButton color="tertiary" size="40" disabled={true}>Tertiary Button</SolidButton>
         </div>
       </Card>
     </div>

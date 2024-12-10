@@ -9,6 +9,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: ButtonColor;
   fullWidth?: boolean;
   className?: string;
+  borderRadius?: string;
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -26,16 +27,30 @@ const colorStyles: Record<ButtonColor, string> = {
   tertiary: "bg-tertiary text-white hover:bg-tertiary-hover disabled:opacity-40",
 };
 
-const CustomButton = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ size = "40", color = "primary", fullWidth, className, children, disabled, ...props }, ref) => {
+const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ size = "40", color = "primary", fullWidth, className, children, disabled, borderRadius: borderRadius = '12', ...props}, ref) => {
+    const borderRadiusClass = {
+      '2': 'rounded-2',
+      '4': 'rounded-4',
+      '8': 'rounded-8',
+      '12': 'rounded-12',
+      '16': 'rounded-16',
+      '20': 'rounded-20',
+      '24': 'rounded-24',
+      '28': 'rounded-28',
+      '32': 'rounded-32',
+      'circle': 'rounded-circle',
+    }[borderRadius] || '';
+    
     return (
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center rounded-full transition-colors",
+          "inline-flex items-center justify-center transition-colors",
           sizeStyles[size],
           colorStyles[color],
           fullWidth && "w-full",
+          borderRadiusClass,
           className
         )}
         disabled={disabled}
@@ -47,6 +62,6 @@ const CustomButton = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-CustomButton.displayName = "CustomButton";
+SolidButton.displayName = "SolidButton";
 
-export default CustomButton;
+export default SolidButton;
