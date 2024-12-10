@@ -84,12 +84,25 @@
 }
 
 /* Background colors */
+.bg-brand-subtle {
+  @apply bg-indigo-50 dark:bg-indigo-600;
+}
+
 .bg-brand {
   @apply bg-indigo-500 dark:bg-indigo-300;
 }
 
+
 .bg-brand-hover {
   @apply bg-indigo-700 dark:bg-indigo-400;
+}
+
+.bg-primary {
+  @apply bg-gray-50 dark:bg-base-black;
+}
+
+.bg-primary-hover {
+  @apply bg-gray-100 dark:bg-gray-800;
 }
 
 .bg-secondary {
@@ -116,16 +129,48 @@
   @apply bg-base-white dark:bg-gray-900;
 }
 
+.bg-danger-subtle {
+  @apply bg-red-50 dark:bg-red-800;
+}
+
 .bg-danger {
   @apply bg-red-500 dark:bg-red-300;
 }
 
-.bg-danger-hover {
+.bg-danger-bold {
   @apply bg-red-700 dark:bg-red-400;
 }
 
-.bg-inverse {
-  @apply bg-base-white dark:bg-base-black;
+.bg-info-subtle {
+  @apply bg-indigo-50 dark:bg-indigo-800;
+}
+
+.bg-info {
+  @apply bg-indigo-500 dark:bg-indigo-400;
+}
+
+.bg-warning-subtle {
+  @apply bg-yellow-50 dark:bg-yellow-800;
+}
+
+.bg-warning {
+  @apply bg-yellow-500 dark:bg-yellow-600;
+}
+
+.bg-success-subtle {
+  @apply bg-green-50 dark:bg-green-600;
+}
+
+.bg-success {
+  @apply bg-green-400 dark:bg-green-200;
+}
+
+.bg-orange-subtle {
+  @apply bg-orange-50 dark:bg-orange-800;
+}
+
+.bg-orange {
+  @apply bg-orange-500 dark:bg-orange-300;
 }
 
 /* Border colors */
