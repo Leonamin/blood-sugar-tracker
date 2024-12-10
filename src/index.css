@@ -108,6 +108,14 @@
   @apply bg-gray-800 dark:bg-gray-200;
 }
 
+.bg-disabled {
+  @apply bg-gray-300 dark:bg-gray-300;
+}
+
+.bg-inverse {
+  @apply bg-base-white dark:bg-gray-900;
+}
+
 .bg-danger {
   @apply bg-red-500 dark:bg-red-300;
 }

@@ -1,0 +1,43 @@
+나는 토글 버튼을 구현하려고 해
+
+내가 말하는 토글 버튼은 사각형 박스안에서 왼쪽 오른쪽으로 사용자의 제스처나 클릭에 의해 동그라미가 움직이는걸 말해
+
+
+내 요구사항은 다음과 같아
+
+[o ] -> 비활성화 상태
+[ o] -> 활성화 상태
+
+동그라미(handle)의 색상은 bg-inverse
+배경 박스의 색상은
+비활성화 상태인 경우 bg-disabled로,
+활성화 상태인 경우 bg-secondary로,
+
+그리고 호버 또는 클릭중인 경우 boxShadow를 추가해줘
+
+boxShadow는 다음과 같은 종류가 있어
+
+primaryShadow
+box-shadow: var(--effect-blur-0, 0px) var(--effect-blur-0, 0px) var(--effect-blur-0, 0px) 3px rgba(99, 102, 241, 0.40);
+
+secondaryShadow:
+box-shadow: var(--effect-blur-0, 0px) var(--effect-blur-0, 0px) var(--effect-blur-0, 0px) 3px rgba(45, 212, 191, 0.40);
+
+tertiaryShadow:
+box-shadow: var(--effect-blur-0, 0px) var(--effect-blur-0, 0px) var(--effect-blur-0, 0px) 3px rgba(64, 64, 64, 0.10);
+
+dangerShadow:
+box-shadow: var(--effect-blur-0, 0px) var(--effect-blur-0, 0px) var(--effect-blur-0, 0px) 3px rgba(244, 63, 94, 0.40);
+
+비활성화 상태인 호버 또는 클릭인 경우
+tertiaryShadow를 사용하고
+
+활성화 상태인 호버 또는 클릭인 경우
+secondaryShadow를 사용해줘
+
+그리고 토글 버튼 자체를 비활성화한 경우
+opacity를 0.4로 해줘
+
+토글버튼은 components/ui/button/toggle-button.tsx 파일로 구현해주고 홈화면에 예제를 보여줘
+
+그리고 브랜치는 feature/component-ui 브랜치로 만들어줘

@@ -7,6 +7,8 @@ const Home = () => {
   const [isChecked2, setIsChecked2] = useState(true);
   const [isChecked3, setIsChecked3] = useState(false);
   const [isChecked4, setIsChecked4] = useState(true);
+  const [isChecked5, setIsChecked5] = useState(false);
+  const [isChecked6, setIsChecked6] = useState(true);
 
   return (
     <div className="p-4 pb-20 animate-fade-in">
@@ -19,7 +21,16 @@ const Home = () => {
             <ToggleButton 
               checked={isChecked1}
               onCheckedChange={setIsChecked1}
-              handleSize={16}
+              handleSizeType="small"
+            />
+          </div>
+
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium">Medium Handle (20px):</span>
+            <ToggleButton 
+              checked={isChecked5}
+              onCheckedChange={setIsChecked5}
+              handleSizeType="medium"
             />
           </div>
 
@@ -28,7 +39,7 @@ const Home = () => {
             <ToggleButton 
               checked={isChecked2}
               onCheckedChange={setIsChecked2}
-              handleSize={24}
+              handleSizeType="large"
             />
           </div>
 
@@ -37,7 +48,7 @@ const Home = () => {
             <ToggleButton 
               checked={isChecked3}
               onCheckedChange={setIsChecked3}
-              handleSize={16}
+              handleSizeType="small"
               disabled
             />
           </div>
@@ -47,7 +58,7 @@ const Home = () => {
             <ToggleButton 
               checked={isChecked4}
               onCheckedChange={setIsChecked4}
-              handleSize={24}
+              handleSizeType="large"
               disabled
             />
           </div>

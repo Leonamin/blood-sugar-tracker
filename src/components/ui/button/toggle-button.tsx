@@ -1,24 +1,50 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
 
+export type HandleSizeType = 'small' | 'medium' | 'large';
+
 interface ToggleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   checked?: boolean;
   disabled?: boolean;
-  handleSize?: 16 | 24;
+  handleSizeType?: HandleSizeType;
   onCheckedChange?: (checked: boolean) => void;
 }
 
+const handleSizeMap = {
+  small: {
+    handleSize: 16,
+    containerPadding: 2,
+    containerWidthRatio: 1.75,
+  },
+  medium: {
+    handleSize: 20,
+    containerPadding: 3,
+    containerWidthRatio: 1.75,
+  },
+  large: {
+    handleSize: 24,
+    containerPadding: 3,
+    containerWidthRatio: 1.75,
+  },
+};
+
 const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
-  ({ checked = false, disabled = false, handleSize = 16, onCheckedChange, className, ...props }, ref) => {
+  ({ checked = false, disabled = false, handleSizeType = 'small', onCheckedChange, className, ...props }, ref) => {
     const handleClick = () => {
       if (!disabled && onCheckedChange) {
         onCheckedChange(!checked);
       }
     };
 
-    const containerHeight = handleSize + 4; // 2px padding on each side
-    const containerWidth = (handleSize + 4) * 1.75; // Maintain proportional width
-    
+    const handleSize = handleSizeMap[handleSizeType].handleSize;
+    const containerPadding = handleSizeMap[handleSizeType].containerPadding;
+    const containerWidthRatio = handleSizeMap[handleSizeType].containerWidthRatio;
+
+    const containerWidth = (handleSize + containerPadding * 2) * containerWidthRatio;
+    const containerHeight = handleSize + containerPadding * 2;
+
+    const transformX = checked ? containerWidth - handleSize - containerPadding : containerPadding;
+
     return (
       <button
         type="button"
@@ -50,7 +76,7 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
             width: `${handleSize}px`,
             height: `${handleSize}px`,
             borderRadius: '50%',
-            transform: `translateX(${checked ? containerWidth - handleSize - 2 : 2}px)`,
+            transform: `translateX(${transformX}px)`,
           }}
         />
       </button>
