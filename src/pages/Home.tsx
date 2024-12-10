@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { ToggleButton } from "@/components/ui/button/toggle-button";
 import Chip from "@/components/ui/chip/chip";
-import { IconPlus,  } from "@/components/icons";
+import { IconChevronRight, IconChevronLeft, IconPlus,  } from "@/components/icons";
 import SolidButton from "@/components/ui/button/solid-button";
 import Tag from "@/components/ui/tag/tag";
 import { CheckBox } from "@/components/ui/button/check-box";
+import TextButton from "@/components/ui/button/text-button";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -23,6 +24,46 @@ const Home = () => {
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+      <h1 className="text-2xl font-bold mb-6">Text Button Examples</h1>
+      <Card className="p-6 space-y-4">
+        <div className="flex items-center gap-4">
+          <TextButton
+            label="버튼"
+            prefixIcon={<IconChevronLeft />}
+            suffixIcon={<IconChevronRight />}
+            size="22px"
+            onClick={() => {
+              alert('clicked');
+            }}
+          />
+          <TextButton
+            label="버튼"
+            prefixIcon={<IconChevronLeft />}
+            suffixIcon={<IconChevronRight />}
+            size="24px"
+          />
+          <TextButton
+            label="버튼"
+            prefixIcon={<IconChevronLeft />}
+            suffixIcon={<IconChevronRight />}
+            size="24px"
+            isUnderline
+          />
+          <TextButton
+            label="버튼"
+            prefixIcon={<IconChevronLeft />}
+            suffixIcon={<IconChevronRight />}
+            size="26px"
+          />
+          <TextButton
+            label="버튼"
+            prefixIcon={<IconChevronLeft />}
+            suffixIcon={<IconChevronRight />}
+            size="26px"
+            isDisabled
+          />
+        </div>
+      </Card>
       <h1 className="text-2xl font-bold mb-6">CheckBox Examples</h1>
       <Card className="p-6 space-y-4">
         <div className="flex items-center gap-4">
@@ -30,6 +71,11 @@ const Home = () => {
             checked={isChecked8}
             onChanged={setIsChecked8}
             size="small"
+          />
+          <CheckBox
+            checked={isChecked9}
+            onChanged={setIsChecked9}
+            size="medium"
           />
         </div>
       </Card>
