@@ -22,12 +22,38 @@ const sizeStyles: Record<ButtonSize, string> = {
   "48": "px-4 py-3 text-body1m",
 };
 
+
+
 const colorStyles: Record<ButtonColor, string> = {
-  primary: "bg-brand text-white hover:bg-brand-hover disabled:opacity-40",
-  secondary: "bg-secondary text-white hover:bg-secondary-hover disabled:opacity-40",
-  outline: "bg-inverse border border-primary text-primary hover:border-primary-hover disabled:opacity-40",
-  error: "bg-danger text-white hover:bg-danger-bold disabled:opacity-40",
-  tertiary: "bg-tertiary text-white hover:bg-tertiary-hover disabled:opacity-40",
+  primary: "bg-brand text-white hover:bg-brand-hover",
+  secondary: "bg-secondary text-white hover:bg-secondary-hover ",
+  outline: "bg-inverse border border-primary text-primary hover:bg-primary",
+  error: "bg-danger text-white hover:bg-danger-bold ",
+  tertiary: "bg-tertiary text-white hover:bg-tertiary-hover",
+};
+
+const darkColorStyles: Record<ButtonColor, string> = {
+  primary: "dark:bg-brand-dark dark:text-white dark:hover:bg-brand-dark-hover ",
+  secondary: "dark:bg-secondary-dark dark:text-white dark:hover:bg-secondary-dark-hover ",
+  outline: "dark:bg-inverse-dark border dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark",
+  error: "dark:bg-danger-dark dark:text-white dark:hover:bg-danger-dark-bold ",
+  tertiary: "dark:bg-tertiary-dark dark:text-white dark:hover:bg-tertiary-dark-hover",
+};
+
+const shadowStyles: Record<ButtonColor, string> = {
+  primary: "hover:shadow-primaryShadow",
+  secondary: "hover:shadow-secondaryShadow",
+  outline: "hover:shadow-tertiaryShadow",
+  error: "hover:shadow-dangerShadow",
+  tertiary: "hover:shadow-tertiaryShadow",
+};
+
+const disabledStyles: Record<ButtonColor, string> = {
+  primary: "disabled:opacity-40",
+  secondary: "disabled:opacity-40",
+  outline: "disabled:opacity-40",
+  error: "disabled:opacity-40",
+  tertiary: "disabled:opacity-40",
 };
 
 const borderRadiusStyles: Record<ButtonRadius, string> = {
@@ -97,6 +123,9 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
             : "justify-center gap-2",
           sizeStyles[size],
           colorStyles[color],
+          darkColorStyles[color],
+          shadowStyles[color],
+          disabledStyles[color],
           borderRadiusStyles[borderRadius],
           fullWidth && "w-full",
           className

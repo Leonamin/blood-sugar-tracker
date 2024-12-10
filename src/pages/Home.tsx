@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { ToggleButton } from "@/components/ui/button/toggle-button";
 import Chip from "@/components/ui/chip/chip";
 import { IconBell } from "@/components/icons";
+import SolidButton from "@/components/ui/button/solid-button";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -16,6 +17,52 @@ const Home = () => {
   const [isChecked7, setIsChecked7] = useState(false);
   return (
     <div className="p-4 pb-20 animate-fade-in">
+      <h1 className="text-2xl font-bold mb-6">Solid Button Examples</h1>
+
+      <Card className="p-6 space-y-4">
+        <div className="flex items-center gap-4">
+          <div className="inline-flex">
+            <SolidButton
+              color="primary"
+              size="40"
+            >버튼</SolidButton>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="inline-flex">
+            <SolidButton
+              color="secondary"
+              size="40"
+            >버튼</SolidButton>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="inline-flex">
+            <SolidButton
+              color="outline"
+              size="40"
+            >버튼</SolidButton>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="inline-flex">
+            <SolidButton
+              color="error"
+              size="40"
+            >버튼</SolidButton>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="inline-flex">
+            <SolidButton
+              color="tertiary"
+              size="40"
+            >버튼</SolidButton>
+          </div>
+        </div>
+      </Card>
+
+
       <h1 className="text-2xl font-bold mb-6">Toggle Button Examples</h1>
 
       <Card className="p-6 space-y-4">
@@ -122,7 +169,18 @@ const Home = () => {
             checked={isChecked7}
             onCheckedChange={setIsChecked7}
           />
+
+          <div
+            className="bg-indigo-50 hover:bg-indigo-100 cursor-pointer"
+            style={{
+              width: '100px',
+              height: '100px',
+            }}
+          >
+
+          </div>
         </div>
+
       </Card>
     </div>
   );

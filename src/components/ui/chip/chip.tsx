@@ -43,8 +43,8 @@ const getVariantStyles = (variant: ChipVariant, checked: boolean, disabled: bool
     }
 
     return variant === 'brand'
-        ? 'text-primary bg-inverse border border-primary hover:bg-primary-hover hover:border-primary-hover'
-        : 'text-primary bg-inverse border border-primary hover:bg-primary-hover hover:border-primary-hover';
+        ? 'text-primary bg-inverse border border-primary hover:bg-primary hover:border-primary-hover dark:hover:bg-primary-dark dark:hover:border-primary-dark-hover'
+        : 'text-primary bg-inverse border border-primary hover:bg-primary hover:border-primary-hover dark:hover:bg-primary-dark dark:hover:border-primary-dark-hover';
 };
 
 const Chip = ({
