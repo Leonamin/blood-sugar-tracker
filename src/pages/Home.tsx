@@ -4,6 +4,7 @@ import { ToggleButton } from "@/components/ui/button/toggle-button";
 import Chip from "@/components/ui/chip/chip";
 import { IconBell } from "@/components/icons";
 import SolidButton from "@/components/ui/button/solid-button";
+import Tag from "@/components/ui/tag/tag";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -181,6 +182,110 @@ const Home = () => {
           </div>
         </div>
 
+      </Card>
+
+      <h1 className="text-2xl font-bold mt-6">Tag Examples</h1>
+
+      <Card className="p-6 space-y-4">
+        <div className="flex flex-col items-center gap-4">
+
+          <Tag label="라벨"
+            color="error"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="error"
+            variant="filled"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="error"
+            variant="solid"
+          />
+          <br />
+          <Tag label="라벨"
+            color="success"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="success"
+            variant="filled"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="success"
+            variant="solid"
+          />
+          <br />
+          <Tag label="라벨"
+            color="warning"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="warning"
+            variant="filled"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="warning"
+            variant="solid"
+          />
+          <br />
+          <Tag label="라벨"
+            color="info"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="info"
+            variant="filled"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="info"
+            variant="solid"
+          />
+          <br />
+          <Tag label="라벨"
+            color="black"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="black"
+            variant="filled"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="black"
+            variant="solid"
+          />
+          <br />
+          <Tag label="라벨"
+            color="orange"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="orange"
+            variant="filled"
+          />
+          <Tag label="라벨"
+            prefixIcon={<IconBell />}
+            suffixIcon={<IconBell />}
+            color="orange"
+            variant="solid"
+          />
+
+        </div>
       </Card>
     </div>
   );
