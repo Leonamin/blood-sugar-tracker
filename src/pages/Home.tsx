@@ -38,11 +38,12 @@ const Home = () => {
           <div className="inline-flex items-center gap-2">
             <SolidButton color="primary" size="40"
               prefixIcon={<IconAlertOctagon />}
-              suffixIcon={<IconAlertOctagon />}
-
             >Primary Button</SolidButton>
           </div>
-          <SolidButton color="secondary" size="40">Secondary Button</SolidButton>
+          <SolidButton color="secondary" size="40"
+              suffixIcon={<IconAlertOctagon />}
+              fullWidth={true}
+          >Secondary Button</SolidButton>
           <SolidButton color="outline" size="40">Outline Button</SolidButton>
           <SolidButton color="error" size="40">Error Button</SolidButton>
           <SolidButton color="tertiary" size="40">Tertiary Button</SolidButton>

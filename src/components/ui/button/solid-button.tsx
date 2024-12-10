@@ -51,11 +51,11 @@ const iconSizes: Record<ButtonSize, number> = {
 };
 
 const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ 
-    size = "40", 
-    color = "primary", 
-    fullWidth, 
-    className, 
+  ({
+    size = "40",
+    color = "primary",
+    fullWidth,
+    className,
     children,
     disabled,
     borderRadius = "12",
@@ -63,6 +63,30 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
     suffixIcon,
     ...props
   }, ref) => {
+    const prefixIconElement =
+      <>
+        {prefixIcon ? (
+          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+            {prefixIcon}
+          </span>
+        ) : fullWidth ? (
+          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          </span>
+        ) : null}
+      </>;
+
+    const suffixIconElement =
+      <>
+        {suffixIcon ? (
+          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+            {suffixIcon}
+          </span>
+        ) : fullWidth ? (
+          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          </span>
+        ) : null}
+      </>;
+
     return (
       <button
         ref={ref}
@@ -80,17 +104,9 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
         {...props}
       >
-        {prefixIcon && (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
-            {prefixIcon}
-          </span>
-        )}
+        {prefixIconElement}
         <span className="flex-1 text-center">{children}</span>
-        {suffixIcon && (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
-            {suffixIcon}
-          </span>
-        )}
+        {suffixIconElement}
       </button>
     );
   }
