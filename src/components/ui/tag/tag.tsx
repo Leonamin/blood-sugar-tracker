@@ -13,14 +13,16 @@ export interface TagProps extends React.HTMLAttributes<HTMLDivElement> {
     variant?: TagVariantType;
 }
 
-const sizeStyles: Record<TagSizeType, { container: string; icon: string }> = {
+const sizeStyles: Record<TagSizeType, { container: string; icon: string; text: string }> = {
     small: {
-        container: 'px-1 py-0.5 text-caption2m gap-1',
-        icon: 'w-4 h-4'
+        container: 'px-1 py-0.5 gap-1',
+        icon: 'w-4 h-4',
+        text: 'text-caption2m'
     },
     medium: {
-        container: 'px-2 py-0.5 text-body2m gap-1',
-        icon: 'w-5 h-5'
+        container: 'px-2 py-0.5 gap-1',
+        icon: 'w-5 h-5',
+        text: 'text-body2m'
     }
 }
 
@@ -72,7 +74,7 @@ const Tag = ({
             'inline-flex items-center justify-center gap-0.5 rounded-4',
             sizeStyles[size].container, variantStyles[variant][color], className)} {...props}>
             {prefixIcon && <div className={cn('flex items-center justify-center', sizeStyles[size].icon)}>{prefixIcon}</div>}
-            <span className="flex items-center justify-center">{label}</span>
+            <span className={cn('flex items-center justify-center', sizeStyles[size].text)}>{label}</span>
             {suffixIcon && <div className={cn('flex items-center justify-center', sizeStyles[size].icon)}>{suffixIcon}</div>}
         </div>
     );

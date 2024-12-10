@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { ToggleButton } from "@/components/ui/button/toggle-button";
 import Chip from "@/components/ui/chip/chip";
-import { IconBell } from "@/components/icons";
+import { IconPlus,  } from "@/components/icons";
 import SolidButton from "@/components/ui/button/solid-button";
 import Tag from "@/components/ui/tag/tag";
 
@@ -137,7 +137,7 @@ const Home = () => {
           <span className="text-sm font-medium">Chip (brand):</span>
           <Chip
             label="라벨"
-            prefixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
             size="small"
             variant="brand"
             checked={isChecked7}
@@ -145,7 +145,7 @@ const Home = () => {
           />
           <Chip
             label="라벨"
-            prefixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
             size="medium"
             variant="brand"
             checked={isChecked7}
@@ -153,7 +153,7 @@ const Home = () => {
           />
           <Chip
             label="라벨"
-            prefixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
             size="large"
             variant="brand"
             checked={isChecked7}
@@ -164,7 +164,7 @@ const Home = () => {
           <span className="text-sm font-medium">Chip (brand-light):</span>
           <Chip
             label="라벨"
-            prefixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
             size="small"
             variant="brand-light"
             checked={isChecked7}
@@ -193,14 +193,14 @@ const Home = () => {
             color="error"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="error"
             variant="filled"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="error"
             variant="solid"
           />
@@ -209,14 +209,14 @@ const Home = () => {
             color="success"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="success"
             variant="filled"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="success"
             variant="solid"
           />
@@ -225,14 +225,14 @@ const Home = () => {
             color="warning"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="warning"
             variant="filled"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="warning"
             variant="solid"
           />
@@ -241,14 +241,14 @@ const Home = () => {
             color="info"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="info"
             variant="filled"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="info"
             variant="solid"
           />
@@ -257,14 +257,14 @@ const Home = () => {
             color="black"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="black"
             variant="filled"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="black"
             variant="solid"
           />
@@ -273,14 +273,14 @@ const Home = () => {
             color="orange"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="orange"
             variant="filled"
           />
           <Tag label="라벨"
-            prefixIcon={<IconBell />}
-            suffixIcon={<IconBell />}
+            prefixIcon={<IconPlus />}
+            suffixIcon={<IconPlus />}
             color="orange"
             variant="solid"
           />
