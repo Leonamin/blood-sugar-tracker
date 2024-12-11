@@ -7,6 +7,7 @@ import SolidButton from "@/components/ui/button/solid-button";
 import Tag from "@/components/ui/tag/tag";
 import { CheckBox } from "@/components/ui/button/check-box";
 import TextButton from "@/components/ui/button/text-button";
+import MultilineTextForm from "@/components/ui/form/multiline-text-form";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -21,9 +22,24 @@ const Home = () => {
   const [isChecked9, setIsChecked9] = useState(false);
   const [isChecked10, setIsChecked10] = useState(true);
 
+  const [value, setValue] = useState('');
+
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+      <h1 className="text-2xl font-bold mb-6">Multiline Text Form Examples</h1>
+      <Card className="p-6 space-y-4">
+        <MultilineTextForm
+          value={value}
+          handleChange={setValue}
+          placeholder="입력해주세요"
+          validator={(value) => value.length > 10}
+          minLines={3}
+          maxLines={5}
+          errorMessage="에러 메시지"
+        />
+      </Card>
+
       <h1 className="text-2xl font-bold mb-6">Text Button Examples</h1>
       <Card className="p-6 space-y-4">
         <div className="flex items-center gap-4">
