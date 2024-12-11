@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
+import { ClassValue } from 'clsx';
 
 export type TextButtonSizeType = '22px' | '24px' | '26px';
 
@@ -38,7 +39,7 @@ const TextButton = React.forwardRef<HTMLButtonElement, TextButtonProps>(
         const padding = paddingMap[size];
 
         const underlineStyle = isUnderline ? 'underline' : '';
-        const hoverStyle = 'hover:bg-primary-hover dark:hover:bg-primary-hover-dark';
+        const hoverStyle: ClassValue = 'hover:bg-primary-hover dark:hover:bg-primary-dark-hover';
         const disabledStyle = 'cursor-not-allowed opacity-40';
 
         return (
