@@ -88,6 +88,7 @@ const Home = () => {
             <SolidButton
               color="primary"
               size="40"
+              prefixIcon={<IconPlus />} 
             >버튼</SolidButton>
           </div>
         </div>
@@ -96,6 +97,7 @@ const Home = () => {
             <SolidButton
               color="secondary"
               size="40"
+              prefixIcon={<IconPlus />} 
             >버튼</SolidButton>
           </div>
         </div>
@@ -104,6 +106,7 @@ const Home = () => {
             <SolidButton
               color="outline"
               size="40"
+              prefixIcon={<IconPlus />} 
             >버튼</SolidButton>
           </div>
         </div>
@@ -112,6 +115,7 @@ const Home = () => {
             <SolidButton
               color="error"
               size="40"
+              prefixIcon={<IconPlus />} 
             >버튼</SolidButton>
           </div>
         </div>
@@ -120,6 +124,7 @@ const Home = () => {
             <SolidButton
               color="tertiary"
               size="40"
+              prefixIcon={<IconPlus />} 
             >버튼</SolidButton>
           </div>
         </div>

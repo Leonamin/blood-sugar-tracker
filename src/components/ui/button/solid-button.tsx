@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { ClassValue } from "clsx";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
 export type ButtonSize = "34" | "36" | "40" | "48";
@@ -22,22 +23,67 @@ const sizeStyles: Record<ButtonSize, string> = {
   "48": "px-4 py-3 text-body1m",
 };
 
+interface ColorApplyProps {
+  bg: ClassValue;
+  hover: ClassValue;
+  text: ClassValue;
+}
 
 
-const colorStyles: Record<ButtonColor, string> = {
-  primary: "bg-brand text-white hover:bg-brand-hover",
-  secondary: "bg-secondary text-white hover:bg-secondary-hover ",
-  outline: "bg-inverse border border-primary text-primary hover:bg-primary",
-  error: "bg-danger text-white hover:bg-danger-bold ",
-  tertiary: "bg-tertiary text-white hover:bg-tertiary-hover",
+const colorStyles: Record<ButtonColor, ColorApplyProps> = {
+  primary: {
+    bg: "bg-brand",
+    text: "text-inverse",
+    hover: "hover:bg-brand-hover"
+  },
+  secondary: {
+    bg: "bg-secondary",
+    text: "text-inverse",
+    hover: "hover:bg-secondary-hover"
+  },
+  outline: {
+    bg: "bg-inverse border border-primary",
+    text: "text-primary-hover",
+    hover: "hover:bg-primary"
+  },
+  error: {
+    bg: "bg-danger",
+    text: "text-inverse",
+    hover: "hover:bg-danger-bold"
+  },
+  tertiary: {
+    bg: "bg-tertiary",
+    text: "text-inverse",
+    hover: "hover:bg-tertiary-hover"
+  }
 };
 
-const darkColorStyles: Record<ButtonColor, string> = {
-  primary: "dark:bg-brand-dark dark:text-white dark:hover:bg-brand-dark-hover ",
-  secondary: "dark:bg-secondary-dark dark:text-white dark:hover:bg-secondary-dark-hover ",
-  outline: "dark:bg-inverse-dark border dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark",
-  error: "dark:bg-danger-dark dark:text-white dark:hover:bg-danger-dark-bold ",
-  tertiary: "dark:bg-tertiary-dark dark:text-white dark:hover:bg-tertiary-dark-hover",
+const darkColorStyles: Record<ButtonColor, ColorApplyProps> = {
+  primary: {
+    bg: "dark:bg-brand-dark",
+    text: "dark:text-inverse",
+    hover: "dark:hover:bg-brand-dark-hover"
+  },
+  secondary: {
+    bg: "dark:bg-secondary-dark",
+    text: "dark:text-inverse",
+    hover: "dark:hover:bg-secondary-dark-hover"
+  },
+  outline: {
+    bg: "dark:bg-inverse-dark",
+    text: "dark:text-primary-dark",
+    hover: "dark:hover:bg-primary-dark"
+  },
+  error: {
+    bg: "dark:bg-danger-dark",
+    text: "dark:text-inverse",
+    hover: "dark:hover:bg-danger-dark-bold"
+  },
+  tertiary: {
+    bg: "dark:bg-tertiary-dark",
+    text: "dark:text-inverse",
+    hover: "dark:hover:bg-tertiary-dark-hover"
+  }
 };
 
 const shadowStyles: Record<ButtonColor, string> = {
@@ -92,11 +138,11 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
     const prefixIconElement =
       <>
         {prefixIcon ? (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          <span className={cn("flex items-center", colorStyles[color].text)} style={{ width: iconSizes[size], height: iconSizes[size] }}>
             {prefixIcon}
           </span>
         ) : fullWidth ? (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          <span className={cn("flex items-center", colorStyles[color].text)} style={{ width: iconSizes[size], height: iconSizes[size] }}>
           </span>
         ) : null}
       </>;
@@ -104,11 +150,11 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
     const suffixIconElement =
       <>
         {suffixIcon ? (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          <span className={cn("flex items-center", colorStyles[color].text)} style={{ width: iconSizes[size], height: iconSizes[size] }}>
             {suffixIcon}
           </span>
         ) : fullWidth ? (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          <span className={cn("flex items-center", colorStyles[color].text)} style={{ width: iconSizes[size], height: iconSizes[size] }}>
           </span>
         ) : null}
       </>;
@@ -122,8 +168,10 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
             ? "justify-between px-6"
             : "justify-center gap-2",
           sizeStyles[size],
-          colorStyles[color],
-          darkColorStyles[color],
+          colorStyles[color].bg,
+          darkColorStyles[color].bg,
+          colorStyles[color].hover,
+          darkColorStyles[color].hover,
           shadowStyles[color],
           disabledStyles[color],
           borderRadiusStyles[borderRadius],
@@ -134,7 +182,7 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {prefixIconElement}
-        <span className="flex-1 text-center">{children}</span>
+        <span className={cn("flex-1 text-center", colorStyles[color].text)}>{children}</span>
         {suffixIconElement}
       </button>
     );
