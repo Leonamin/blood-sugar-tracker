@@ -39,8 +39,8 @@ const TextButton = React.forwardRef<HTMLButtonElement, TextButtonProps>(
         const padding = paddingMap[size];
 
         const underlineStyle = isUnderline ? 'underline' : '';
-        const hoverStyle: ClassValue = 'hover:bg-primary-hover dark:hover:bg-primary-dark-hover';
-        const disabledStyle = 'cursor-not-allowed opacity-40';
+        const hoverStyle: ClassValue = 'hover:bg-primary-hover dark:hover:bg-primary-hover-dark';
+        const disabledStyle: ClassValue = 'cursor-not-allowed opacity-40';
 
         return (
             <button

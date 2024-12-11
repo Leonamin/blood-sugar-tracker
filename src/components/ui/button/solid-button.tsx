@@ -34,55 +34,27 @@ const colorStyles: Record<ButtonColor, ColorApplyProps> = {
   primary: {
     bg: "bg-brand",
     text: "text-inverse",
-    hover: "hover:bg-brand-hover"
+    hover: "hover:bg-brand-hover dark:hover:bg-brand-hover-dark"
   },
   secondary: {
     bg: "bg-secondary",
     text: "text-inverse",
-    hover: "hover:bg-secondary-hover"
+    hover: "hover:bg-secondary-hover dark:hover:bg-secondary-hover-dark"
   },
   outline: {
     bg: "bg-inverse border border-primary",
     text: "text-primary-hover",
-    hover: "hover:bg-primary"
+    hover: "hover:bg-primary dark:hover:bg-primary-hover-dark"
   },
   error: {
     bg: "bg-danger",
     text: "text-inverse",
-    hover: "hover:bg-danger-bold"
+    hover: "hover:bg-danger-bold dark:hover:bg-danger-bold-dark"
   },
   tertiary: {
     bg: "bg-tertiary",
     text: "text-inverse",
-    hover: "hover:bg-tertiary-hover"
-  }
-};
-
-const darkColorStyles: Record<ButtonColor, ColorApplyProps> = {
-  primary: {
-    bg: "dark:bg-brand-dark",
-    text: "dark:text-inverse",
-    hover: "dark:hover:bg-brand-dark-hover"
-  },
-  secondary: {
-    bg: "dark:bg-secondary-dark",
-    text: "dark:text-inverse",
-    hover: "dark:hover:bg-secondary-dark-hover"
-  },
-  outline: {
-    bg: "dark:bg-inverse-dark",
-    text: "dark:text-primary-dark",
-    hover: "dark:hover:bg-primary-dark"
-  },
-  error: {
-    bg: "dark:bg-danger-dark",
-    text: "dark:text-inverse",
-    hover: "dark:hover:bg-danger-dark-bold"
-  },
-  tertiary: {
-    bg: "dark:bg-tertiary-dark",
-    text: "dark:text-inverse",
-    hover: "dark:hover:bg-tertiary-dark-hover"
+    hover: "hover:bg-tertiary-hover dark:hover:bg-tertiary-hover-dark"
   }
 };
 
@@ -169,9 +141,7 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
             : "justify-center gap-2",
           sizeStyles[size],
           colorStyles[color].bg,
-          darkColorStyles[color].bg,
           colorStyles[color].hover,
-          darkColorStyles[color].hover,
           shadowStyles[color],
           disabledStyles[color],
           borderRadiusStyles[borderRadius],

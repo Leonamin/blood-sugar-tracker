@@ -121,27 +121,35 @@ export default {
       textColor: {
         brand: {
           DEFAULT: '#6366F1',
-          hover: '#4338CA',
-          dark: '#A5B4FC',
-          'dark-hover': '#818CF8'
+          dark: '#A5B4FC'
+        },
+        'brand-hover': {
+          DEFAULT: '#4338CA',
+          dark: '#818CF8'
         },
         primary: {
           DEFAULT: '#111827',
-          hover: '#000000',
-          dark: '#FFFFFF',
-          'dark-hover': '#FFFFFF'
+          dark: '#FFFFFF'
+        },
+        'primary-hover': {
+          DEFAULT: '#000000',
+          dark: '#FFFFFF'
         },
         secondary: {
           DEFAULT: '#404040',
-          hover: '#262626',
-          dark: '#E5E5E5', 
-          'dark-hover': '#F5F5F5'
+          dark: '#E5E5E5'
+        },
+        'secondary-hover': {
+          DEFAULT: '#262626',
+          dark: '#F5F5F5'
         },
         tertiary: {
           DEFAULT: '#525252',
-          hover: '#404040',
-          dark: '#D4D4D4',
-          'dark-hover': '#E5E5E5'
+          dark: '#D4D4D4'
+        },
+        'tertiary-hover': {
+          DEFAULT: '#404040',
+          dark: '#E5E5E5'
         },
         disabled: {
           DEFAULT: '#A3A3A3',
@@ -153,61 +161,81 @@ export default {
         },
         danger: {
           DEFAULT: '#F43F5E',
-          bold: '#BE123C',
-          dark: '#FDA4AF',
-          'dark-bold': '#FB7185'
+          dark: '#FDA4AF'
+        },
+        'danger-bold': {
+          DEFAULT: '#BE123C',
+          dark: '#FB7185'
         },
         info: {
           DEFAULT: '#6366F1',
-          bold: '#4338CA',
-          dark: '#C7D2FE',
-          'dark-bold': '#A5B4FC'
+          dark: '#C7D2FE'
+        },
+        'info-bold': {
+          DEFAULT: '#4338CA',
+          dark: '#A5B4FC'
         },
         warning: {
           DEFAULT: '#EAB308',
-          bold: '#854D0E',
-          dark: '#FEF08A',
-          'dark-bold': '#FACC15'
+          dark: '#FEF08A'
+        },
+        'warning-bold': {
+          DEFAULT: '#854D0E',
+          dark: '#FACC15'
         },
         success: {
           DEFAULT: '#2DD4BF',
-          bold: '#0F766E',
-          dark: '#99F6E4',
-          'dark-bold': '#5EEAD4'
+          dark: '#99F6E4'
+        },
+        'success-bold': {
+          DEFAULT: '#0F766E',
+          dark: '#5EEAD4'
         },
         orange: {
           DEFAULT: '#F97316',
-          bold: '#C2410C',
-          dark: '#FDBA74',
-          'dark-bold': '#FB923C'
+          dark: '#FDBA74'
+        },
+        'orange-bold': {
+          DEFAULT: '#C2410C',
+          dark: '#FB923C'
         }
       },
       backgroundColor: {
         brand: {
           DEFAULT: '#6366F1',
-          hover: '#4338CA',
-          subtle: '#EEF2FF',
-          dark: '#A5B4FC',
-          'dark-hover': '#818CF8',
-          'dark-subtle': '#4F46E5'
+          dark: '#A5B4FC'
+        },
+        'brand-hover': {
+          DEFAULT: '#4338CA',
+          dark: '#818CF8'
+        },
+        'brand-subtle': {
+          DEFAULT: '#EEF2FF',
+          dark: '#4F46E5'
         },
         primary: {
           DEFAULT: '#FAFAFA',
-          hover: '#F5F5F5',
-          dark: '#000000',
-          'dark-hover': '#262626'
+          dark: '#000000'
+        },
+        'primary-hover': {
+          DEFAULT: '#F5F5F5',
+          dark: '#262626'
         },
         secondary: {
           DEFAULT: '#2DD4BF',
-          hover: '#0F766E',
-          dark: '#99F6E4',
-          'dark-hover': '#5EEAD4'
+          dark: '#99F6E4'
+        },
+        'secondary-hover': {
+          DEFAULT: '#0F766E',
+          dark: '#5EEAD4'
         },
         tertiary: {
           DEFAULT: '#404040',
-          hover: '#262626',
-          dark: '#FAFAFA',
-          'dark-hover': '#E5E5E5'
+          dark: '#FAFAFA'
+        },
+        'tertiary-hover': {
+          DEFAULT: '#262626',
+          dark: '#E5E5E5'
         },
         disabled: {
           DEFAULT: '#D4D4D4',
@@ -219,49 +247,65 @@ export default {
         },
         danger: {
           DEFAULT: '#F43F5E',
-          bold: '#BE123C',
-          subtle: '#FFF1F2',
-          dark: '#FDA4AF',
-          'dark-bold': '#FB7185',
-          'dark-subtle': '#9F1239'
+          dark: '#FDA4AF'
+        },
+        'danger-bold': {
+          DEFAULT: '#BE123C',
+          dark: '#FB7185'
+        },
+        'danger-subtle': {
+          DEFAULT: '#FFF1F2',
+          dark: '#9F1239'
         },
         info: {
           DEFAULT: '#6366F1',
-          subtle: '#EEF2FF',
-          dark: '#818CF8',
-          'dark-subtle': '#3730A3'
+          dark: '#818CF8'
+        },
+        'info-subtle': {
+          DEFAULT: '#EEF2FF',
+          dark: '#3730A3'
         },
         warning: {
           DEFAULT: '#EAB308',
-          subtle: '#FEFCE8',
-          dark: '#CA8A04',
-          'dark-subtle': '#854D0E'
+          dark: '#CA8A04'
+        },
+        'warning-subtle': {
+          DEFAULT: '#FEFCE8',
+          dark: '#854D0E'
         },
         success: {
           DEFAULT: '#2DD4BF',
-          subtle: '#F0FDFA',
-          dark: '#99F6E4',
-          'dark-subtle': '#0F766E'
+          dark: '#99F6E4'
+        },
+        'success-subtle': {
+          DEFAULT: '#F0FDFA',
+          dark: '#0F766E'
         },
         orange: {
           DEFAULT: '#F97316',
-          subtle: '#FFF7ED',
-          dark: '#FDBA74',
-          'dark-subtle': '#9A3412'
+          dark: '#FDBA74'
+        },
+        'orange-subtle': {
+          DEFAULT: '#FFF7ED',
+          dark: '#9A3412'
         }
       },
       borderColor: {
         brand: {
           DEFAULT: '#6366F1',
-          hover: '#4338CA',
-          dark: '#A5B4FC',
-          'dark-hover': '#818CF8'
+          dark: '#A5B4FC'
+        },
+        'brand-hover': {
+          DEFAULT: '#4338CA',
+          dark: '#818CF8'
         },
         primary: {
           DEFAULT: '#D4D4D4',
-          hover: '#A3A3A3',
-          dark: '#404040',
-          'dark-hover': '#525252'
+          dark: '#404040'
+        },
+        'primary-hover': {
+          DEFAULT: '#A3A3A3',
+          dark: '#525252'
         },
         secondary: {
           DEFAULT: '#404040',
@@ -273,33 +317,43 @@ export default {
         },
         danger: {
           DEFAULT: '#F43F5E',
-          subtle: '#FFF1F2',
-          dark: '#FDA4AF',
-          'dark-subtle': '#9F1239'
+          dark: '#FDA4AF'
+        },
+        'danger-subtle': {
+          DEFAULT: '#FFF1F2',
+          dark: '#9F1239'
         },
         info: {
           DEFAULT: '#6366F1',
-          subtle: '#EEF2FF',
-          dark: '#818CF8',
-          'dark-subtle': '#3730A3'
+          dark: '#818CF8'
+        },
+        'info-subtle': {
+          DEFAULT: '#EEF2FF',
+          dark: '#3730A3'
         },
         warning: {
           DEFAULT: '#EAB308',
-          subtle: '#FEFCE8',
-          dark: '#FEF08A',
-          'dark-subtle': '#854D0E'
+          dark: '#FEF08A'
+        },
+        'warning-subtle': {
+          DEFAULT: '#FEFCE8',
+          dark: '#854D0E'
         },
         success: {
           DEFAULT: '#2DD4BF',
-          subtle: '#F0FDFA',
-          dark: '#5EEAD4',
-          'dark-subtle': '#115E59'
+          dark: '#5EEAD4'
+        },
+        'success-subtle': {
+          DEFAULT: '#F0FDFA',
+          dark: '#115E59'
         },
         orange: {
           DEFAULT: '#F97316',
-          subtle: '#FFF7ED',
-          dark: '#FDBA74',
-          'dark-subtle': '#9A3412'
+          dark: '#FDBA74'
+        },
+        'orange-subtle': {
+          DEFAULT: '#FFF7ED',
+          dark: '#9A3412'
         }
       },
       borderWidth: {
