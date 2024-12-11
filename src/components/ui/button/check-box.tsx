@@ -28,7 +28,8 @@ export function CheckBox({
                 'rounded-full flex items-center justify-center',
                 'transition-all duration-200 ease-in-out',
                 sizeStyles[size],
-                checked ? 'bg-success border-transparent' : 'bg-white border-2 border-primary',
+                checked ? 'bg-success border-transparent' : 'bg-transparent border-1.5 border-primary dark:border-primary-dark',
+
                 className
             )}
             onClick={() => onChanged?.(!checked)}

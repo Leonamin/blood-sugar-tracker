@@ -302,6 +302,9 @@ export default {
           'dark-subtle': '#9A3412'
         }
       },
+      borderWidth: {
+        '1.5': '1.5px',
+      },
       fontFamily: {
         pretendard: ["Pretendard", "sans-serif"],
       },
