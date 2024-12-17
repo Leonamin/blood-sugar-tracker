@@ -32,29 +32,29 @@ interface ColorApplyProps {
 
 const colorStyles: Record<ButtonColor, ColorApplyProps> = {
   primary: {
-    bg: "bg-brand",
-    text: "text-inverse",
-    hover: "hover:bg-brand-hover dark:hover:bg-brand-hover-dark"
+    bg: "color-bg-brand",
+    text: "color-text-inverse",
+    hover: "color-bg-brand-hover"
   },
   secondary: {
-    bg: "bg-secondary",
-    text: "text-inverse",
-    hover: "hover:bg-secondary-hover dark:hover:bg-secondary-hover-dark"
+    bg: "color-bg-secondary",
+    text: "color-text-inverse",
+    hover: "color-bg-secondary-hover"
   },
   outline: {
-    bg: "bg-inverse border border-primary",
-    text: "text-primary-hover",
-    hover: "hover:bg-primary dark:hover:bg-primary-hover-dark"
+    bg: "color-bg-inverse border border-primary",
+    text: "color-text-primary-hover",
+    hover: "color-bg-primary-hover"
   },
   error: {
-    bg: "bg-danger",
-    text: "text-inverse",
-    hover: "hover:bg-danger-bold dark:hover:bg-danger-bold-dark"
+    bg: "color-bg-danger",
+    text: "color-text-inverse",
+    hover: "color-bg-danger-hover"
   },
   tertiary: {
-    bg: "bg-tertiary",
-    text: "text-inverse",
-    hover: "hover:bg-tertiary-hover dark:hover:bg-tertiary-hover-dark"
+    bg: "color-bg-tertiary",
+    text: "color-text-inverse",
+    hover: "color-bg-tertiary-hover"
   }
 };
 

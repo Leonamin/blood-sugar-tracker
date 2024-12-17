@@ -3,315 +3,305 @@
 @tailwind utilities;
 
 /* Text colors */
-.text-brand {
+.color-text-brand {
   @apply text-indigo-500 dark:text-indigo-300;
 }
 
-.text-brand-hover {
-  @apply text-indigo-700 dark:text-indigo-400;
+.color-text-brand-hover {
+  @apply hover:text-indigo-700 dark:hover:text-indigo-400;
 }
 
-.text-primary {
+.color-text-primary {
   @apply text-gray-900 dark:text-white;
 }
 
-.text-primary-hover {
-  @apply text-base-black dark:text-base-white;
+.color-text-primary-hover {
+  @apply hover:text-base-black dark:hover:text-base-white;
 }
 
-.text-secondary {
+.color-text-secondary {
   @apply text-gray-700 dark:text-gray-200;
 }
 
-.text-secondary-hover {
-  @apply text-gray-800 dark:text-gray-100;
+.color-text-secondary-hover {
+  @apply hover:text-gray-800 dark:hover:text-gray-100;
 }
 
-.text-tertiary {
+.color-text-tertiary {
   @apply text-gray-600 dark:text-gray-300;
 }
 
-.text-tertiary-hover {
-  @apply text-gray-700 dark:text-gray-200;
+.color-text-tertiary-hover {
+  @apply hover:text-gray-700 dark:hover:text-gray-200;
 }
 
-.text-disabled {
+.color-text-disabled {
   @apply text-gray-400 dark:text-gray-500;
 }
 
-.text-inverse {
+.color-text-inverse {
   @apply text-base-white dark:text-base-black;
 }
 
-.text-danger {
+.color-text-danger {
   @apply text-red-500 dark:text-red-300;
 }
 
-.text-danger-bold {
+.color-text-danger-bold {
   @apply text-red-700 dark:text-red-400;
 }
 
-.text-info {
+.color-text-info {
   @apply text-indigo-500 dark:text-indigo-200;
 }
 
-.text-info-bold {
+.color-text-info-bold {
   @apply text-indigo-700 dark:text-indigo-300;
 }
 
-.text-warning {
+.color-text-warning {
   @apply text-yellow-500 dark:text-yellow-200;
 }
 
-.text-warning-bold {
+.color-text-warning-bold {
   @apply text-yellow-800 dark:text-yellow-400;
 }
 
-.text-success {
+.color-text-success {
   @apply text-green-400 dark:text-green-200;
 }
 
-.text-success-bold {
+.color-text-success-bold {
   @apply text-green-700 dark:text-green-300;
 }
 
-.text-orange {
+.color-text-orange {
   @apply text-orange-500 dark:text-orange-300;
 }
 
-.text-orange-bold {
+.color-text-orange-bold {
   @apply text-orange-800 dark:text-orange-400;
 }
 
 /* Background colors */
-.bg-brand-subtle {
+.color-bg-brand-subtle {
   @apply bg-indigo-50 dark:bg-indigo-600;
 }
 
-.bg-brand {
+.color-bg-brand {
   @apply bg-indigo-500 dark:bg-indigo-300;
 }
 
-
-.bg-brand-hover {
-  @apply bg-indigo-700 dark:bg-indigo-400;
+.color-bg-brand-hover {
+  @apply hover:bg-indigo-700 dark:hover:bg-indigo-400;
 }
 
-.bg-primary {
+.color-bg-primary {
   @apply bg-gray-50 dark:bg-base-black;
 }
 
-.bg-primary-hover {
-  @apply bg-gray-100 dark:bg-gray-800;
+.color-bg-primary-hover {
+  @apply hover:bg-gray-100 dark:hover:bg-gray-800;
 }
 
-.bg-secondary {
+.color-bg-secondary {
   @apply bg-green-400 dark:bg-green-200;
 }
 
-.bg-secondary-hover {
-  @apply bg-green-700 dark:bg-green-300;
+.color-bg-secondary-hover {
+  @apply hover:bg-green-700 dark:hover:bg-green-300;
 }
 
-.bg-tertiary {
+.color-bg-tertiary {
   @apply bg-gray-700 dark:bg-gray-50;
 }
 
-.bg-tertiary-hover {
-  @apply bg-gray-800 dark:bg-gray-200;
+.color-bg-tertiary-hover {
+  @apply hover:bg-gray-800 dark:hover:bg-gray-200;
 }
 
-.bg-disabled {
+.color-bg-disabled {
   @apply bg-gray-300 dark:bg-gray-300;
 }
 
-.bg-inverse {
+.color-bg-inverse {
   @apply bg-base-white dark:bg-gray-900;
 }
 
-.bg-danger-subtle {
+.color-bg-danger-subtle {
   @apply bg-red-50 dark:bg-red-800;
 }
 
-.bg-danger {
+.color-bg-danger {
   @apply bg-red-500 dark:bg-red-300;
 }
 
-.bg-danger-bold {
+.color-bg-danger-bold {
   @apply bg-red-700 dark:bg-red-400;
 }
 
-.bg-info-subtle {
+.color-bg-danger-hover {
+  @apply hover:bg-red-700 dark:hover:bg-red-400;
+}
+
+.color-bg-info-subtle {
   @apply bg-indigo-50 dark:bg-indigo-800;
 }
 
-.bg-info {
+.color-bg-info {
   @apply bg-indigo-500 dark:bg-indigo-400;
 }
 
-.bg-warning-subtle {
+.color-bg-warning-subtle {
   @apply bg-yellow-50 dark:bg-yellow-800;
 }
 
-.bg-warning {
+.color-bg-warning {
   @apply bg-yellow-500 dark:bg-yellow-600;
 }
 
-.bg-success-subtle {
+.color-bg-success-subtle {
   @apply bg-green-50 dark:bg-green-600;
 }
 
-.bg-success {
+.color-bg-success {
   @apply bg-green-400 dark:bg-green-200;
 }
 
-.bg-orange-subtle {
+.color-bg-orange-subtle {
   @apply bg-orange-50 dark:bg-orange-800;
 }
 
-.bg-orange {
+.color-bg-orange {
   @apply bg-orange-500 dark:bg-orange-300;
 }
 
 /* Border colors */
-.border-brand {
+.color-border-brand {
   @apply border-indigo-500 dark:border-indigo-300;
 }
 
-.border-brand-hover {
-  @apply border-indigo-700 dark:border-indigo-400;
+.color-border-brand-hover {
+  @apply hover:border-indigo-700 dark:hover:border-indigo-400;
 }
 
-.border-primary {
+.color-border-primary {
   @apply border-gray-300 dark:border-gray-700;
 }
 
-.border-primary-hover {
-  @apply border-gray-400 dark:border-gray-600;
+.color-border-primary-hover {
+  @apply hover:border-gray-400 dark:hover:border-gray-600;
 }
 
-.border-secondary {
+.color-border-secondary {
   @apply border-gray-700 dark:border-gray-200;
 }
 
-.border-disabled {
+.color-border-disabled {
   @apply border-gray-500 dark:border-gray-500;
 }
 
-.border-danger-subtle {
+.color-border-danger-subtle {
   @apply border-red-50 dark:border-red-800;
 }
 
-.border-danger {
+.color-border-danger {
   @apply border-red-500 dark:border-red-300;
 }
 
-.border-info-subtle {
+.color-border-info-subtle {
   @apply border-indigo-50 dark:border-indigo-800;
 }
 
-.border-info {
+.color-border-info {
   @apply border-indigo-500 dark:border-indigo-400;
 }
 
-.border-warning-subtle {
+.color-border-warning-subtle {
   @apply border-yellow-50 dark:border-yellow-800;
 }
 
-.border-warning {
+.color-border-warning {
   @apply border-yellow-500 dark:border-yellow-200;
 }
 
-.border-success-subtle {
+.color-border-success-subtle {
   @apply border-green-50 dark:border-green-800;
 }
 
-.border-success {
+.color-border-success {
   @apply border-green-400 dark:border-green-300;
 }
 
-.border-orange-subtle {
+.color-border-orange-subtle {
   @apply border-orange-50 dark:border-orange-800;
 }
 
-.border-orange {
+.color-border-orange {
   @apply border-orange-500 dark:border-orange-300;
 }
 
-/* Font sizes */
-.text-caption1m {
-  @apply text-[13px] leading-[140%] font-medium;
-}
-
-.text-body1m {
-  @apply text-[16px] leading-[140%] font-medium;
-}
-
-.text-body2m {
-  @apply text-[14px] leading-[140%] font-medium;
-}
-
 /* Icon colors */
-.icon-brand {
+.color-icon-brand {
   @apply text-indigo-500 dark:text-indigo-300;
 }
 
-.icon-brand-hover {
-  @apply text-indigo-700 dark:text-indigo-400;
+.color-icon-brand-hover {
+  @apply hover:text-indigo-700 dark:hover:text-indigo-400;
 }
 
-.icon-primary {
+.color-icon-primary {
   @apply text-gray-900 dark:text-white;
 }
 
-.icon-primary-hover {
-  @apply text-base-black dark:text-base-white;
+.color-icon-primary-hover {
+  @apply hover:text-base-black dark:hover:text-base-white;
 }
 
-.icon-secondary {
+.color-icon-secondary {
   @apply text-gray-700 dark:text-gray-200;
 }
 
-.icon-secondary-hover {
-  @apply text-gray-800 dark:text-gray-100;
+.color-icon-secondary-hover {
+  @apply hover:text-gray-800 dark:hover:text-gray-100;
 }
 
-.icon-tertiary {
+.color-icon-tertiary {
   @apply text-gray-600 dark:text-gray-300;
 }
 
-.icon-tertiary-hover {
-  @apply text-gray-700 dark:text-gray-200;
+.color-icon-tertiary-hover {
+  @apply hover:text-gray-700 dark:hover:text-gray-200;
 }
 
-.icon-disabled {
+.color-icon-disabled {
   @apply text-gray-300 dark:text-gray-400;
 }
 
-.icon-inverse {
+.color-icon-inverse {
   @apply text-base-white dark:text-base-black;
 }
 
-.icon-danger {
+.color-icon-danger {
   @apply text-red-500 dark:text-red-300;
 }
 
-.icon-danger-bold {
+.color-icon-danger-bold {
   @apply text-red-700 dark:text-red-400;
 }
 
-.icon-info {
+.color-icon-info {
   @apply text-indigo-500 dark:text-indigo-400;
 }
 
-.icon-warning {
+.color-icon-warning {
   @apply text-yellow-500 dark:text-yellow-200;
 }
 
-.icon-success {
+.color-icon-success {
   @apply text-green-400 dark:text-green-200;
 }
 
-.icon-orange {
+.color-icon-orange {
   @apply text-orange-500 dark:text-orange-300;
 }

@@ -21,7 +21,7 @@ const Counter = ({ value, maxLength, disabled }: { value: number; maxLength: num
     return (
         <div className={cn(
             "text-caption2r flex items-center justify-end",
-            disabled ? "text-disabled" : "text-tertiary"
+            disabled ? "color-text-disabled" : "color-text-tertiary"
         )}>
             <span>{value}</span>
             <span>/</span>
@@ -31,7 +31,7 @@ const Counter = ({ value, maxLength, disabled }: { value: number; maxLength: num
 };
 
 const ErrorMessage = ({ errorMessage }: { errorMessage: string }) => {
-    return <span className="text-caption1r text-danger flex items-center gap-1">
+    return <span className="text-caption1r color-text-danger flex items-center gap-1">
         <span className="w-4 h-4 flex items-center justify-center">
             <IconAlertOctagon />
         </span>
@@ -70,16 +70,16 @@ const MultilineTextForm = ({
     }, [value, minLines, maxLines]);
 
     const getStateStyles = () => {
-        if (disabled) return "border-disabled bg-disabled";
-        if (hasError) return "border-danger";
-        if (isFilled) return "border-primary";
-        return "border-tertiary focus-within:border-primary-hover";
+        if (disabled) return "color-border-disabled color-bg-disabled";
+        if (hasError) return "color-border-danger";
+        if (isFilled) return "color-border-primary";
+        return "color-border-tertiary focus-within:color-border-primary-hover";
     };
 
     const getTextStyles = () => {
-        if (disabled) return "text-disabled";
-        if (hasError) return "text-danger";
-        return "text-primary";
+        if (disabled) return "color-text-disabled";
+        // if (hasError) return "color-text-danger";
+        return "color-text-primary";
     };
 
     const getShadowStyles = () => {

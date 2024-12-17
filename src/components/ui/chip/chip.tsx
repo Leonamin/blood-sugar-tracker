@@ -32,19 +32,19 @@ const sizeStyles: Record<ChipSize, { container: string; icon: string }> = {
 const getVariantStyles = (variant: ChipVariant, checked: boolean, disabled: boolean) => {
     if (disabled) {
         return variant === 'brand' 
-            ? 'text-inverse bg-brand border border-transparent opacity-40'
-            : 'text-inverse bg-brand-subtle border border-transparent opacity-40';
+            ? 'color-text-inverse color-bg-brand border border-transparent opacity-40'
+            : 'color-text-inverse color-bg-brand-subtle border border-transparent opacity-40 color-bg-disabled';
     }
 
     if (checked) {
         return variant === 'brand'
-            ? 'text-inverse bg-brand border border-transparent'
-            : 'text-brand bg-brand-subtle border border-transparent';
+            ? 'color-text-inverse color-bg-brand border border-transparent'
+            : 'color-text-brand color-bg-brand-subtle border border-transparent';
     }
 
     return variant === 'brand'
-        ? 'text-primary bg-inverse border border-primary hover:bg-primary hover:border-primary-hover dark:hover:bg-primary-dark dark:hover:border-primary-dark-hover'
-        : 'text-primary bg-inverse border border-primary hover:bg-primary hover:border-primary-hover dark:hover:bg-primary-dark dark:hover:border-primary-dark-hover';
+        ? 'color-text-primary color-bg-inverse border border-primary hover:color-bg-primary hover:border-primary-hover dark:hover:bg-primary-dark dark:hover:border-primary-dark-hover'
+        : 'color-text-primary color-bg-inverse border border-primary hover:color-bg-primary hover:border-primary-hover dark:hover:bg-primary-dark dark:hover:border-primary-dark-hover';
 };
 
 const Chip = ({

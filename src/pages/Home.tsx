@@ -8,6 +8,10 @@ import Tag from "@/components/ui/tag/tag";
 import { CheckBox } from "@/components/ui/button/check-box";
 import TextButton from "@/components/ui/button/text-button";
 import MultilineTextForm from "@/components/ui/form/multiline-text-form";
+import GraphicIconDanger from "@/components/graphic-icons/GraphicIconDanger";
+import GraphicIconInfo from "@/components/graphic-icons/GraphicIconInfo";
+import GraphicIconSuccess from "@/components/graphic-icons/GraphicIconSuccess";
+import GraphicIconWarning from "@/components/graphic-icons/GraphicIconWarning";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -27,6 +31,17 @@ const Home = () => {
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+
+      <h1 className="text-2xl font-bold mb-6">Graphic Icon Examples</h1>
+      <Card className="p-6 space-y-4">
+        <div className="flex items-center gap-4">
+          <GraphicIconInfo />
+          <GraphicIconSuccess />
+          <GraphicIconWarning />
+          <GraphicIconDanger />
+        </div>
+      </Card>
+
       <h1 className="text-2xl font-bold mb-6">Multiline Text Form Examples</h1>
       <Card className="p-6 space-y-4">
         <MultilineTextForm

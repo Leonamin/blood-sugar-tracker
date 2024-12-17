@@ -34,100 +34,100 @@ interface ColorApplyType {
 
 const emptyStyles: Record<TagColorType, ColorApplyType> = {
     'error': {
-        text: 'text-danger',    
-        icon: 'text-danger',
-        bg: 'bg-inverse'
+        text: 'color-text-danger',
+        icon: 'color-text-danger',
+        bg: 'color-bg-inverse'
     },
     'success': {
-        text: 'text-success',
-        icon: 'text-success',
-        bg: 'bg-inverse'
+        text: 'color-text-success',
+        icon: 'color-text-success',
+        bg: 'color-bg-inverse'
     },
     'warning': {
-        text: 'text-warning',
-        icon: 'text-warning',
-        bg: 'bg-inverse'
+        text: 'color-text-warning',
+        icon: 'color-text-warning',
+        bg: 'color-bg-inverse'
     },
     'info': {
-        text: 'text-info',
-        icon: 'text-info',
-        bg: 'bg-inverse'
+        text: 'color-text-info',
+        icon: 'color-text-info',
+        bg: 'color-bg-inverse'
     },
     'black': {
-        text: 'text-primary',
-        icon: 'text-primary',
-        bg: 'bg-inverse'
+        text: 'color-text-primary',
+        icon: 'color-text-primary',
+        bg: 'color-bg-inverse'
     },
     'orange': {
-        text: 'text-orange',
-        icon: 'text-orange',
-        bg: 'bg-inverse'
+        text: 'color-text-orange',
+        icon: 'color-text-orange',
+        bg: 'color-bg-inverse'
     }
 }
 
 const filledStyles: Record<TagColorType, ColorApplyType> = {
     'error': {
-        text: 'text-danger-bold',
-        icon: 'text-danger',
-        bg: 'bg-danger-subtle'
+        text: 'color-text-danger-bold',
+        icon: 'color-text-danger',
+        bg: 'color-bg-danger-subtle'
     },
     'success': {
-        text: 'text-success-bold',
-        icon: 'text-success',
-        bg: 'bg-success-subtle'
+        text: 'color-text-success-bold',
+        icon: 'color-text-success',
+        bg: 'color-bg-success-subtle'
     },
     'warning': {
-        text: 'text-warning-bold',
-        icon: 'text-warning',
-        bg: 'bg-warning-subtle'
+        text: 'color-text-warning-bold',
+        icon: 'color-text-warning',
+        bg: 'color-bg-warning-subtle'
     },
     'info': {
-        text: 'text-info-bold',
-        icon: 'text-info',
-        bg: 'bg-info-subtle'
+        text: 'color-text-info-bold',
+        icon: 'color-text-info',
+        bg: 'color-bg-info-subtle'
     },
     'black': {
-        text: 'text-primary-bold',
-        icon: 'text-primary',
-        bg: 'bg-primary-hover'
+        text: 'color-text-primary-bold',
+        icon: 'color-text-primary',
+        bg: 'color-bg-primary-hover'
     },
     'orange': {
-        text: 'text-orange-bold',
-        icon: 'text-orange',
-        bg: 'bg-orange-subtle'
+        text: 'color-text-orange-bold',
+        icon: 'color-text-orange',
+        bg: 'color-bg-orange-subtle'
     }
 }
 
 const solidStyles: Record<TagColorType, ColorApplyType> = {
     'error': {
-        text: 'text-inverse',
-        icon: 'text-inverse',
-        bg: 'bg-danger'
+        text: 'color-text-inverse',
+        icon: 'color-text-inverse',
+        bg: 'color-bg-danger'
     },
     'success': {
-        text: 'text-inverse',
-        icon: 'text-inverse',
-        bg: 'bg-success'
+        text: 'color-text-inverse',
+        icon: 'color-text-inverse',
+        bg: 'color-bg-success'
     },
     'warning': {
-        text: 'text-inverse',
-        icon: 'text-inverse',
-        bg: 'bg-warning'
+        text: 'color-text-inverse',
+        icon: 'color-text-inverse',
+        bg: 'color-bg-warning'
     },
     'info': {
-        text: 'text-inverse',
-        icon: 'text-inverse',
-        bg: 'bg-info'
+        text: 'color-text-inverse',
+        icon: 'color-text-inverse',
+        bg: 'color-bg-info'
     },
     'black': {
-        text: 'text-inverse',
-        icon: 'text-inverse',
-        bg: 'bg-tertiary'
+        text: 'color-text-inverse',
+        icon: 'color-text-inverse',
+        bg: 'color-bg-tertiary'
     },
     'orange': {
-        text: 'text-inverse',
-        icon: 'text-inverse',
-        bg: 'bg-orange'
+        text: 'color-text-inverse',
+        icon: 'color-text-inverse',
+        bg: 'color-bg-orange'
     }
 }
 
