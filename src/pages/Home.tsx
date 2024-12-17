@@ -15,7 +15,7 @@ import GraphicIconWarning from "@/components/graphic-icons/GraphicIconWarning";
 import CircleStepIndicator from "@/components/ui/indicator/circle-step-indicator";
 import SemiCircleStepIndicator from "@/components/ui/indicator/semi-circle-step-indicator";
 import Snackbar from "@/components/ui/overlay/snackbar/snackbar";
-import Dialog from "@/components/ui/overlay/dialog/dialog";
+import Dialog, { DialogProvider, useDialog } from "@/components/ui/overlay/dialog/dialog";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -32,6 +32,10 @@ const Home = () => {
 
   const [value, setValue] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleConfirm = () => {
+    console.log('confirmed!');
+  };
 
   // chip
   return (
@@ -424,40 +428,40 @@ const Home = () => {
 
       <h1 className="text-2xl font-bold mb-6">Dialog Examples</h1>
       <Card className="p-6 space-y-4">
-        <div className="flex flex-col items-center gap-4">
-          <SolidButton
-            color="primary"
-            size="40"
-            onClick={() => setIsDialogOpen(true)}
-          >
-            다이얼로그 열기
-          </SolidButton>
-
-          <Dialog
-            isOpen={isDialogOpen}
-            onClose={() => setIsDialogOpen(false)}
-            title="타이틀"
-            description="설명 텍스트가 들어갑니다"
-          >
-            <div className="flex flex-col gap-2">
-              <SolidButton
-                color="primary"
-                size="40"
-                onClick={() => setIsDialogOpen(false)}
-              >
-                확인
-              </SolidButton>
-              <SolidButton
-                color="outline"
-                size="40"
-                onClick={() => setIsDialogOpen(false)}
-              >
-                취소
-              </SolidButton>
-            </div>
-          </Dialog>
-        </div>
+        <DialogProvider onConfirm={handleConfirm}>
+          <DialogExample />
+        </DialogProvider>
       </Card>
+    </div>
+  );
+};
+
+const DialogExample = () => {
+  const { open } = useDialog();
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <SolidButton
+        color="primary"
+        size="40"
+        onClick={open}
+      >
+        다이얼로그 열기
+      </SolidButton>
+
+      <Dialog
+        title="타이틀"
+        description="설명 텍스트가 들어갑니다"
+      >
+        <div className="flex flex-row w-full gap-2">
+          <Dialog.Button label="취소" className="w-full" />
+          <Dialog.Button label="확인" color="primary" className="w-full" 
+            onClick={() => {
+              alert('확인');
+            }}
+          />
+        </div>
+      </Dialog>
     </div>
   );
 };
