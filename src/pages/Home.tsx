@@ -19,6 +19,7 @@ import Dialog, { DialogProvider, useDialog } from "@/components/ui/overlay/dialo
 import { Calendar } from '@/components/ui/calendar/RangeCalendar';
 import { addDays } from 'date-fns'
 import { DateRange } from "react-day-picker";
+import { DateRangePickerBottomSheet } from "@/components/ui/picker/DateRangePickerBottomSheet";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -59,12 +60,17 @@ const Home = () => {
   return (
     <div className="p-4 pb-20 animate-fade-in">
 
+      <h1 className="text-2xl font-bold mb-6">Date Range Picker Examples</h1>
+      <Card className="p-6 space-y-4">
+        <DateRangePickerExample />
+      </Card>
+
       <h1 className="text-2xl font-bold mb-6">Calendar Examples</h1>
       <Card className="p-6 space-y-4">
         <h2>범위 선택</h2>
         <Calendar
           selected={dateRange}
-          
+
           onSelect={handleDateRange}
         />
       </Card>
@@ -530,5 +536,50 @@ const DialogExample2 = () => {
     </div>
   );
 };
+
+function DateRangePickerExample() {
+  const [open, setOpen] = useState(false)
+  const [dateRange, setDateRange] = useState<DateRange>()
+
+  const handleSelect = (range: DateRange) => {
+    setDateRange(range)
+    console.log('선택된 기간:', range)
+  }
+
+  const handleReset = () => {
+    setDateRange(undefined)
+  }
+
+  return (
+    <div>
+      <div className="flex flex-row gap-2">
+
+        <SolidButton
+          color="outline"
+          size="40"
+          onClick={() => handleReset()}
+          fullWidth
+        >
+          초기화
+        </SolidButton>
+        <SolidButton
+          color="primary"
+          size="40"
+          onClick={() => setOpen(true)}
+          fullWidth
+        >
+          기간 선택하기
+        </SolidButton>
+      </div>
+
+      <DateRangePickerBottomSheet
+        open={open}
+        onOpenChange={setOpen}
+        onSelect={handleSelect}
+        defaultValue={dateRange}
+      />
+    </div>
+  )
+}
 
 export default Home;
