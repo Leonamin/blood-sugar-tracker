@@ -16,6 +16,9 @@ import CircleStepIndicator from "@/components/ui/indicator/circle-step-indicator
 import SemiCircleStepIndicator from "@/components/ui/indicator/semi-circle-step-indicator";
 import Snackbar from "@/components/ui/overlay/snackbar/snackbar";
 import Dialog, { DialogProvider, useDialog } from "@/components/ui/overlay/dialog/dialog";
+import { Calendar } from '@/components/ui/calendar/calendar'
+import { addDays } from 'date-fns'
+import { DateRange } from "react-day-picker";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -31,15 +34,40 @@ const Home = () => {
   const [isChecked10, setIsChecked10] = useState(true);
 
   const [value, setValue] = useState('');
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [date, setDate] = useState<Date>()
+  const [dateRange, setDateRange] = useState<{
+    from: Date
+    to: Date
+  }>()
 
   const handleConfirm = () => {
     console.log('confirmed!');
   };
 
+  const handleDateRange = (range: DateRange | undefined) => {
+    console.log(range);
+    if (range) {
+      setDateRange({
+        from: range.from,
+        to: range.to,
+      });
+    }
+  }
+
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+
+      <h1 className="text-2xl font-bold mb-6">Calendar Examples</h1>
+      <Card className="p-6 space-y-4">
+        <h2>범위 선택</h2>
+        <Calendar
+          selected={dateRange}
+          
+          onSelect={handleDateRange}
+        />
+      </Card>
 
       <h1 className="text-2xl font-bold mb-6">Snackbar Examples</h1>
       <Card className="p-6 space-y-4">
@@ -435,6 +463,8 @@ const Home = () => {
           <DialogExample2 />
         </DialogProvider>
       </Card>
+
+
     </div>
   );
 };
@@ -459,7 +489,7 @@ const DialogExample1 = () => {
       >
         <div className="flex flex-row w-full gap-2">
           <Dialog.Button label="취소" className="w-full" />
-          <Dialog.Button label="확인" color="primary" className="w-full" 
+          <Dialog.Button label="확인" color="primary" className="w-full"
             onClick={() => {
               alert('확인');
             }}
@@ -489,7 +519,7 @@ const DialogExample2 = () => {
         className="max-w-[320px]"
       >
         <div className="flex flex-col gap-2">
-          <Dialog.Button label="확인" color="primary" className="w-full" 
+          <Dialog.Button label="확인" color="primary" className="w-full"
             onClick={() => {
               alert('확인');
             }}
