@@ -16,7 +16,7 @@ import CircleStepIndicator from "@/components/ui/indicator/circle-step-indicator
 import SemiCircleStepIndicator from "@/components/ui/indicator/semi-circle-step-indicator";
 import Snackbar from "@/components/ui/overlay/snackbar/snackbar";
 import Dialog, { DialogProvider, useDialog } from "@/components/ui/overlay/dialog/dialog";
-import { Calendar } from '@/components/ui/calendar/calendar'
+import { Calendar } from '@/components/ui/calendar/RangeCalendar';
 import { addDays } from 'date-fns'
 import { DateRange } from "react-day-picker";
 

@@ -6,14 +6,6 @@ import { cn } from '@/lib/utils'
 import { IconCalendar, IconChevronLeft, IconChevronRight } from '@/components/icons'
 import { useElementSize } from '@/hooks/useElementSIze';
 
-interface RangeCalendarContext {
-    from: Date | null;
-    to: Date | null;
-    setDateRange: (
-        range: DateRange | undefined,
-        selectedDay: Date,
-    ) => void;
-}
 
 export type CalendarProps = {
     className?: string
@@ -33,6 +25,13 @@ export function Calendar({
     const cellSize = Math.floor((width - 24) / 7);
 
     const sizeStyle = width ? `w-[${cellSize}px] min-h-[${cellSize}px]` : 'w-9 min-h-9';
+
+    const isTodayInRange = (date: Date) => {
+        if (!selected) return false;
+        return isWithinInterval(date, { start: selected.from, end: selected.to });
+    }
+
+    const today = new Date();
 
     return (
 
@@ -70,21 +69,22 @@ export function Calendar({
                 ),
                 button: cn(
                     'hover:bg-green-400 dark:hover:bg-green-200',
+                    'cursor-pointer',
                 ),
                 day_range_start: cn(
-                    'color-bg-secondary rounded-l-full !important',
+                    'color-text-primary color-bg-secondary rounded-l-full !important',
                     sizeStyle,
                 ),
                 day_range_middle: cn(
-                    'color-bg-secondary rounded-none !important',
+                    'color-text-primary color-bg-secondary rounded-none !important',
                     sizeStyle,
                 ),
                 day_range_end: cn(
-                    'color-bg-secondary rounded-r-full !important',
+                    'color-text-primary color-bg-secondary rounded-r-full !important',
                     sizeStyle,
                 ),
                 day_today: cn(
-                    'color-bg-info-subtle color-text-info',
+                    !isTodayInRange(today) && 'color-bg-info-subtle color-text-info rounded-full',
                     sizeStyle,
                 ),
                 cell: cn(
@@ -101,7 +101,6 @@ export function Calendar({
                         {format(props.displayMonth, 'yyyy.MM')}
                     </div>,
                 // Day: (props: DayProps) => <CustomDay {...props} sizeStyle={sizeStyle} />,
-                DayContent: (props: DayContentProps) => <CustomDay {...props} sizeStyle={sizeStyle} />,
             }}
         />
     )
