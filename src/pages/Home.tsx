@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { ToggleButton } from "@/components/ui/button/toggle-button";
 import Chip from "@/components/ui/chip/chip";
-import { IconChevronRight, IconChevronLeft, IconPlus,  } from "@/components/icons";
+import { IconChevronRight, IconChevronLeft, IconPlus, } from "@/components/icons";
 import SolidButton from "@/components/ui/button/solid-button";
 import Tag from "@/components/ui/tag/tag";
 import { CheckBox } from "@/components/ui/button/check-box";
@@ -12,6 +12,8 @@ import GraphicIconDanger from "@/components/graphic-icons/GraphicIconDanger";
 import GraphicIconInfo from "@/components/graphic-icons/GraphicIconInfo";
 import GraphicIconSuccess from "@/components/graphic-icons/GraphicIconSuccess";
 import GraphicIconWarning from "@/components/graphic-icons/GraphicIconWarning";
+import CircleStepIndicator from "@/components/ui/indicator/circle-step-indicator";
+import SemiCircleStepIndicator from "@/components/ui/indicator/semi-circle-step-indicator";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -31,6 +33,26 @@ const Home = () => {
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+
+      <h1 className="text-2xl font-bold mb-6">Semi Circle Step Indicator Examples</h1>
+      <Card className="p-6 space-y-4">
+        <div className="flex flex-col items-center gap-4">
+          <SemiCircleStepIndicator step={1} />
+          <SemiCircleStepIndicator step={2} />
+          <SemiCircleStepIndicator step={3} />
+          <SemiCircleStepIndicator step={4} />
+        </div>
+      </Card>
+
+      <h1 className="text-2xl font-bold mb-6">Circle Step Indicator Examples</h1>
+      <Card className="p-6 space-y-4">
+        <div className="flex items-center gap-4">
+          <CircleStepIndicator step={1} />
+          <CircleStepIndicator step={2} />
+          <CircleStepIndicator step={3} />
+          <CircleStepIndicator step={4} />
+        </div>
+      </Card>
 
       <h1 className="text-2xl font-bold mb-6">Graphic Icon Examples</h1>
       <Card className="p-6 space-y-4">
@@ -119,7 +141,7 @@ const Home = () => {
             <SolidButton
               color="primary"
               size="40"
-              prefixIcon={<IconPlus />} 
+              prefixIcon={<IconPlus />}
             >버튼</SolidButton>
           </div>
         </div>
@@ -128,7 +150,7 @@ const Home = () => {
             <SolidButton
               color="secondary"
               size="40"
-              prefixIcon={<IconPlus />} 
+              prefixIcon={<IconPlus />}
             >버튼</SolidButton>
           </div>
         </div>
@@ -137,7 +159,7 @@ const Home = () => {
             <SolidButton
               color="outline"
               size="40"
-              prefixIcon={<IconPlus />} 
+              prefixIcon={<IconPlus />}
             >버튼</SolidButton>
           </div>
         </div>
@@ -146,7 +168,7 @@ const Home = () => {
             <SolidButton
               color="error"
               size="40"
-              prefixIcon={<IconPlus />} 
+              prefixIcon={<IconPlus />}
             >버튼</SolidButton>
           </div>
         </div>
@@ -155,7 +177,7 @@ const Home = () => {
             <SolidButton
               color="tertiary"
               size="40"
-              prefixIcon={<IconPlus />} 
+              prefixIcon={<IconPlus />}
             >버튼</SolidButton>
           </div>
         </div>

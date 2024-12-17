@@ -305,3 +305,69 @@
 .color-icon-orange {
   @apply text-orange-500 dark:text-orange-300;
 }
+
+/* Fill Colors */
+
+.color-fill-brand {
+  @apply fill-indigo-500 dark:fill-indigo-300;
+}
+
+.color-fill-brand-hover {
+  @apply hover:fill-indigo-700 dark:hover:fill-indigo-400;
+}
+
+.color-fill-primary {
+  @apply fill-gray-900 dark:fill-white;
+}
+
+.color-fill-primary-hover {
+  @apply hover:fill-base-black dark:hover:fill-base-white;
+}
+
+.color-fill-secondary {
+  @apply fill-gray-700 dark:fill-gray-200;
+}
+
+.color-fill-secondary-hover {
+  @apply hover:fill-gray-800 dark:hover:fill-gray-100;
+}
+
+.color-fill-tertiary {
+  @apply fill-gray-600 dark:fill-gray-300;
+}
+
+.color-fill-tertiary-hover {
+  @apply hover:fill-gray-700 dark:hover:fill-gray-200;
+}
+
+.color-fill-disabled {
+  @apply fill-gray-300 dark:fill-gray-400;
+}
+
+.color-fill-inverse {
+  @apply fill-base-white dark:fill-base-black;
+}
+
+.color-fill-danger {
+  @apply fill-red-500 dark:fill-red-300;
+}
+
+.color-fill-danger-bold {
+  @apply fill-red-700 dark:fill-red-400;
+}
+
+.color-fill-info {
+  @apply fill-indigo-500 dark:fill-indigo-400;
+}
+
+.color-fill-warning {
+  @apply fill-yellow-500 dark:fill-yellow-200;
+}
+
+.color-fill-success {
+  @apply fill-green-400 dark:fill-green-200;
+}
+
+.color-fill-orange {
+  @apply fill-orange-500 dark:fill-orange-300;
+}
