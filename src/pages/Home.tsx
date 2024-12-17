@@ -14,6 +14,7 @@ import GraphicIconSuccess from "@/components/graphic-icons/GraphicIconSuccess";
 import GraphicIconWarning from "@/components/graphic-icons/GraphicIconWarning";
 import CircleStepIndicator from "@/components/ui/indicator/circle-step-indicator";
 import SemiCircleStepIndicator from "@/components/ui/indicator/semi-circle-step-indicator";
+import Snackbar from "@/components/ui/overlay/snackbar/snackbar";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -33,6 +34,17 @@ const Home = () => {
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+
+      <h1 className="text-2xl font-bold mb-6">Snackbar Examples</h1>
+      <Card className="p-6 space-y-4">
+        <div className="flex flex-col items-center gap-4">
+          <Snackbar type="success" message="성공" description="성공 메시지" />
+          <Snackbar type="warning" message="경고" description="경고 메시지" />
+          <Snackbar type="error" message="에러" description="에러 메시지" />
+          <Snackbar type="info" message="정보" description="정보 메시지" />
+        </div>
+      </Card>
+
 
       <h1 className="text-2xl font-bold mb-6">Semi Circle Step Indicator Examples</h1>
       <Card className="p-6 space-y-4">
