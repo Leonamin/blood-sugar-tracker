@@ -28,7 +28,7 @@ export function Calendar({
 
     const isTodayInRange = (date: Date) => {
         if (!selected) return false;
-        return isWithinInterval(date, { start: selected.from, end: selected.to });
+        return isWithinInterval(date, { start: selected.from, end: selected.to }) || isSameDay(date, selected.from) || isSameDay(date, selected.to);
     }
 
     const today = new Date();
