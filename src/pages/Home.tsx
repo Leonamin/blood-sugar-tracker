@@ -429,14 +429,17 @@ const Home = () => {
       <h1 className="text-2xl font-bold mb-6">Dialog Examples</h1>
       <Card className="p-6 space-y-4">
         <DialogProvider onConfirm={handleConfirm}>
-          <DialogExample />
+          <DialogExample1 />
+        </DialogProvider>
+        <DialogProvider onConfirm={handleConfirm}>
+          <DialogExample2 />
         </DialogProvider>
       </Card>
     </div>
   );
 };
 
-const DialogExample = () => {
+const DialogExample1 = () => {
   const { open } = useDialog();
 
   return (
@@ -446,12 +449,13 @@ const DialogExample = () => {
         size="40"
         onClick={open}
       >
-        다이얼로그 열기
+        다이얼로그 열기(가로 배치)
       </SolidButton>
 
       <Dialog
         title="타이틀"
         description="설명 텍스트가 들어갑니다"
+        className="max-w-[320px]"
       >
         <div className="flex flex-row w-full gap-2">
           <Dialog.Button label="취소" className="w-full" />
@@ -460,6 +464,37 @@ const DialogExample = () => {
               alert('확인');
             }}
           />
+        </div>
+      </Dialog>
+    </div>
+  );
+};
+
+const DialogExample2 = () => {
+  const { open } = useDialog();
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <SolidButton
+        color="primary"
+        size="40"
+        onClick={open}
+      >
+        다이얼로그 열기(세로 배치)
+      </SolidButton>
+
+      <Dialog
+        title="타이틀"
+        description="설명 텍스트가 들어갑니다"
+        className="max-w-[320px]"
+      >
+        <div className="flex flex-col gap-2">
+          <Dialog.Button label="확인" color="primary" className="w-full" 
+            onClick={() => {
+              alert('확인');
+            }}
+          />
+          <Dialog.Button label="취소" className="w-full" />
         </div>
       </Dialog>
     </div>
