@@ -22,6 +22,7 @@ import { DateRangePickerBottomSheet } from "@/components/ui/picker/DateRangePick
 import { DropdownData } from "@/components/ui/dropdown/dropdown";
 import { ChipDropdown } from "@/components/ui/dropdown/chip-dropdown";
 import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider } from "@/components/ui/calendar/MonthlyCalendar";
+import Badge from "@/components/ui/badge/badge";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -480,6 +481,109 @@ const Home = () => {
         <DialogProvider onConfirm={handleConfirm}>
           <DialogExample2 />
         </DialogProvider>
+      </Card>
+
+      <h1 className="text-2xl font-bold mb-6">Badge Examples</h1>
+      <Card className="p-6 space-y-8">
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Size Variants</h2>
+          <div className="flex items-center gap-8">
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge color="brand" size="small" />
+            </div>
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge color="brand" size="medium" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Color Variants</h2>
+          <div className="flex items-center gap-8">
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge color="brand" />
+            </div>
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge color="success" />
+            </div>
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge color="warning" />
+            </div>
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge color="danger" />
+            </div>
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge color="black" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Position Variants</h2>
+          <div className="grid grid-cols-3 gap-8">
+            <div className="relative">
+              <div className="w-full h-8 bg-gray-200 rounded-full" />
+              <Badge position="top-left" />
+            </div>
+            <div className="relative">
+              <div className="w-full h-8 bg-gray-200 rounded-full" />
+              <Badge position="top-center" />
+            </div>
+            <div className="relative">
+              <div className="w-full h-8 bg-gray-200 rounded-full" />
+              <Badge position="top-right" />
+            </div>
+            <div className="relative">
+              <div className="w-full h-8 bg-gray-200 rounded-full" />
+              <Badge position="center-left" />
+            </div>
+            <div className="relative">
+              <div className="w-full h-8 bg-gray-200 rounded-full" />
+              <Badge position="center" />
+            </div>
+            <div className="relative">
+              <div className="w-full h-8 bg-gray-200 rounded-full" />
+              <Badge position="center-right" />
+            </div>
+            <div className="relative">
+              <div className="w-full h-8 bg-gray-200 rounded-full" />
+              <Badge position="bottom-left" />
+            </div>
+            <div className="relative">
+              <div className="w-full h-8 bg-gray-200 rounded-full" />
+              <Badge position="bottom-center" />
+            </div>
+            <div className="relative">
+              <div className="w-full h-8 bg-gray-200 rounded-full" />
+              <Badge position="bottom-right" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Spacing Variants</h2>
+          <div className="flex items-center gap-8">
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge spacing={1} />
+            </div>
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge spacing={2} />
+            </div>
+            <div className="relative">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <Badge spacing={3} />
+            </div>
+          </div>
+        </div>
       </Card>
     </div>
   );
