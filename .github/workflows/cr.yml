@@ -27,12 +27,7 @@ jobs:
           max_tokens: 16384
           MAX_PATCH_LENGTH: 10000 # if the patch/diff length is large than MAX_PATCH_LENGTH, will be ignored and won't review. By default, with no MAX_PATCH_LENGTH set, there is also no limit for the patch/diff length.
           IGNORE_PATTERNS: /node_modules,*.md # glob pattern or regex pattern to ignore files, separated by comma
-          INCLUDE_PATTERNS:
-            - "*.js"
-            - "*.ts"
-            - "*.jsx"
-            - "*.tsx"
-            - "*.css"
+          INCLUDE_PATTERNS: "*.js,*.ts,*.jsx,*.tsx,*.css" # 파일 패턴을 쉼표로 구분된 문자열로 변경
 
           # IF you are using azure openai
           AZURE_API_VERSION: xx
