@@ -2,16 +2,16 @@ import { cn } from "@/lib/utils";
 
 type BadgeColor = "brand" | "success" | "warning" | "danger" | "black";
 type BadgeSize = "small" | "medium";
-type BadgePosition = 
-  | "top-left" 
-  | "top-center" 
-  | "top-right"
-  | "center-left" 
-  | "center" 
-  | "center-right"
-  | "bottom-left" 
-  | "bottom-center" 
-  | "bottom-right";
+type BadgePosition =
+    | "top-left"
+    | "top-center"
+    | "top-right"
+    | "center-left"
+    | "center"
+    | "center-right"
+    | "bottom-left"
+    | "bottom-center"
+    | "bottom-right";
 
 interface BadgeProps {
     color?: BadgeColor;
@@ -43,7 +43,7 @@ const Badge = ({
 
     const getPositionStyles = (position: BadgePosition, spacing: number) => {
         const spaceValue = `${spacing * 4}px`;
-        
+
         const positions = {
             "top-left": `top-[${spaceValue}] left-[${spaceValue}]`,
             "top-center": `top-[${spaceValue}] left-1/2 -translate-x-1/2`,
