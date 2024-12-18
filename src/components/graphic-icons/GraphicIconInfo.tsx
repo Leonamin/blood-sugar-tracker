@@ -1,4 +1,4 @@
-import type { IconProps } from "@/model/types/icon-propery";
+import type { IconProps } from "@/0_model/types/icon-propery";
 
 const GraphicIconInfo = ({ size = 24, ...props }: Omit<IconProps, "color">) => (
     <svg

@@ -1,4 +1,4 @@
-import type { IconProps } from "@/model/types/icon-propery";
+import type { IconProps } from "@/0_model/types/icon-propery";
 
 const SvgIconExclamationCircle = ({ size = 24, color = "currentColor", ...props }: IconProps) => (
   <svg

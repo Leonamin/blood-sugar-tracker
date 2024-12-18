@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { IconProps } from "@/model/types/icon-propery";
+import type { IconProps } from "@/0_model/types/icon-propery";
 
 const SvgIconChevronDown = ({ size = 24, color = "currentColor", className, ...props }: IconProps) => (
   <svg
