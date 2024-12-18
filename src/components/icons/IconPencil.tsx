@@ -6,7 +6,7 @@ interface IconPencilProps extends SVGProps<SVGSVGElement> {
   color?: string;
 }
 
-const SvgIconPencil = ({ size = 24, color = "#171717", ...props }: IconPencilProps) => (
+const SvgIconPencil = ({ size = 24, color = "currentColor", ...props }: IconPencilProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}

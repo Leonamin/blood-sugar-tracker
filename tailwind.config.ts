@@ -45,6 +45,306 @@ export default {
           black: "#000000",
           white: "#FFFFFF",
         },
+        // Brand
+        'brand-icon': {
+          DEFAULT: '#6366F1',
+          dark: '#A5B4FC'
+        },
+        'brand-icon-hover': {
+          DEFAULT: '#4338CA',
+          dark: '#818CF8'
+        },
+        'brand-text': {
+          DEFAULT: '#6366F1',
+          dark: '#A5B4FC'
+        },
+        'brand-text-hover': {
+          DEFAULT: '#4338CA',
+          dark: '#818CF8'
+        },
+        'brand-bg': {
+          DEFAULT: '#6366F1',
+          dark: '#A5B4FC'
+        },
+        'brand-bg-hover': {
+          DEFAULT: '#4338CA',
+          dark: '#818CF8'
+        },
+        'brand-bg-subtle': {
+          DEFAULT: '#EEF2FF',
+          dark: '#4F46E5'
+        },
+        // Primary
+        'primary-icon': {
+          DEFAULT: '#171717',
+          dark: '#FFFFFF'
+        },
+        'primary-icon-hover': {
+          DEFAULT: '#000000',
+          dark: '#FFFFFF'
+        },
+        'primary-text': {
+          DEFAULT: '#111827',
+          dark: '#FFFFFF'
+        },
+        'primary-text-hover': {
+          DEFAULT: '#000000',
+          dark: '#FFFFFF'
+        },
+        'primary-bg': {
+          DEFAULT: '#FAFAFA',
+          dark: '#000000'
+        },
+        'primary-bg-hover': {
+          DEFAULT: '#F5F5F5',
+          dark: '#262626'
+        },
+        'primary-border': {
+          DEFAULT: '#D4D4D4',
+          dark: '#404040'
+        },
+        'primary-border-hover': {
+          DEFAULT: '#A3A3A3',
+          dark: '#525252'
+        },
+        // Secondary
+        'secondary-icon': {
+          DEFAULT: '#404040',
+          dark: '#E5E5E5'
+        },
+        'secondary-icon-hover': {
+          DEFAULT: '#262626',
+          dark: '#F5F5F5'
+        },
+        'secondary-text': {
+          DEFAULT: '#404040',
+          dark: '#E5E5E5'
+        },
+        'secondary-text-hover': {
+          DEFAULT: '#262626',
+          dark: '#F5F5F5'
+        },
+        'secondary-bg': {
+          DEFAULT: '#2DD4BF',
+          dark: '#99F6E4'
+        },
+        'secondary-bg-hover': {
+          DEFAULT: '#0F766E',
+          dark: '#5EEAD4'
+        },
+        'secondary-border': {
+          DEFAULT: '#404040',
+          dark: '#E5E5E5'
+        },
+        // Tertiary
+        'tertiary-text': {
+          DEFAULT: '#525252',
+          dark: '#D4D4D4'
+        },
+        'tertiary-text-hover': {
+          DEFAULT: '#404040',
+          dark: '#E5E5E5'
+        },
+        'tertiary-bg': {
+          DEFAULT: '#404040',
+          dark: '#FAFAFA'
+        },
+        'tertiary-bg-hover': {
+          DEFAULT: '#262626',
+          dark: '#E5E5E5'
+        },
+        // Disabled
+        'disabled-text': {
+          DEFAULT: '#A3A3A3',
+          dark: '#737373'
+        },
+        'disabled-bg': {
+          DEFAULT: '#D4D4D4',
+          dark: '#D4D4D4'
+        },
+        'disabled-border': {
+          DEFAULT: '#737373',
+          dark: '#737373'
+        },
+        // Inverse
+        'inverse-text': {
+          DEFAULT: '#FFFFFF',
+          dark: '#000000'
+        },
+        'inverse-bg': {
+          DEFAULT: '#FFFFFF',
+          dark: '#171717'
+        },
+        // Danger
+        'danger-icon': {
+          DEFAULT: '#F43F5E',
+          dark: '#FDA4AF'
+        },
+        'danger-icon-bold': {
+          DEFAULT: '#BE123C',
+          dark: '#FB7185'
+        },
+        'danger-text': {
+          DEFAULT: '#F43F5E',
+          dark: '#FDA4AF'
+        },
+        'danger-text-bold': {
+          DEFAULT: '#BE123C',
+          dark: '#FB7185'
+        },
+        'danger-bg': {
+          DEFAULT: '#F43F5E',
+          dark: '#FDA4AF'
+        },
+        'danger-bg-bold': {
+          DEFAULT: '#BE123C',
+          dark: '#FB7185'
+        },
+        'danger-bg-subtle': {
+          DEFAULT: '#FFF1F2',
+          dark: '#9F1239'
+        },
+        'danger-border': {
+          DEFAULT: '#F43F5E',
+          dark: '#FDA4AF'
+        },
+        'danger-border-subtle': {
+          DEFAULT: '#FFF1F2',
+          dark: '#9F1239'
+        },
+        // Info
+        'info-icon': {
+          DEFAULT: '#6366F1',
+          dark: '#C7D2FE'
+        },
+        'info-icon-bold': {
+          DEFAULT: '#4338CA',
+          dark: '#A5B4FC'
+        },
+        'info-text': {
+          DEFAULT: '#6366F1',
+          dark: '#C7D2FE'
+        },
+        'info-text-bold': {
+          DEFAULT: '#4338CA',
+          dark: '#A5B4FC'
+        },
+        'info-bg': {
+          DEFAULT: '#6366F1',
+          dark: '#818CF8'
+        },
+        'info-bg-subtle': {
+          DEFAULT: '#EEF2FF',
+          dark: '#3730A3'
+        },
+        'info-border': {
+          DEFAULT: '#6366F1',
+          dark: '#818CF8'
+        },
+        'info-border-subtle': {
+          DEFAULT: '#EEF2FF',
+          dark: '#3730A3'
+        },
+        // Warning
+        'warning-icon': {
+          DEFAULT: '#EAB308',
+          dark: '#FEF08A'
+        },
+        'warning-icon-bold': {
+          DEFAULT: '#854D0E',
+          dark: '#FACC15'
+        },
+        'warning-text': {
+          DEFAULT: '#EAB308',
+          dark: '#FEF08A'
+        },
+        'warning-text-bold': {
+          DEFAULT: '#854D0E',
+          dark: '#FACC15'
+        },
+        'warning-bg': {
+          DEFAULT: '#EAB308',
+          dark: '#CA8A04'
+        },
+        'warning-bg-subtle': {
+          DEFAULT: '#FEFCE8',
+          dark: '#854D0E'
+        },
+        'warning-border': {
+          DEFAULT: '#EAB308',
+          dark: '#FEF08A'
+        },
+        'warning-border-subtle': {
+          DEFAULT: '#FEFCE8',
+          dark: '#854D0E'
+        },
+        // Success
+        'success-icon': {
+          DEFAULT: '#2DD4BF',
+          dark: '#99F6E4'
+        },
+        'success-icon-bold': {
+          DEFAULT: '#0F766E',
+          dark: '#5EEAD4'
+        },
+        'success-text': {
+          DEFAULT: '#2DD4BF',
+          dark: '#99F6E4'
+        },
+        'success-text-bold': {
+          DEFAULT: '#0F766E',
+          dark: '#5EEAD4'
+        },
+        'success-bg': {
+          DEFAULT: '#2DD4BF',
+          dark: '#99F6E4'
+        },
+        'success-bg-subtle': {
+          DEFAULT: '#F0FDFA',
+          dark: '#0F766E'
+        },
+        'success-border': {
+          DEFAULT: '#2DD4BF',
+          dark: '#5EEAD4'
+        },
+        'success-border-subtle': {
+          DEFAULT: '#F0FDFA',
+          dark: '#115E59'
+        },
+        // Orange
+        'orange-icon': {
+          DEFAULT: '#F97316',
+          dark: '#FDBA74'
+        },
+        'orange-icon-bold': {
+          DEFAULT: '#C2410C',
+          dark: '#FB923C'
+        },
+        'orange-text': {
+          DEFAULT: '#F97316',
+          dark: '#FDBA74'
+        },
+        'orange-text-bold': {
+          DEFAULT: '#C2410C',
+          dark: '#FB923C'
+        },
+        'orange-bg': {
+          DEFAULT: '#F97316',
+          dark: '#FDBA74'
+        },
+        'orange-bg-subtle': {
+          DEFAULT: '#FFF7ED',
+          dark: '#9A3412'
+        },
+        'orange-border': {
+          DEFAULT: '#F97316',
+          dark: '#FDBA74'
+        },
+        'orange-border-subtle': {
+          DEFAULT: '#FFF7ED',
+          dark: '#9A3412'
+        },
+        // Original color scales
         indigo: {
           50: "#EEF2FF",
           100: "#E0E7FF",
@@ -117,6 +417,9 @@ export default {
           800: "#9A3412",
           900: "#7C2D12",
         },
+      },
+      borderWidth: {
+        '1.5': '1.5px',
       },
       fontFamily: {
         pretendard: ["Pretendard", "sans-serif"],

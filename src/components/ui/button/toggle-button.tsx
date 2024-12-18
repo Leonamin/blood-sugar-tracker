@@ -45,6 +45,11 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
 
     const transformX = checked ? containerWidth - handleSize - containerPadding : containerPadding;
 
+    // styles
+
+    const bgStyle = checked ? "color-bg-secondary" : "color-bg-disabled hover:shadow-tertiaryShadow active:shadow-tertiaryShadow"
+    const shadowStyle = checked ? "hover:shadow-secondaryShadow active:shadow-secondaryShadow" : "hover:shadow-tertiaryShadow active:shadow-tertiaryShadow"
+
     return (
       <button
         type="button"
@@ -57,7 +62,8 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
         className={cn(
           "relative inline-flex items-center transition-colors",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-          checked ? "bg-secondary hover:shadow-secondaryShadow active:shadow-secondaryShadow" : "bg-disabled hover:shadow-tertiaryShadow active:shadow-tertiaryShadow",
+          bgStyle,
+          shadowStyle,
           disabled && "opacity-40 cursor-not-allowed",
           className
         )}
@@ -70,7 +76,8 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
       >
         <span
           className={cn(
-            "pointer-events-none block bg-inverse transform transition-transform",
+            "pointer-events-none block transform transition-transform",
+            "color-bg-inverse"
           )}
           style={{
             width: `${handleSize}px`,

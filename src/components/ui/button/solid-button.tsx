@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { ClassValue } from "clsx";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
 export type ButtonSize = "34" | "36" | "40" | "48";
@@ -22,12 +23,55 @@ const sizeStyles: Record<ButtonSize, string> = {
   "48": "px-4 py-3 text-body1m",
 };
 
-const colorStyles: Record<ButtonColor, string> = {
-  primary: "bg-brand text-white hover:bg-brand-hover disabled:opacity-40",
-  secondary: "bg-secondary text-white hover:bg-secondary-hover disabled:opacity-40",
-  outline: "bg-inverse border border-primary text-primary hover:border-primary-hover disabled:opacity-40",
-  error: "bg-danger text-white hover:bg-danger-bold disabled:opacity-40",
-  tertiary: "bg-tertiary text-white hover:bg-tertiary-hover disabled:opacity-40",
+interface ColorApplyProps {
+  bg: ClassValue;
+  hover: ClassValue;
+  text: ClassValue;
+}
+
+
+const colorStyles: Record<ButtonColor, ColorApplyProps> = {
+  primary: {
+    bg: "color-bg-brand",
+    text: "color-text-inverse",
+    hover: "color-bg-brand-hover"
+  },
+  secondary: {
+    bg: "color-bg-secondary",
+    text: "color-text-inverse",
+    hover: "color-bg-secondary-hover"
+  },
+  outline: {
+    bg: "color-bg-inverse border border-primary",
+    text: "color-text-primary-hover",
+    hover: "color-bg-primary-hover"
+  },
+  error: {
+    bg: "color-bg-danger",
+    text: "color-text-inverse",
+    hover: "color-bg-danger-hover"
+  },
+  tertiary: {
+    bg: "color-bg-tertiary",
+    text: "color-text-inverse",
+    hover: "color-bg-tertiary-hover"
+  }
+};
+
+const shadowStyles: Record<ButtonColor, string> = {
+  primary: "hover:shadow-primaryShadow",
+  secondary: "hover:shadow-secondaryShadow",
+  outline: "hover:shadow-tertiaryShadow",
+  error: "hover:shadow-dangerShadow",
+  tertiary: "hover:shadow-tertiaryShadow",
+};
+
+const disabledStyles: Record<ButtonColor, string> = {
+  primary: "disabled:opacity-40",
+  secondary: "disabled:opacity-40",
+  outline: "disabled:opacity-40",
+  error: "disabled:opacity-40",
+  tertiary: "disabled:opacity-40",
 };
 
 const borderRadiusStyles: Record<ButtonRadius, string> = {
@@ -66,11 +110,11 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
     const prefixIconElement =
       <>
         {prefixIcon ? (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          <span className={cn("flex items-center", colorStyles[color].text)} style={{ width: iconSizes[size], height: iconSizes[size] }}>
             {prefixIcon}
           </span>
         ) : fullWidth ? (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          <span className={cn("flex items-center", colorStyles[color].text)} style={{ width: iconSizes[size], height: iconSizes[size] }}>
           </span>
         ) : null}
       </>;
@@ -78,11 +122,11 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
     const suffixIconElement =
       <>
         {suffixIcon ? (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          <span className={cn("flex items-center", colorStyles[color].text)} style={{ width: iconSizes[size], height: iconSizes[size] }}>
             {suffixIcon}
           </span>
         ) : fullWidth ? (
-          <span className="flex items-center" style={{ width: iconSizes[size], height: iconSizes[size] }}>
+          <span className={cn("flex items-center", colorStyles[color].text)} style={{ width: iconSizes[size], height: iconSizes[size] }}>
           </span>
         ) : null}
       </>;
@@ -96,7 +140,10 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
             ? "justify-between px-6"
             : "justify-center gap-2",
           sizeStyles[size],
-          colorStyles[color],
+          colorStyles[color].bg,
+          colorStyles[color].hover,
+          shadowStyles[color],
+          disabledStyles[color],
           borderRadiusStyles[borderRadius],
           fullWidth && "w-full",
           className
@@ -105,7 +152,7 @@ const SolidButton = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {prefixIconElement}
-        <span className="flex-1 text-center">{children}</span>
+        <span className={cn("flex-1 text-center", colorStyles[color].text)}>{children}</span>
         {suffixIconElement}
       </button>
     );

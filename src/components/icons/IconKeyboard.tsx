@@ -8,7 +8,7 @@ interface IconKeyboardProps extends SVGProps<SVGSVGElement> {
 
 const SvgIconKeyboard = ({
   size = 24,
-  color = "#171717",
+  color = "currentColor",
   ...props
 }: IconKeyboardProps) => (
   <svg

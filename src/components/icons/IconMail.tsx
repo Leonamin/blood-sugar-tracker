@@ -6,7 +6,7 @@ interface IconMailProps extends SVGProps<SVGSVGElement> {
   color?: string;
 }
 
-const SvgIconMail = ({ size = 24, color = "#171717", ...props }: IconMailProps) => (
+const SvgIconMail = ({ size = 24, color = "currentColor", ...props }: IconMailProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}

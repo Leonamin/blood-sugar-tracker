@@ -65,3 +65,12 @@ export { default as IconUser } from "./IconUser";
 export { default as IconWheelDriveFront } from "./IconWheelDriveFront";
 export { default as IconWorld } from "./IconWorld";
 export { default as IconAlertOctagon } from "./IconAlertOctagon";
+
+export { default as IconNavHome } from "./nav/IconNavHome";
+export { default as IconNavHomeFill } from "./nav/IconNavHomeFill";
+export { default as IconNavCalendar } from "./nav/IconNavCalendar";
+export { default as IconNavCalendarFill } from "./nav/IconNavCalendarFill";
+export { default as IconNavStatistics } from "./nav/IconNavStatistics";
+export { default as IconNavStatisticsFill } from "./nav/IconNavStatisticsFill";
+export { default as IconNavSettings } from "./nav/IconNavSettings";
+export { default as IconNavSettingsFill } from "./nav/IconNavSettingsFill";

@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import { ToggleButton } from "@/components/ui/button/toggle-button";
 
 const Settings = () => {
   const { theme, setTheme } = useTheme();
@@ -20,7 +20,7 @@ const Settings = () => {
             <span>다크 모드</span>
             <Moon className="h-4 w-4" />
           </div>
-          <Switch
+          <ToggleButton
             checked={theme === "dark"}
             onCheckedChange={toggleTheme}
             aria-label="Toggle dark mode"

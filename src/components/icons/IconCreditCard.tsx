@@ -8,7 +8,7 @@ interface IconProps extends SVGProps<SVGSVGElement> {
 
 const SvgIconCreditCard = ({
   size = 24,
-  color = "#171717",
+  color = "currentColor",
   ...props
 }: IconProps) => (
   <svg

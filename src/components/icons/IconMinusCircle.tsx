@@ -6,7 +6,7 @@ interface IconMinusCircleProps extends SVGProps<SVGSVGElement> {
   color?: string;
 }
 
-const SvgIconMinusCircle = ({ size = 24, color = "#171717", ...props }: IconMinusCircleProps) => (
+const SvgIconMinusCircle = ({ size = 24, color = "currentColor", ...props }: IconMinusCircleProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}

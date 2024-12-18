@@ -6,7 +6,7 @@ interface IconMailAltProps extends SVGProps<SVGSVGElement> {
   color?: string;
 }
 
-const SvgIconMailAlt = ({ size = 24, color = "#171717", ...props }: IconMailAltProps) => (
+const SvgIconMailAlt = ({ size = 24, color = "currentColor", ...props }: IconMailAltProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}

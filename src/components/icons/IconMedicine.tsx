@@ -6,7 +6,7 @@ interface IconMedicineProps extends SVGProps<SVGSVGElement> {
   color?: string;
 }
 
-const SvgIconMedicine = ({ size = 24, color = "#171717", ...props }: IconMedicineProps) => (
+const SvgIconMedicine = ({ size = 24, color = "currentColor", ...props }: IconMedicineProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
