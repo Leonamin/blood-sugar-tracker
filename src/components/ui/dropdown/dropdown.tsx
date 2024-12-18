@@ -37,7 +37,7 @@ export const Dropdown = ({
 
     return (
         <div className={cn("relative", className)} ref={dropdownRef}>
-            <div className="shadow-primaryShadow absolute top-full left-0 w-full mt-1 bg-white rounded-lg shadow-lg z-50">
+            <div className="shadow-shadow4 absolute top-full left-0 w-full mt-1 bg-white rounded-lg z-50">
                 {isOpen && (
                     <div className="py-1">
                         {data.map((item, index) => (
