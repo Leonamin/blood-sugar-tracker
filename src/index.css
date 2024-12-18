@@ -371,3 +371,16 @@
 .color-fill-orange {
   @apply fill-orange-500 dark:fill-orange-300;
 }
+
+/* Overlay backgrounds */
+.color-bg-overlay {
+  @apply bg-black/60 dark:bg-black/70;
+}
+
+.color-bg-overlay-light {
+  @apply bg-black/40 dark:bg-black/50;
+}
+
+.color-bg-overlay-heavy {
+  @apply bg-black/80 dark:bg-black/90;
+}

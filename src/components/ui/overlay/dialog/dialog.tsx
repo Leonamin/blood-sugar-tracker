@@ -99,7 +99,7 @@ const Dialog = ({
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-8">
             <div
-                className="fixed inset-0 bg-black/40"
+                className="fixed inset-0 color-bg-overlay"
                 onClick={close}
             />
 
