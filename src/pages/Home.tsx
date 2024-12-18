@@ -20,6 +20,8 @@ import { Calendar } from '@/components/ui/calendar/RangeCalendar';
 import { addDays } from 'date-fns'
 import { DateRange } from "react-day-picker";
 import { DateRangePickerBottomSheet } from "@/components/ui/picker/DateRangePickerBottomSheet";
+import { Dropdown, DropdownData } from "@/components/ui/dropdown/dropdown";
+import { ChipDropdown } from "@/components/ui/dropdown/chip-dropdown";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -59,6 +61,11 @@ const Home = () => {
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+
+      <h1 className="text-2xl font-bold mb-6">Dropdown Examples</h1>
+      <Card className="p-6 space-y-4">
+        <DropdownExample />
+      </Card>
 
       <h1 className="text-2xl font-bold mb-6">Date Range Picker Examples</h1>
       <Card className="p-6 space-y-4">
@@ -469,8 +476,6 @@ const Home = () => {
           <DialogExample2 />
         </DialogProvider>
       </Card>
-
-
     </div>
   );
 };
@@ -581,5 +586,37 @@ function DateRangePickerExample() {
     </div>
   )
 }
+
+const DropdownExample = () => {
+  const [selectedData, setSelectedData] = useState<DropdownData>();
+
+  const dropdownData: DropdownData[] = [
+    { label: "옵션 1", data: 1 },
+    { label: "옵션 2", data: 2 },
+    { label: "옵션 3", data: 3 },
+    { label: "옵션 4", data: 4 },
+    { label: "옵션 5", data: 5 },
+  ];
+
+  return (
+    <div className="flex flex-col gap-4">
+      <ChipDropdown
+        data={dropdownData}
+        selectedData={selectedData}
+        placeholder="선택해주세요"
+        onSelect={setSelectedData}
+        variant="brand"
+      />
+
+      <ChipDropdown
+        data={dropdownData}
+        selectedData={selectedData}
+        placeholder="선택해주세요"
+        onSelect={setSelectedData}
+        variant="brand-light"
+      />
+    </div>
+  );
+};
 
 export default Home;

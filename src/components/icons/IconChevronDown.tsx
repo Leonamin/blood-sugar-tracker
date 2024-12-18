@@ -1,6 +1,7 @@
+import { cn } from "@/lib/utils";
 import type { IconProps } from "@/model/types/icon-propery";
 
-const SvgIconChevronDown = ({ size = 24, color = "currentColor", ...props }: IconProps) => (
+const SvgIconChevronDown = ({ size = 24, color = "currentColor", className, ...props }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -8,6 +9,7 @@ const SvgIconChevronDown = ({ size = 24, color = "currentColor", ...props }: Ico
     fill={color}
     viewBox="0 0 24 24"
     {...props}
+    className={cn("transition-transform", className)}
   >
     <path
       fill={color}
