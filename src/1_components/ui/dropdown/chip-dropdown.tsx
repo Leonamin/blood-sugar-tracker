@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import Chip from "../chip/chip";
 import { ChipProps } from "../chip/chip";
-import { IconChevronDown } from "@/components/icons";
+import { IconChevronDown } from "@/1_components/icons";
 
 export interface DropdownData {
     label: string;

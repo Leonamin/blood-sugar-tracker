@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { addMonths, format, subMonths } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { IconChevronLeft, IconChevronRight } from '@/components/icons';
+import { IconChevronLeft, IconChevronRight } from '@/1_components/icons';
 import { ClassValue } from 'clsx';
 import SolidButton from '../button/solid-button';
 

@@ -1,9 +1,9 @@
-import GraphicIconSuccess from "@/components/graphic-icons/GraphicIconSuccess";
-import GraphicIconWarning from "@/components/graphic-icons/GraphicIconWarning";
-import GraphicIconDanger from "@/components/graphic-icons/GraphicIconDanger";
-import GraphicIconInfo from "@/components/graphic-icons/GraphicIconInfo";
+import GraphicIconSuccess from "@/1_components/graphic-icons/GraphicIconSuccess";
+import GraphicIconWarning from "@/1_components/graphic-icons/GraphicIconWarning";
+import GraphicIconDanger from "@/1_components/graphic-icons/GraphicIconDanger";
+import GraphicIconInfo from "@/1_components/graphic-icons/GraphicIconInfo";
 import { cn } from "@/lib/utils";
-import { IconBlock } from "@/components/icons";
+import { IconBlock } from "@/1_components/icons";
 
 export type SnackbarType = 'success' | 'warning' | 'error' | 'info';
 

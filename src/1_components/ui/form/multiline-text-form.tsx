@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
 import { useEffect, useRef } from "react";
-import { IconAlertOctagon, } from "@/components/icons";
+import { IconAlertOctagon, } from "@/1_components/icons";
 
 export interface MultilineTextFormProps extends React.HTMLAttributes<HTMLDivElement> {
     value: string;

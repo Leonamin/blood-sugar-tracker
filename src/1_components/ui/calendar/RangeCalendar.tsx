@@ -3,7 +3,7 @@ import "react-day-picker/dist/style.css";
 import { ko } from 'date-fns/locale'
 import { format, isSameDay, isToday, isWithinInterval } from 'date-fns'
 import { cn } from '@/lib/utils'
-import { IconCalendar, IconChevronLeft, IconChevronRight } from '@/components/icons'
+import { IconCalendar, IconChevronLeft, IconChevronRight } from '@/1_components/icons'
 import { useElementSize } from '@/hooks/useElementSIze';
 
 
