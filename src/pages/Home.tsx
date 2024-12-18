@@ -17,11 +17,11 @@ import SemiCircleStepIndicator from "@/components/ui/indicator/semi-circle-step-
 import Snackbar from "@/components/ui/overlay/snackbar/snackbar";
 import Dialog, { DialogProvider, useDialog } from "@/components/ui/overlay/dialog/dialog";
 import { Calendar } from '@/components/ui/calendar/RangeCalendar';
-import { addDays } from 'date-fns'
 import { DateRange } from "react-day-picker";
 import { DateRangePickerBottomSheet } from "@/components/ui/picker/DateRangePickerBottomSheet";
-import { Dropdown, DropdownData } from "@/components/ui/dropdown/dropdown";
+import { DropdownData } from "@/components/ui/dropdown/dropdown";
 import { ChipDropdown } from "@/components/ui/dropdown/chip-dropdown";
+import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider } from "@/components/ui/calendar/MonthlyCalendar";
 
 const Home = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -61,6 +61,11 @@ const Home = () => {
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+
+      <h1 className="text-2xl font-bold mb-6">Monthly Calendar Examples</h1>
+      <Card className="p-6 space-y-4">
+        <MonthlyCalendarExample />
+      </Card>
 
       <h1 className="text-2xl font-bold mb-6">Dropdown Examples</h1>
       <Card className="p-6 space-y-4">
@@ -616,6 +621,29 @@ const DropdownExample = () => {
         variant="brand-light"
       />
     </div>
+  );
+};
+
+const MonthlyCalendarExample = () => {
+  const [selectedDay, setSelectedDay] = useState<Date>(new Date());
+  const [focusedDay, setFocusedDay] = useState<Date>(new Date());
+
+  return (
+    <MonthlyCalendarProvider
+      selectedDay={selectedDay}
+      focusedDay={focusedDay}
+      setSelectedDay={setSelectedDay}
+      setFocusedDay={setFocusedDay}
+
+    >
+      <MonthlyCalendarHeader />
+      <MonthlyCalendar
+        selectedDay={selectedDay}
+        focusedDay={focusedDay}
+        setSelectedDay={setSelectedDay}
+        setFocusedDay={setFocusedDay}
+      />
+    </MonthlyCalendarProvider>
   );
 };
 
