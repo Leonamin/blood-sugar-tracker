@@ -56,7 +56,7 @@ export function DateRangePickerBottomSheet({
                 />
                 <DialogPrimitive.Content
                     className={cn(
-                        "color-bg-primary",
+                        "color-bg-primary rounded-t-32",
                         "fixed inset-x-0 bottom-0 z-50 w-full",
                         "data-[state=open]:animate-in data-[state=closed]:animate-out",
                         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
