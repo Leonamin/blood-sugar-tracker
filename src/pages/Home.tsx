@@ -1,9 +1,25 @@
+
+import React, { useEffect } from "react";
+import { useHome } from "@/5_viewmodels/home/useHome";
+
 const Home = () => {
+  const { bloodSugars, loading, fetchBloodSugars } = useHome();
+
+  useEffect(() => {
+    fetchBloodSugars();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
-    <div className="p-4 pb-20 animate-fade-in">
-      <h1 className="text-2xl font-bold mb-6">홈</h1>
-    </div>
+    <ul>
+      {bloodSugars.map((sugar) => (
+        <li key={sugar.uid}>
+          {sugar.value} {sugar.unit} (Recorded on: {sugar.recordedDate})
+        </li>
+      ))}
+    </ul>
   );
-};
+}
 
 export default Home;
