@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Stats from "./pages/Stats";
 import Settings from "./pages/Settings";
+import ComponentExamples from "@/pages/ComponentExamples";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/stats" element={<Stats />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/component-examples" element={<ComponentExamples />} />
             </Routes>
             <BottomNav />
           </div>
