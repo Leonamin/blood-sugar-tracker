@@ -4,7 +4,6 @@ import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
 import { RxDBMigrationSchemaPlugin } from "rxdb/plugins/migration-schema";
 import { bloodSugarSchema } from "./schemas/bloodSugarSchema";
-import { memoSchema } from "./schemas/memoSchema";
 
 addRxPlugin(RxDBMigrationSchemaPlugin);
 addRxPlugin(RxDBDevModePlugin); // 개발 시 유용한 플러그인
@@ -21,9 +20,6 @@ const createDatabase = async () => {
   await db.addCollections({
     bloodsugar: {
       schema: bloodSugarSchema,
-    },
-    memo: {
-      schema: memoSchema,
     },
   });
 

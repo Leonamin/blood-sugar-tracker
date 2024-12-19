@@ -23,13 +23,15 @@ export function useHome() {
     }
   };
 
-  const addBloodSugar = async (value: number) => {
+  const addBloodSugar = async (value: number, memo?: string) => {
     setLoading(true);
     try {
       await bloodSugarService.createBloodSugar({
         value,
         unit: "mg/dL",
-        recordedDate: new Date().toISOString(),
+        recordedAt: new Date().toISOString(),
+        recordedDate: new Date().toLocaleDateString('en-CA'),
+        memo,
       });
     } finally {
       setLoading(false);

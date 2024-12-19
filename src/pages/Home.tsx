@@ -22,7 +22,7 @@ const Home = () => {
     e.preventDefault();
     if (!value) return;
 
-    await addBloodSugar(parseInt(value));
+    await addBloodSugar(parseInt(value), memo);
     await fetchBloodSugars({
       from: dateToUnixTimestamp(startDate),
       to: dateToUnixTimestamp(endDate),
@@ -73,7 +73,7 @@ const Home = () => {
             <div>혈당: {sugar.value} {sugar.unit}</div>
             {sugar.memo && <div>메모: {sugar.memo}</div>}
             <div className="text-sm text-gray-500">
-              기록일시: {new Date(sugar.recordedDate).toLocaleString()}
+              기록일시: {new Date(sugar.recordedAt).toLocaleString()}
             </div>
           </li>
         ))}

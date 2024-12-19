@@ -12,7 +12,7 @@ export const bloodSugarSchema = {
     unit: { type: "string", enum: ["mmol/L", "mg/dL"] },
     recordedAt: { type: "string", format: "date-time" },
     recordedDate: { type: "string" },
-    memoUid: { type: ["string", "null"] },
+    memo: { type: "string", maxLength: 1000 },
   },
   required: [
     "uid",
@@ -30,7 +30,7 @@ export function readEntityToSchema(entity: BloodSugarReadEntity) {
     unit: entity.unit,
     recordedAt: entity.recordedAt,
     recordedDate: entity.recordedDate,
-    memoUid: entity.memoUid,
+    memo: entity.memo,
   };
 }
 
@@ -41,6 +41,6 @@ export function writeEntityToSchema(entity: BloodSugarWriteEntity) {
     unit: entity.unit,
     recordedAt: entity.recordedAt,
     recordedDate: entity.recordedDate,
-    memoUid: null,
+    memo: entity.memo,
   };
 }

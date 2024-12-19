@@ -15,7 +15,7 @@ interface BloodSugarModelProps {
   unit: BloodSugarUnit;
   recordedAt: UnixTimestamp;
   recordedDate: string;
-  memoUid?: string;
+  memo?: string;
 }
 
 /**
@@ -30,7 +30,7 @@ class BloodSugarModel {
   readonly unit: BloodSugarUnit;
   readonly recordedAt: UnixTimestamp;
   readonly recordedDate: string;
-  readonly memoUid?: string;
+  readonly memo: string;
 
   constructor(props: BloodSugarModelProps) {
     this.uid = props.uid;
@@ -38,7 +38,7 @@ class BloodSugarModel {
     this.unit = props.unit;
     this.recordedAt = props.recordedAt;
     this.recordedDate = props.recordedDate;
-    this.memoUid = props.memoUid;
+    this.memo = props.memo;
   }
 
   /**
@@ -65,7 +65,7 @@ interface BloodSugarWriteProps {
   unit?: BloodSugarUnit;
   recordedAt?: string;
   recordedDate?: string;
-  memoUid?: string;
+  memo?: string;
 }
 
 export type { BloodSugarModel, BloodSugarWriteProps };

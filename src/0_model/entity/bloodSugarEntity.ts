@@ -7,7 +7,7 @@ interface BloodSugarReadEntity {
   unit: BloodSugarUnit;
   recordedAt: string;
   recordedDate: string;
-  memoUid: string | undefined;
+  memo: string;
 }
 
 interface BloodSugarWriteEntity {
@@ -15,7 +15,7 @@ interface BloodSugarWriteEntity {
   unit?: BloodSugarUnit;
   recordedAt?: string;
   recordedDate?: string;
-  memoUid?: string;
+  memo?: string;
 }
 
 const writePropsToEntity = (props: BloodSugarWriteProps): BloodSugarWriteEntity => {
@@ -24,7 +24,7 @@ const writePropsToEntity = (props: BloodSugarWriteProps): BloodSugarWriteEntity 
     unit: props.unit,
     recordedAt: props.recordedAt,
     recordedDate: props.recordedDate,
-    memoUid: props.memoUid,
+    memo: props.memo,
   };
 };
 
