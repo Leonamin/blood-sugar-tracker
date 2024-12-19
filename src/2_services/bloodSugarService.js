@@ -1,6 +1,6 @@
 // services/bloodSugarService.js
-import { BloodSugarRepository } from "../repositories/bloodSugarRepository";
-import { BloodSugarAdapter } from "../adapters/localDB/bloodSugarAdapter";
+import { BloodSugarRepository } from "../3_repositories/bloodSugarRepository";
+import { BloodSugarAdapter } from "../4_db/adapters/localDB/bloodSugarAdapter";
 
 const bloodSugarRepo = new BloodSugarRepository(new BloodSugarAdapter());
 

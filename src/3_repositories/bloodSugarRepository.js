@@ -1,4 +1,3 @@
-// repositories/bloodSugarRepository.js
 export class BloodSugarRepository {
   constructor(adapter) {
     this.adapter = adapter;

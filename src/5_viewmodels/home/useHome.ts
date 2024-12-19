@@ -18,5 +18,14 @@ export function useHome() {
     }
   };
 
-  return { bloodSugars, loading, fetchBloodSugars };
+  const addBloodSugar = async (data) => {
+    setLoading(true);
+    try {
+      await bloodSugarService.addBloodSugar(data);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { bloodSugars, loading, fetchBloodSugars, addBloodSugar };
 }
