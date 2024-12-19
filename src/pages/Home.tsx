@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useHome } from "@/5_viewmodels/home/useHome";
 import SolidButton from "@/1_components/ui/button/solid-button";
+import { dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
 
 const Home = () => {
   const { bloodSugars, loading, fetchBloodSugars, addBloodSugar } = useHome();
   const [value, setValue] = useState("");
   const [memo, setMemo] = useState("");
 
+  const startDate = new Date(new Date().setDate(new Date().getDate() - 15));
+  const endDate = new Date(new Date().setDate(new Date().getDate() + 15));
+
   useEffect(() => {
-    fetchBloodSugars({});
+    fetchBloodSugars({
+      from: dateToUnixTimestamp(startDate),
+      to: dateToUnixTimestamp(endDate),
+    });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!value) return;
 
-    const newRecord = {
-      value: parseInt(value),
-      unit: "mg/dL",
-      memo: memo,
-      recordedDate: new Date().toISOString(),
-    };
-
-    await addBloodSugar(newRecord);
-    await fetchBloodSugars({});
+    await addBloodSugar(parseInt(value));
+    await fetchBloodSugars({
+      from: dateToUnixTimestamp(startDate),
+      to: dateToUnixTimestamp(endDate),
+    });
 
     // 입력 폼 초기화
     setValue("");
