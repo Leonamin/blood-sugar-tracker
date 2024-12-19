@@ -2,6 +2,7 @@ export type IndicatorStep = 1 | 2 | 3 | 4;
 
 export interface StepIndicatorProps {
     step: IndicatorStep;
+    children?: React.ReactNode;
 }
 
 function getActiveStyle(step: IndicatorStep): string {
@@ -61,11 +62,18 @@ const getStepPaths = (step: IndicatorStep) => {
     }));
 };
 
-const CircleStepIndicator = ({ step }: StepIndicatorProps): React.ReactNode => {
-    return <StepSvg
-        activeStyle={getActiveStyle(step)}
-        paths={getStepPaths(step)}
-    />;
+const CircleStepIndicator = ({ step, children }: StepIndicatorProps): React.ReactNode => {
+    return (
+        <div className="relative">
+            <StepSvg
+                activeStyle={getActiveStyle(step)}
+                paths={getStepPaths(step)}
+            />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                {children}
+            </div>
+        </div>
+    );
 };
 
 export default CircleStepIndicator;

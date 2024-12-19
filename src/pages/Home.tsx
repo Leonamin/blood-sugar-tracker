@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHome } from "@/5_viewmodels/home/useHome";
 import SolidButton from "@/1_components/ui/button/solid-button";
 import { dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
+import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 
 const Home = () => {
   const { bloodSugars, loading, fetchBloodSugars, addBloodSugar } = useHome();
@@ -36,7 +37,7 @@ const Home = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="p-4">
+    <div className="p-4 color-bg-primary pb-20">
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="space-y-4">
           <div>
@@ -66,15 +67,12 @@ const Home = () => {
           </SolidButton>
         </div>
       </form >
-
+      <span
+        className="text-body1sb color-text-primary py-2">내 기록</span>
       <ul className="space-y-2">
         {bloodSugars.map((sugar) => (
-          <li key={sugar.uid} className="border p-2 rounded">
-            <div>혈당: {sugar.value} {sugar.unit}</div>
-            {sugar.memo && <div>메모: {sugar.memo}</div>}
-            <div className="text-sm text-gray-500">
-              기록일시: {new Date(sugar.recordedAt).toLocaleString()}
-            </div>
+          <li key={sugar.uid}>
+            <BloodSugarRecordTile bloodSugar={sugar} />
           </li>
         ))}
       </ul>
