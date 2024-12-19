@@ -37,7 +37,7 @@ const Home = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="p-4 color-bg-primary pb-20">
+    <div className="p-4 color-bg-primary pb-20 min-h-screen">
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="space-y-4">
           <div>
@@ -67,15 +67,17 @@ const Home = () => {
           </SolidButton>
         </div>
       </form >
-      <span
-        className="text-body1sb color-text-primary py-2">내 기록</span>
-      <ul className="space-y-2">
-        {bloodSugars.map((sugar) => (
-          <li key={sugar.uid}>
-            <BloodSugarRecordTile bloodSugar={sugar} />
-          </li>
-        ))}
-      </ul>
+      {bloodSugars.length > 0 && <div>
+        <span
+          className="text-body1sb color-text-primary py-2">내 기록</span>
+        <ul className="space-y-2">
+          {bloodSugars.map((sugar) => (
+            <li key={sugar.uid}>
+              <BloodSugarRecordTile bloodSugar={sugar} />
+            </li>
+          ))}
+        </ul>
+      </div>}
     </div >
   );
 }
