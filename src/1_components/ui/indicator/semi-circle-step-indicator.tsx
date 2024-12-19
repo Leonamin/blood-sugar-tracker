@@ -1,4 +1,5 @@
-export type IndicatorStep = 1 | 2 | 3 | 4;
+import { IndicatorStep } from "@/0_model/types/indicatorStep";
+
 
 export interface StepIndicatorProps {
     step: IndicatorStep;

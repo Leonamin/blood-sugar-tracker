@@ -1,7 +1,8 @@
 import { BloodSugarModel } from "@/0_model/model/bloodSugarModel";
+import { IndicatorStep } from "@/0_model/types/indicatorStep";
 import { unixTimestampToDate } from "@/0_model/types/unixtimestamp";
 import { IconBlood, IconDotsHorizontal } from "@/1_components/icons";
-import CircleStepIndicator, { IndicatorStep } from "@/1_components/ui/indicator/circle-step-indicator";
+import CircleStepIndicator from "@/1_components/ui/indicator/circle-step-indicator";
 import Tag, { TagColorType } from "@/1_components/ui/tag/tag";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
