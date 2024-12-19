@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card } from "@/1_components/ui/card";
 
 const Calendar = () => {
   return (

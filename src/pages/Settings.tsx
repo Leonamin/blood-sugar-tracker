@@ -1,9 +1,9 @@
-import { Card } from "@/components/ui/card";
+import { Card } from "@/1_components/ui/card";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
-import { ToggleButton } from "@/components/ui/button/toggle-button";
+import { ToggleButton } from "@/1_components/ui/button/toggle-button";
 import { useNavigate } from "react-router-dom";
-import SolidButton from "@/components/ui/button/solid-button";
+import SolidButton from "@/1_components/ui/button/solid-button";
 
 const Settings = () => {
   const { theme, setTheme } = useTheme();

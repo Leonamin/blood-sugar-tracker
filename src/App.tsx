@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/1_components/ui/toaster";
+import { Toaster as Sonner } from "@/1_components/ui/sonner";
+import { TooltipProvider } from "@/1_components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
-import BottomNav from "./components/BottomNav";
+import BottomNav from "./1_components/BottomNav";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Stats from "./pages/Stats";
