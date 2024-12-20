@@ -4,6 +4,7 @@ import SolidButton from "@/1_components/ui/button/solid-button";
 import { dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
+import { IndicatorStep } from "@/0_model/types/indicatorStep";
 
 const Home = () => {
   const { bloodSugars, loading, fetchBloodSugars, addBloodSugar } = useHome();
@@ -35,23 +36,43 @@ const Home = () => {
     setMemo("");
   };
 
+  const maxValue = 400;
+  const minValue = 0;
+  const handleValueChange = (value: string) => {
+    const parsedValue = parseInt(value);
+    if (parsedValue > maxValue) {
+      setValue(maxValue.toString());
+    } else {
+      setValue(value);
+    }
+  }
+
+  const valueToStep = (value: number): IndicatorStep | undefined => {
+    if (value > 200) {
+      return 4;
+    } else if (value > 150) {
+      return 3;
+    } else if (value > 100) {
+      return 2;
+    } else if (value > 0) {
+      return 1;
+    }
+
+    return undefined;
+  }
+
   if (loading) return <div>Loading...</div>;
 
   return (
     <div className="p-4 color-bg-primary pb-20 min-h-screen">
-      <BloodSugarInputForm />
+
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="space-y-4">
-          <div>
-            <label className="block mb-2">혈당 (mg/dL)</label>
-            <input
-              type="number"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              className="border p-2 rounded"
-              placeholder="혈당 수치 입력"
-            />
-          </div>
+          <BloodSugarInputForm
+            value={value}
+            onChange={handleValueChange}
+            valueToStep={valueToStep}
+          />
           <div>
             <label className="block mb-2">메모</label>
             <textarea
