@@ -3,6 +3,7 @@ import { useHome } from "@/5_viewmodels/home/useHome";
 import SolidButton from "@/1_components/ui/button/solid-button";
 import { dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
+import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
 
 const Home = () => {
   const { bloodSugars, loading, fetchBloodSugars, addBloodSugar } = useHome();
@@ -38,6 +39,7 @@ const Home = () => {
 
   return (
     <div className="p-4 color-bg-primary pb-20 min-h-screen">
+      <BloodSugarInputForm />
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="space-y-4">
           <div>
