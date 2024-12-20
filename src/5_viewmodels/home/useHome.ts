@@ -17,6 +17,7 @@ export function useHome() {
         new Date(query.from),
         new Date(query.to),
       );
+      data.sort((a, b) => new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime());
       setBloodSugars(data);
     } finally {
       setLoading(false);
