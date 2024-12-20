@@ -7,6 +7,7 @@ export interface StepIndicatorProps {
 
 function getActiveStyle(step: IndicatorStep): string {
     const colorSet: Record<IndicatorStep, string> = {
+        0: 'color-fill-disabled',
         1: 'color-fill-brand',
         2: 'color-fill-success',
         3: 'color-fill-warning',
@@ -50,6 +51,7 @@ const commonPaths = [
 
 const getStepPaths = (step: IndicatorStep) => {
     const activeSegments: Record<IndicatorStep, number[]> = {
+        0: [],
         1: [0],
         2: [0, 1],
         3: [0, 1, 2],
