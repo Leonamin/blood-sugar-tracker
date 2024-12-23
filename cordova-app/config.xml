@@ -5,11 +5,14 @@
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
         Apache Cordova Team
     </author>
-    <!-- 실제 배포시 사용 -->
-    <!-- <content src="index.html" /> -->
-
-    <!-- 개발시 Hot Reload 사용 -->
-    <content src="http://localhost:8080" />
+    <preference name="WKWebViewOnly" value="true" />
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+    <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
+    </feature>
+    <feature name="CDVUIWebViewEngine">
+        <param name="ios-package" value="CDVUIWebViewEngine" onload="false" />
+    </feature>
 
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -20,9 +23,15 @@
     <allow-navigation href="http://*/*" />
     <access origin="*" />
     
-    <!-- Vite 프로젝트 설정 -->
-    <!-- <preference name="scheme" value="app" /> -->
+    <!-- 실제 배포시 사용 -->
+    <content src="index.html" />
+
     <!-- 개발시 Hot Reload 사용 -->
-    <preference name="scheme" value="http" />
+    <!-- <content src="http://localhost:8080" /> -->
+
+    <!-- Vite 프로젝트 설정 -->
+    <preference name="scheme" value="app" />
+    <!-- 개발시 Hot Reload 사용 -->
+    <!-- <preference name="scheme" value="http" /> -->
     <preference name="hostname" value="localhost" />
 </widget>

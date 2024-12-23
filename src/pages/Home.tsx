@@ -20,7 +20,7 @@ const Home = () => {
 
   const today = new Date();
 
-  // today를 2024-12-20 형식으로 변환
+  // today를 2024-12-20 형식으로 환
   const getFormattedDate = (date: Date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -91,7 +91,12 @@ const Home = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="p-4 color-bg-primary pb-20 min-h-screen">
+    <div 
+      className={cn(
+        "color-bg-primary min-h-screen",
+        "px-4",
+      )}
+    >
       <div className={cn(
         "flex items-center justify-between",
         "py-3 mb-3"
@@ -133,7 +138,7 @@ const Home = () => {
           ))}
         </ul>
       </div>}
-      <HomeKeyboardHeader onSave={() => handleSubmit} />
+      <HomeKeyboardHeader onSave={handleSubmit} memo={memo} />
     </div>
   );
 }

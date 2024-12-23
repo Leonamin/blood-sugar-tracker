@@ -384,3 +384,22 @@
 .color-bg-overlay-heavy {
   @apply bg-black/80 dark:bg-black/90;
 }
+
+:root {
+  --sat: env(safe-area-inset-top);
+  --sar: env(safe-area-inset-right);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
+}
+
+body {
+  padding: var(--sat) var(--sar) var(--sab) var(--sal);
+}
+
+.safe-area-top {
+  padding-top: var(--sat);
+}
+
+.safe-area-bottom {
+  padding-bottom: var(--sab);
+}

@@ -2,7 +2,6 @@ import SolidButton from '@/1_components/ui/button/solid-button';
 import MultilineTextForm from '@/1_components/ui/form/multiline-text-form';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import useDetectKeyboardOpen from "use-detect-keyboard-open";
 
 interface HomeKeyboardHeaderProps {
   memo?: string;
@@ -13,13 +12,36 @@ export default function HomeKeyboardHeader({
   memo,
   onSave,
 }: HomeKeyboardHeaderProps) {
-  const isKeyboardVisible = useDetectKeyboardOpen();
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [localMemo, setLocalMemo] = useState(memo);
   const [isMemoVisible, setIsMemoVisible] = useState(false);
 
   useEffect(() => {
     setLocalMemo(memo);
   }, [memo]);
+
+  useEffect(() => {
+    const handleKeyboardWillShow = (event: any) => {
+      setIsKeyboardVisible(true);
+      const safeAreaBottom = parseInt(getComputedStyle(document.documentElement)
+        .getPropertyValue('--ion-safe-area-bottom'), 10) || 0;
+      setKeyboardHeight(event.keyboardHeight + safeAreaBottom);
+    };
+
+    const handleKeyboardWillHide = () => {
+      setIsKeyboardVisible(false);
+      setKeyboardHeight(0);
+    };
+
+    document.addEventListener('keyboardWillShow', handleKeyboardWillShow);
+    document.addEventListener('keyboardWillHide', handleKeyboardWillHide);
+
+    return () => {
+      document.removeEventListener('keyboardWillShow', handleKeyboardWillShow);
+      document.removeEventListener('keyboardWillHide', handleKeyboardWillHide);
+    };
+  }, []);
 
   const handleClickMemo = () => {
     setIsMemoVisible(!isMemoVisible);
@@ -29,13 +51,19 @@ export default function HomeKeyboardHeader({
     <div
       className={twMerge(
         'fixed z-50 left-0 right-0 transition-all duration-300 ease-in-out',
-        'color-bg-inverse px-4 py-2',
+        'color-bg-inverse px-4',
         'shadow-shadow4',
         'flex flex-col gap-2',
         isKeyboardVisible
-          ? 'bottom-0 translate-y-0 opacity-100'
+          ? 'opacity-100'
           : 'translate-y-full opacity-0'
       )}
+      style={{
+        bottom: `${keyboardHeight}px`,
+        paddingBottom: 'var(--sab)',
+        paddingLeft: 'var(--sal)',
+        paddingRight: 'var(--sar)',
+      }}
     >
       {isMemoVisible && (
         <MultilineTextForm
