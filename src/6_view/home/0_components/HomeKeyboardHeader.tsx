@@ -2,6 +2,7 @@ import SolidButton from '@/1_components/ui/button/solid-button';
 import MultilineTextForm from '@/1_components/ui/form/multiline-text-form';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import useDetectKeyboardOpen from "use-detect-keyboard-open";
 
 interface HomeKeyboardHeaderProps {
   memo?: string;
@@ -12,33 +13,9 @@ export default function HomeKeyboardHeader({
   memo,
   onSave,
 }: HomeKeyboardHeaderProps) {
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const isKeyboardVisible = useDetectKeyboardOpen();
   const [localMemo, setLocalMemo] = useState(memo);
   const [isMemoVisible, setIsMemoVisible] = useState(false);
-
-  // 입력 필드 포커스 감지
-  useEffect(() => {
-    const handleFocus = () => {
-      setIsKeyboardVisible(true);
-    };
-    const handleBlur = () => {
-      setIsKeyboardVisible(false);
-    };
-
-    // 스크롤 화면 내 모든 입력 필드에 이벤트 리스너 추가
-    const inputs = document.querySelectorAll('input, textarea');
-    inputs.forEach(input => {
-      input.addEventListener('focus', handleFocus);
-      input.addEventListener('blur', handleBlur);
-    });
-
-    return () => {
-      inputs.forEach(input => {
-        input.removeEventListener('focus', handleFocus);
-        input.removeEventListener('blur', handleBlur);
-      });
-    };
-  }, []);
 
   useEffect(() => {
     setLocalMemo(memo);
