@@ -5,6 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: './', // 모든 파일 경로를 현재 디렉토리 기준으로 설정
   server: {
     host: "::",
     port: 8080,
