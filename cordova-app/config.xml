@@ -5,13 +5,24 @@
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
         Apache Cordova Team
     </author>
-    <content src="index.html" />
+    <!-- 실제 배포시 사용 -->
+    <!-- <content src="index.html" /> -->
+
+    <!-- 개발시 Hot Reload 사용 -->
+    <content src="http://localhost:8080" />
+
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <platform name="android">
         <preference name="gradle.properties.org.gradle.jvmargs" value="-Xmx4096m -XX:MaxPermSize=4096m -XX:+HeapDumpOnOutOfMemoryError" />
     </platform>
+
+    <allow-navigation href="http://*/*" />
+    <access origin="*" />
+    
     <!-- Vite 프로젝트 설정 -->
-    <preference name="scheme" value="app" />
+    <!-- <preference name="scheme" value="app" /> -->
+    <!-- 개발시 Hot Reload 사용 -->
+    <preference name="scheme" value="http" />
     <preference name="hostname" value="localhost" />
 </widget>
