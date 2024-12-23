@@ -6,9 +6,9 @@ import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTil
 import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
 import { IndicatorStep } from "@/0_model/types/indicatorStep";
 import { cn } from "@/lib/utils";
-import Chip from "@/1_components/ui/chip/chip";
 import { DropdownData } from "@/1_components/ui/dropdown/dropdown";
 import { ChipDropdown } from "@/1_components/ui/dropdown/chip-dropdown";
+import HomeKeyboardHeader from '@/6_view/home/0_components/HomeKeyboardHeader';
 
 const Home = () => {
   const { bloodSugars, loading, fetchBloodSugars, addBloodSugar } = useHome();
@@ -114,15 +114,6 @@ const Home = () => {
             onChange={handleValueChange}
             valueToStep={valueToStep}
           />
-          <div>
-            <label className="block mb-2">메모</label>
-            <textarea
-              value={memo}
-              onChange={(e) => setMemo(e.target.value)}
-              className="border p-2 rounded w-full"
-              placeholder="메모 입력"
-            />
-          </div>
           <SolidButton
             color="primary"
             onClick={handleSubmit}
@@ -130,7 +121,7 @@ const Home = () => {
             기록하기
           </SolidButton>
         </div>
-      </form >
+      </form>
       {bloodSugars.length > 0 && <div>
         <span
           className="text-body1sb color-text-primary py-2">내 기록</span>
@@ -142,7 +133,8 @@ const Home = () => {
           ))}
         </ul>
       </div>}
-    </div >
+      <HomeKeyboardHeader onSave={() => handleSubmit} />
+    </div>
   );
 }
 
