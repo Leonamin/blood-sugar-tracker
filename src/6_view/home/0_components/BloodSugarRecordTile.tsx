@@ -1,4 +1,4 @@
-import { BloodSugarModel } from "@/0_model/model/bloodSugarModel";
+import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
 import { unixTimestampToDate } from "@/0_model/types/unixtimestamp";
@@ -39,7 +39,7 @@ const BloodSugarRecordTile = (
   const handleMoreButtonClick = () => {
     console.log("more button clicked");
   }
-  
+
 
   const dropdownData: DropdownData[] = [
     { label: "삭제", value: "delete" },

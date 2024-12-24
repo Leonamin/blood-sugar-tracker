@@ -68,4 +68,5 @@ interface BloodSugarWriteProps {
   memo?: string;
 }
 
-export type { BloodSugarModel, BloodSugarWriteProps };
+export default BloodSugarModel;
+export type { BloodSugarWriteProps };
