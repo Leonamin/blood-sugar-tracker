@@ -1,9 +1,37 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ReactNode, useEffect } from 'react';
 import { useBloodSugarRecordDetail } from '@/5_viewmodels/bloodSugarRecordDetail/useBloodSugarRecordDetail';
+import AppBar from '@/1_components/ui/layout/appBar';
+import Snackbar from '@/1_components/ui/overlay/snackbar/snackbar';
+import { cn } from '@/lib/utils';
+import { ClassValue } from 'clsx';
+import { IconCalendar, IconClock } from '@/1_components/icons';
+
+const LabelTitle = ({ label }: { label: string }): ReactNode => (
+  <div className="flex items-center gap-0.5">
+    <span className="text-body2sb color-text-primary">{label}</span>
+    <span className="text-body2sb color-text-brand" aria-hidden="true">*</span>
+  </div>
+)
+
+const PlaceholderCard = (
+  { children,
+    bgColor,
+    borderColor,
+  }: { children: ReactNode, bgColor: ClassValue, borderColor: ClassValue }
+): ReactNode => (
+  <div className={
+    cn(
+      "flex items-center justify-center py-2.5 px-4 rounded-12 border border-solid",
+      bgColor,
+      borderColor,
+    )
+  }>
+    {children}
+  </div>
+)
 
 const BloodSugarRecordDetail = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const {
     recordDetail,
@@ -15,32 +43,115 @@ const BloodSugarRecordDetail = () => {
   // 쿼리 파라미터에서 uid 추출
   const query = new URLSearchParams(location.search);
   const uid = query.get('id');
+  const unit = query.get('unit') || 'mg/dL';
 
   useEffect(() => {
     fetchRecordDetail(uid);
   }, []);
 
-  return (
-    <div className="p-4">
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-4 px-4 py-2 bg-primary text-white rounded-lg"
+  const GlucoseStatusBar = (): ReactNode => {
+    /// 70 이하 저혈당 70이상 100 정상 100이상 140 전당뇨 140이상 당뇨병
+    if (recordDetail?.value < 70) {
+      return <Snackbar
+        message="저혈당"
+        description="혈당이 낮아요."
+        type="info"
+        showCloseButton={false}
+      />
+    }
+    else if (recordDetail?.value < 100) {
+      return <Snackbar
+        message="정상"
+        description="혈당이 정상적이에요."
+        type="success"
+        showCloseButton={false}
+      />
+    } else if (recordDetail?.value <= 140) {
+      return <Snackbar
+        message="전당뇨"
+        description="혈당이 살짝 높아요."
+        type="warning"
+        showCloseButton={false}
+      />
+    } else {
+      return <Snackbar
+        message="당뇨병"
+        description="혈당이 높아요."
+        type="error"
+        showCloseButton={false}
+      />
+    }
+  }
+
+
+
+
+  const GlucoseData = (): ReactNode => (
+    <div
+      className="flex flex-col space-y-2"
+    >
+      <LabelTitle label="혈당" />
+      <PlaceholderCard
+        bgColor="color-bg-inverse"
+        borderColor="color-border-primary"
       >
-        뒤로 가기
-      </button>
-      <h1 className="text-2xl font-bold">상세 페이지</h1>
-      {recordDetail ? (
-        <div>
-          <p>UID: {recordDetail.uid}</p>
-          <p>Value: {recordDetail.value}</p>
-          <p>Recorded At: {recordDetail.recordedAt}</p>
-          <p>Memo: {recordDetail.memo}</p>
-          {/* 필요한 다른 정보들 */}
+        <div className="flex items-center justify-between w-full">
+          <span className="text-body2r color-text-primary">{recordDetail?.value}</span>
+          <span className="text-caption1r color-text-primary">{unit}</span>
         </div>
-      ) : (
-        <p>로딩 중이거나 데이터를 찾을 수 없습니다.</p>
-      )}
+      </PlaceholderCard>
+      <GlucoseStatusBar />
     </div>
+  )
+
+  const RecordDate = (): ReactNode => {
+    return (
+      <div className="flex gap-3">
+        <div className="flex flex-col flex-1">
+          <LabelTitle label="날짜" />
+          <PlaceholderCard
+            bgColor="color-bg-disabled"
+            borderColor="color-border-disabled"
+          >
+            <div className="flex items-center justify-between w-full">
+              <span className="text-body2r color-text-primary">날짜~</span>
+              <IconCalendar size={16} />
+            </div>
+          </PlaceholderCard>
+        </div>
+        <div className="flex flex-col flex-1">
+          <LabelTitle label="시간" />
+          <PlaceholderCard
+            bgColor="color-bg-disabled"
+            borderColor="color-border-disabled"
+          >
+            <div className="flex items-center justify-between w-full">
+              <span className="text-body2r color-text-primary">시간~</span>
+              <IconClock size={16} />
+            </div>
+          </PlaceholderCard>
+        </div>
+      </div>
+    );
+  }
+
+  const RecordDetail = (): ReactNode => {
+    return (
+      <div className="flex flex-col space-y-8">
+        <GlucoseData />
+        <RecordDate />
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col">
+      <AppBar title="기록 상세" />
+      <main className="flex-1 p-4 px-4 pt-[calc(56px+16px)]">
+        <RecordDetail />
+      </main>
+
+    </div >
   );
 };
 

@@ -17,7 +17,7 @@ namespace BloodSugarReadEntity {
       uid: entity.uid,
       value: entity.value,
       unit: entity.unit,
-      recordedAt: UnixTimestamp.toUnixTimestamp(entity.recordedAt),
+      recordedAt: UnixTimestamp.dateStringToUnixTimestamp(entity.recordedAt),
       recordedDate: entity.recordedDate,
       memo: entity.memo,
     });
