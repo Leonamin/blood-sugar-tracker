@@ -145,4 +145,21 @@ export const DropdownList = <T,>({ data }: DropdownListProps<T>) => {
     );
 };
 
+export const IconDropdown = <T,>({ icon }: { icon: ReactNode }) => {
+    const { isOpen, open, close } = useDropdown<T>();
+
+    const handleClick = () => {
+        isOpen ? close() : open();
+    };
+
+    return (
+        <button 
+            onClick={handleClick}
+            className="flex items-center justify-center"
+        >
+            {icon}
+        </button>
+    );
+};
+
 export type { DropdownData, DropdownContext };

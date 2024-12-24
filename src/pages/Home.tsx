@@ -10,7 +10,7 @@ import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 import { usePageVisibility } from "@/3_hook/usePageVisibility";
 
 const Home = () => {
-  const { bloodSugars, loading, fetchBloodSugars, addBloodSugar } = useHome();
+  const { bloodSugars, loading, fetchBloodSugars, addBloodSugar, deleteBloodSugar } = useHome();
   const [value, setValue] = useState("0");
   const [memo, setMemo] = useState("");
   const visibilityState = usePageVisibility();
@@ -52,6 +52,14 @@ const Home = () => {
 
   const handleSave = async () => {
     await processFormSubmit();
+  }
+
+  const handleDelete = async (id: string) => {
+    await deleteBloodSugar(id);
+    await fetchBloodSugars({
+      from: dateToStartUnixTimestamp(today),
+      to: dateToEndUnixTimestamp(today),
+    });
   }
 
   const processFormSubmit = async () => {
@@ -141,7 +149,14 @@ const Home = () => {
           <ul>
             {bloodSugars.map((sugar) => (
               <li key={sugar.uid} className="pb-2">
-                <BloodSugarRecordTile bloodSugar={sugar} bloodSugarCategory={selectedCategory.value} />
+                <BloodSugarRecordTile bloodSugar={sugar} bloodSugarCategory={selectedCategory.value} 
+                  onDelete={() => {
+                    handleDelete(sugar.uid);
+                  }}
+                  onEdit={() => {
+                    console.log("edit");
+                  }}
+                />
               </li>
             ))}
           </ul>

@@ -1,11 +1,11 @@
 import { BloodSugarModel } from "@/0_model/model/bloodSugarModel";
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
-import { IndicatorStep } from "@/0_model/types/indicatorStep";
 import { unixTimestampToDate } from "@/0_model/types/unixtimestamp";
 import { IconBlood, IconDotsHorizontal } from "@/1_components/icons";
+import { DropdownData, DropdownList, DropdownProvider, IconDropdown } from "@/1_components/ui/dropdown/dropdown";
 import CircleStepIndicator from "@/1_components/ui/indicator/circle-step-indicator";
-import Tag, { TagColorType } from "@/1_components/ui/tag/tag";
+import Tag from "@/1_components/ui/tag/tag";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 
@@ -14,12 +14,6 @@ interface BloodSugarRecordTileProps {
   bloodSugarCategory: BloodSugarCategory;
   onDelete?: () => void;
   onEdit?: () => void;
-}
-
-interface GlucoseLevelUiData {
-  step: IndicatorStep;
-  label: string;
-  color: TagColorType;
 }
 
 const MemoTile = ({ memo }: { memo: string }) => {
@@ -45,6 +39,20 @@ const BloodSugarRecordTile = (
   const handleMoreButtonClick = () => {
     console.log("more button clicked");
   }
+  
+
+  const dropdownData: DropdownData[] = [
+    { label: "삭제", value: "delete" },
+    { label: "수정", value: "edit" },
+  ];
+
+  const handleSelect = (data: DropdownData) => {
+    if (data.value === "delete") {
+      onDelete?.();
+    } else if (data.value === "edit") {
+      onEdit?.();
+    }
+  }
 
   return <div
     className={cn(
@@ -64,9 +72,16 @@ const BloodSugarRecordTile = (
           size="small"
           variant="filled"
         />
-        <button onClick={handleMoreButtonClick}>
-          <IconDotsHorizontal size={24} />
-        </button>
+        <DropdownProvider
+          data={dropdownData}
+          selectedData={null}
+          onSelect={handleSelect}
+        >
+          <IconDropdown icon={<IconDotsHorizontal size={24} />} />
+          <DropdownList
+            data={dropdownData}
+          />
+        </DropdownProvider>
       </div>
       <span className="text-h4b color-text-primary text-left flex items-center">
         {value} <span className="text-body2r color-text-tertiary ml-1">{unit}</span>

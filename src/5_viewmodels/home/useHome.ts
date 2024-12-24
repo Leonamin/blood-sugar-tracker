@@ -39,5 +39,11 @@ export function useHome() {
     }
   };
 
-  return { bloodSugars, loading, fetchBloodSugars, addBloodSugar };
+  const deleteBloodSugar = async (id: string) => {
+    setLoading(true);
+    await bloodSugarService.deleteBloodSugar(id);
+    setLoading(false);
+  }
+
+  return { bloodSugars, loading, fetchBloodSugars, addBloodSugar, deleteBloodSugar };
 }
