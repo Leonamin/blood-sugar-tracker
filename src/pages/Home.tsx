@@ -141,7 +141,7 @@ const Home = () => {
           <ul>
             {bloodSugars.map((sugar) => (
               <li key={sugar.uid} className="pb-2">
-                <BloodSugarRecordTile bloodSugar={sugar} />
+                <BloodSugarRecordTile bloodSugar={sugar} bloodSugarCategory={selectedCategory.value} />
               </li>
             ))}
           </ul>
