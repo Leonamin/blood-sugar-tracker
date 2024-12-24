@@ -8,6 +8,7 @@ import Stats from "./pages/Stats";
 import Settings from "./pages/Settings";
 import ComponentExamples from "@/pages/ComponentExamples";
 import { useEffect } from "react";
+import BloodSugarRecordDetail from "./pages/BloodSugarRecordDetail";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,12 @@ const App = () => {
       // 필요한 초기화 코드
     }, false);
   }, []);
+
+  // 현재 경로에 따라 BottomNav 표시 여부를 결정하는 로직
+  const hideBottomNavRoutes = ['/record-detail']; // BottomNav를 숨길 경로들
+  const shouldShowBottomNav = (pathname: string) => {
+    return !hideBottomNavRoutes.some(route => pathname.startsWith(route));
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -31,8 +38,9 @@ const App = () => {
               <Route path="/stats" element={<Stats />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/component-examples" element={<ComponentExamples />} />
+              <Route path="/record-detail" element={<BloodSugarRecordDetail />} />
             </Routes>
-            <BottomNav />
+            {shouldShowBottomNav(window.location.pathname) && <BottomNav />}
           </div>
         </BrowserRouter>
       </ThemeProvider>

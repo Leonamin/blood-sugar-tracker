@@ -9,12 +9,14 @@ import HomeKeyboardHeader from '@/6_view/home/0_components/HomeKeyboardHeader';
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 import { usePageVisibility } from "@/3_hook/usePageVisibility";
 import { Utils } from "@/7_utils/utils";
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { bloodSugars, loading, fetchBloodSugars, addBloodSugar, deleteBloodSugar } = useHome();
   const [value, setValue] = useState("0");
   const [memo, setMemo] = useState("");
   const visibilityState = usePageVisibility();
+  const navigate = useNavigate();
 
   const [today, setToday] = useState(new Date());
 
@@ -61,6 +63,10 @@ const Home = () => {
       from: dateToStartUnixTimestamp(today),
       to: dateToEndUnixTimestamp(today),
     });
+  }
+
+  const handleEdit = async (id: string) => {
+    navigate(`/record-detail?id=${id}`);
   }
 
   const processFormSubmit = async () => {
@@ -150,7 +156,7 @@ const Home = () => {
                     handleDelete(sugar.uid);
                   }}
                   onEdit={() => {
-                    console.log("edit");
+                    handleEdit(sugar.uid);
                   }}
                 />
               </li>
