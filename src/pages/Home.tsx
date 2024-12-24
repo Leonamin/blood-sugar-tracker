@@ -9,10 +9,12 @@ import { cn } from "@/lib/utils";
 import { DropdownData } from "@/1_components/ui/dropdown/dropdown";
 import { ChipDropdown } from "@/1_components/ui/dropdown/chip-dropdown";
 import HomeKeyboardHeader from '@/6_view/home/0_components/HomeKeyboardHeader';
+import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
+import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
 
 const Home = () => {
   const { bloodSugars, loading, fetchBloodSugars, addBloodSugar } = useHome();
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("0");
   const [memo, setMemo] = useState("");
 
   const startDate = new Date(new Date().setDate(new Date().getDate() - 15));
@@ -79,26 +81,20 @@ const Home = () => {
   }
 
   const valueToStep = (value: number): IndicatorStep | undefined => {
-    if (value > 200) {
-      return 4;
-    } else if (value > 150) {
-      return 3;
-    } else if (value > 100) {
-      return 2;
-    } else if (value > 0) {
-      return 1;
-    }
-
-    return undefined;
+    if (value === 0) return undefined
+    const category = selectedCategory.data;
+    
+    const glucoseLevel = BloodSugarCategory.getGlucoseLevel(category, value);
+    return GlucoseLevel.getIndicatorStep(glucoseLevel);
   }
 
 
   const categoryData: DropdownData[] = [
-    { label: "기본", data: 1 },
-    { label: "식후 2시간", data: 2 },
-    { label: "공복", data: 3 },
-    { label: "운동 전", data: 4 },
-    { label: "운동 후", data: 5 },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Normal), data: BloodSugarCategory.Normal },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.PostMeal2Hours), data: BloodSugarCategory.PostMeal2Hours },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Fasting), data: BloodSugarCategory.Fasting },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.BeforeExercise), data: BloodSugarCategory.BeforeExercise },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.AfterExercise), data: BloodSugarCategory.AfterExercise },
   ];
 
   const [selectedCategory, setSelectedCategory] = useState<DropdownData>(

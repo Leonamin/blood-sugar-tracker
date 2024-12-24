@@ -45,7 +45,13 @@ export default function BloodSugarInputForm({
     onChange(formattedValue);
   };
 
-  const step = valueToStep?.(parseFloat(value)) ?? 0;
+  const parseSafeValue = (value: string) => {
+    const parsedValue = parseFloat(value);
+    if (isNaN(parsedValue)) return 0;
+    return parsedValue;
+  }
+
+  const step = valueToStep?.(parseSafeValue(value)) ?? 0;
 
   return (
     <div className="relative flex flex-col items-center">
