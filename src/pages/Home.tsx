@@ -58,6 +58,16 @@ const Home = () => {
     setMemo("");
   }
 
+  const handleMemoVisibleChanged = (visible: boolean) => {
+    if (!visible) {
+      // 메모가 닫힐 때 BloodSugarInputForm에 포커스
+      const inputElement = document.querySelector('input[type="number"]');
+      if (inputElement instanceof HTMLInputElement) {
+        inputElement.focus();
+      }
+    }
+  }
+
   const maxValue = 400;
   const handleValueChange = (value: string) => {
     const parsedValue = parseInt(value);
@@ -142,7 +152,7 @@ const Home = () => {
           </ul>
         </div>}
       </div>
-      <HomeKeyboardHeader onSave={handleSave} memo={memo} />
+      <HomeKeyboardHeader onTapSave={handleSave} memo={memo} onMemoVisibleChanged={handleMemoVisibleChanged} />
     </div>
   );
 }
