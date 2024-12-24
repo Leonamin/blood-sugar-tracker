@@ -1,6 +1,6 @@
 import { ToggleButton } from "@/1_components/ui/button/toggle-button";
 import Chip from "@/1_components/ui/chip/chip";
-import { IconChevronRight, IconChevronLeft, IconPlus, } from "@/1_components/icons";
+import { IconChevronRight, IconChevronLeft, IconPlus, IconDotsHorizontal, } from "@/1_components/icons";
 import SolidButton from "@/1_components/ui/button/solid-button";
 import Tag from "@/1_components/ui/tag/tag";
 import { CheckBox } from "@/1_components/ui/button/check-box";
@@ -17,8 +17,7 @@ import Dialog, { DialogProvider, useDialog } from "@/1_components/ui/overlay/dia
 import { Calendar } from '@/1_components/ui/calendar/RangeCalendar';
 import { DateRange } from "react-day-picker";
 import { DateRangePickerBottomSheet } from "@/1_components/ui/picker/DateRangePickerBottomSheet";
-import { DropdownData } from "@/1_components/ui/dropdown/dropdown";
-import { ChipDropdown } from "@/1_components/ui/dropdown/chip-dropdown";
+import { DropdownChip, DropdownData, DropdownList, DropdownProvider, useDropdown } from "@/1_components/ui/dropdown/dropdown";
 import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider } from "@/1_components/ui/calendar/MonthlyCalendar";
 import Badge from "@/1_components/ui/badge/badge";
 import { useState } from "react";
@@ -701,30 +700,48 @@ const DropdownExample = () => {
   const [selectedData, setSelectedData] = useState<DropdownData>();
 
   const dropdownData: DropdownData[] = [
-    { label: "옵션 1", data: 1 },
-    { label: "옵션 2", data: 2 },
-    { label: "옵션 3", data: 3 },
-    { label: "옵션 4", data: 4 },
-    { label: "옵션 5", data: 5 },
+    { label: "옵션 1", value: 1 },
+    { label: "옵션 2", value: 2 },
+    { label: "옵션 3", value: 3 },
+    { label: "옵션 4", value: 4 },
+    { label: "옵션 5", value: 5 },
   ];
 
   return (
     <div className="flex flex-col gap-4">
-      <ChipDropdown
-        data={dropdownData}
-        selectedData={selectedData}
-        placeholder="선택해주세요"
-        onSelect={setSelectedData}
-        variant="brand"
-      />
+      <div className="flex w-auto">
+        <DropdownProvider
+          data={dropdownData}
+          selectedData={selectedData}
+          onSelect={setSelectedData}
+        >
+          <DropdownChip>
 
-      <ChipDropdown
-        data={dropdownData}
-        selectedData={selectedData}
-        placeholder="선택해주세요"
-        onSelect={setSelectedData}
-        variant="brand-light"
-      />
+          </DropdownChip>
+          <DropdownList
+            data={dropdownData}
+          />
+        </DropdownProvider>
+      </div>
+
+      <div className="flex w-auto">
+        <DropdownProvider
+          data={dropdownData}
+          selectedData={selectedData}
+          onSelect={setSelectedData}
+        >
+          <button onClick={() => {
+            const { isOpen, open, close } = useDropdown();
+            isOpen ? close() : open();
+          }}>
+            <IconDotsHorizontal size={24} />
+          </button>
+          <DropdownList
+            data={dropdownData}
+          />
+        </DropdownProvider>
+      </div>
+
     </div>
   );
 };

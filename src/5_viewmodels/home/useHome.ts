@@ -17,6 +17,7 @@ export function useHome() {
         new Date(query.from),
         new Date(query.to),
       );
+      data.sort((a, b) => new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime());
       setBloodSugars(data);
     } finally {
       setLoading(false);
@@ -38,5 +39,11 @@ export function useHome() {
     }
   };
 
-  return { bloodSugars, loading, fetchBloodSugars, addBloodSugar };
+  const deleteBloodSugar = async (id: string) => {
+    setLoading(true);
+    await bloodSugarService.deleteBloodSugar(id);
+    setLoading(false);
+  }
+
+  return { bloodSugars, loading, fetchBloodSugars, addBloodSugar, deleteBloodSugar };
 }
