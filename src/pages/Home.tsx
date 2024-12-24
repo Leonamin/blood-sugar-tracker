@@ -8,6 +8,7 @@ import { DropdownChip, DropdownData, DropdownList, DropdownProvider } from "@/1_
 import HomeKeyboardHeader from '@/6_view/home/0_components/HomeKeyboardHeader';
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 import { usePageVisibility } from "@/3_hook/usePageVisibility";
+import { Utils } from "@/7_utils/utils";
 
 const Home = () => {
   const { bloodSugars, loading, fetchBloodSugars, addBloodSugar, deleteBloodSugar } = useHome();
@@ -63,6 +64,9 @@ const Home = () => {
   }
 
   const processFormSubmit = async () => {
+    console.log(memo);
+    if (Utils.isNaN(parseInt(value))) return;
+
     await addBloodSugar(parseInt(value), memo);
     await fetchBloodSugars({
       from: dateToStartUnixTimestamp(today),
@@ -107,18 +111,10 @@ const Home = () => {
     categoryData[0]
   );
 
-
-  if (loading) return <div>Loading...</div>;
-
   return (
-    <div
-      className={cn(
-        "color-bg-primary min-h-screen",
-        "px-4",
-      )}
-    >
-      <div
-        className="overflow-y-auto bottom-nav-space">
+    <div className={cn("color-bg-primary min-h-screen", "px-4", "relative")}>
+      {/* {loading && <LoadingOverlay />} */}
+      <div className="overflow-y-auto bottom-nav-space">
 
         <div className={cn(
           "flex items-center justify-between",
@@ -149,7 +145,7 @@ const Home = () => {
           <ul>
             {bloodSugars.map((sugar) => (
               <li key={sugar.uid} className="pb-2">
-                <BloodSugarRecordTile bloodSugar={sugar} bloodSugarCategory={selectedCategory.value} 
+                <BloodSugarRecordTile bloodSugar={sugar} bloodSugarCategory={selectedCategory.value}
                   onDelete={() => {
                     handleDelete(sugar.uid);
                   }}
@@ -162,7 +158,7 @@ const Home = () => {
           </ul>
         </div>}
       </div>
-      <HomeKeyboardHeader onTapSave={handleSave} memo={memo} onMemoVisibleChanged={handleMemoVisibleChanged} />
+      <HomeKeyboardHeader onTapSave={handleSave} memo={memo} onMemoChanged={setMemo} onMemoVisibleChanged={handleMemoVisibleChanged} />
     </div>
   );
 }

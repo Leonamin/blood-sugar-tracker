@@ -6,6 +6,7 @@ import { twMerge } from 'tailwind-merge';
 
 interface HomeKeyboardHeaderProps {
   memo?: string;
+  onMemoChanged?: (memo: string) => void;
   onTapSave?: () => void;
   onMemoVisibleChanged?: (visible: boolean) => void;
 }
@@ -14,14 +15,11 @@ export default function HomeKeyboardHeader({
   memo,
   onTapSave,
   onMemoVisibleChanged,
+  onMemoChanged,
 }: HomeKeyboardHeaderProps) {
-  const isKeyboardVisible = useKeyboardDetect();
-  const [localMemo, setLocalMemo] = useState(memo);
+  const isKeyboardVisible = true;
+  // const isKeyboardVisible = useKeyboardDetect();
   const [isMemoVisible, setIsMemoVisible] = useState(false);
-
-  useEffect(() => {
-    setLocalMemo(memo);
-  }, [memo]);
 
   const handleClickMemo = () => {
     setIsMemoVisible(!isMemoVisible);
@@ -50,9 +48,9 @@ export default function HomeKeyboardHeader({
       <div className="px-4 py-2 space-y-2">
         {isMemoVisible && (
           <MultilineTextForm
-            value={localMemo}
+            value={memo}
             placeholder="메모를 입력해주세요"
-            handleChange={setLocalMemo}
+            handleChange={onMemoChanged}
           />
         )}
         <div className="flex items-center gap-2 ">
