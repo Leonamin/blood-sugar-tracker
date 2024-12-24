@@ -47,28 +47,30 @@ export default function HomeKeyboardHeader({
         paddingRight: 'var(--sar)',
       }}
     >
-      {isMemoVisible && (
-        <MultilineTextForm
-          value={localMemo}
-          placeholder="메모를 입력해주세요"
-          handleChange={setLocalMemo}
-          className="px-4 py-2"
-        />
-      )}
-      <div className="flex items-center gap-2 px-4 py-2">
-        <SolidButton
-          color="outline"
-          onClick={() => {
-            handleClickMemo();
-          }}
-          onMouseDown={(e) => e.preventDefault()}
-        >
-          Memo
-        </SolidButton>
-        <SolidButton color="primary" fullWidth onClick={onTapSave}>
-          저장
-        </SolidButton>
+      <div className="px-4 py-2 space-y-2">
+        {isMemoVisible && (
+          <MultilineTextForm
+            value={localMemo}
+            placeholder="메모를 입력해주세요"
+            handleChange={setLocalMemo}
+          />
+        )}
+        <div className="flex items-center gap-2 ">
+          <SolidButton
+            color="outline"
+            onClick={() => {
+              handleClickMemo();
+            }}
+            onMouseDown={(e) => e.preventDefault()}
+          >
+            Memo
+          </SolidButton>
+          <SolidButton color="primary" fullWidth onClick={onTapSave}>
+            저장
+          </SolidButton>
+        </div>
       </div>
+
     </div>
   );
 }
