@@ -1,5 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { IconNavCalendar, IconNavCalendarFill, IconNavHome, IconNavHomeFill, IconNavSettings, IconNavSettingsFill, IconNavStatistics, IconNavStatisticsFill } from "./icons";
+import useDetectKeyboardOpen from "use-detect-keyboard-open";
+import { twMerge } from "tailwind-merge";
 
 interface NavIconProps {
   selected: React.ReactNode;
@@ -14,7 +16,7 @@ interface NavItemProps {
 
 const BottomNav = () => {
   const location = useLocation();
-
+  const isKeyboardOpen = useDetectKeyboardOpen();
   const iconColorStyle = "color-fill-primary";
 
   // TODO: 국제화 적용하기
@@ -23,7 +25,7 @@ const BottomNav = () => {
       icon: {
         selected: <IconNavHomeFill className={iconColorStyle} />,
         unselected: <IconNavHome className={iconColorStyle} />,
-      }, label: "Home", path: "/"
+      }, label: "Home", path: "/home"
     },
     {
       icon: {
@@ -46,7 +48,10 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 color-bg-inverse shadow-shadow2 py-1 px-4">
+    <nav className={twMerge(
+      'fixed bottom-0 left-0 right-0 color-bg-inverse shadow-shadow2 py-1 px-4',
+      isKeyboardOpen ? 'opacity-0' : 'opacity-100'
+    )}>
       <div className="flex justify-around items-center">
         {navItems.map(({ icon: Icon, label, path }) => {
           const isActive = location.pathname === path;

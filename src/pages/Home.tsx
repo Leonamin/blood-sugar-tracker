@@ -35,10 +35,18 @@ const Home = () => {
     });
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!value) return;
 
+    processFormSubmit();
+  };
+
+  const handleSave = async () => {
+    await processFormSubmit();
+  }
+
+  const processFormSubmit = async () => {
     await addBloodSugar(parseInt(value), memo);
     await fetchBloodSugars({
       from: dateToUnixTimestamp(startDate),
@@ -48,7 +56,7 @@ const Home = () => {
     // 입력 폼 초기화
     setValue("");
     setMemo("");
-  };
+  }
 
   const maxValue = 400;
   const handleValueChange = (value: string) => {
@@ -91,54 +99,50 @@ const Home = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div 
+    <div
       className={cn(
         "color-bg-primary min-h-screen",
         "px-4",
       )}
     >
-      <div className={cn(
-        "flex items-center justify-between",
-        "py-3 mb-3"
-      )}>
-        <span className="text-h5b color-text-primary">
-          {getFormattedDate(today)}
-        </span>
-        <ChipDropdown
-          data={categoryData}
-          selectedData={selectedCategory}
-          placeholder="선택"
-          onSelect={setSelectedCategory}
-          variant="brand"
-        />
-      </div>
-      <form onSubmit={handleSubmit} className="mb-4">
-        <div className="space-y-4">
+      <div
+        className="overflow-y-auto bottom-nav-space">
+
+        <div className={cn(
+          "flex items-center justify-between",
+          "py-3 mb-3"
+        )}>
+          <span className="text-h5b color-text-primary">
+            {getFormattedDate(today)}
+          </span>
+          <ChipDropdown
+            data={categoryData}
+            selectedData={selectedCategory}
+            placeholder="선택"
+            onSelect={setSelectedCategory}
+            variant="brand"
+          />
+        </div>
+        <form onSubmit={handleFormSubmit} className="mb-4">
           <BloodSugarInputForm
             value={value}
             onChange={handleValueChange}
             valueToStep={valueToStep}
           />
-          <SolidButton
-            color="primary"
-            onClick={handleSubmit}
-          >
-            기록하기
-          </SolidButton>
-        </div>
-      </form>
-      {bloodSugars.length > 0 && <div>
-        <span
-          className="text-body1sb color-text-primary py-2">내 기록</span>
-        <ul className="space-y-2">
-          {bloodSugars.map((sugar) => (
-            <li key={sugar.uid}>
-              <BloodSugarRecordTile bloodSugar={sugar} />
-            </li>
-          ))}
-        </ul>
-      </div>}
-      <HomeKeyboardHeader onSave={handleSubmit} memo={memo} />
+        </form>
+        {bloodSugars.length > 0 && <div>
+          <span
+            className="text-body1sb color-text-primary py-2">내 기록</span>
+          <ul>
+            {bloodSugars.map((sugar) => (
+              <li key={sugar.uid} className="pb-2">
+                <BloodSugarRecordTile bloodSugar={sugar} />
+              </li>
+            ))}
+          </ul>
+        </div>}
+      </div>
+      <HomeKeyboardHeader onSave={handleSave} memo={memo} />
     </div>
   );
 }

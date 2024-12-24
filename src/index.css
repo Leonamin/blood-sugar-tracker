@@ -403,3 +403,7 @@ body {
 .safe-area-bottom {
   padding-bottom: var(--sab);
 }
+
+.bottom-nav-space {
+  padding-bottom: 76px;
+}

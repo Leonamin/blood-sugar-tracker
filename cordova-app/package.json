@@ -17,17 +17,19 @@
     "cordova-ios": "^7.1.1",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^5.0.1",
+    "cordova-plugin-keyboard": "^1.2.0",
     "cordova-plugin-wkwebview-engine": "^1.2.2"
   },
   "cordova": {
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ],
     "plugins": {
       "cordova-plugin-wkwebview-engine": {},
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-ionic-webview": {}
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-keyboard": {}
     }
   }
 }
