@@ -1,8 +1,8 @@
 import SolidButton from '@/1_components/ui/button/solid-button';
 import MultilineTextForm from '@/1_components/ui/form/multiline-text-form';
+import { useKeyboardDetect } from '@/hooks/useKeyboardDetect';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import useDetectKeyboardOpen from "use-detect-keyboard-open";
 
 interface HomeKeyboardHeaderProps {
   memo?: string;
@@ -13,7 +13,7 @@ export default function HomeKeyboardHeader({
   memo,
   onSave,
 }: HomeKeyboardHeaderProps) {
-  const isKeyboardOpen = useDetectKeyboardOpen();
+  const isKeyboardVisible = useKeyboardDetect();
   const [localMemo, setLocalMemo] = useState(memo);
   const [isMemoVisible, setIsMemoVisible] = useState(false);
 
@@ -29,11 +29,11 @@ export default function HomeKeyboardHeader({
     <div
       className={twMerge(
         'fixed z-50 left-0 right-0 transition-all duration-300 ease-in-out',
-        'color-bg-inverse px-4 pb-4',
+        'color-bg-inverse',
         'shadow-shadow4',
         'flex flex-col gap-2',
         'space-y-2',
-        isKeyboardOpen
+        isKeyboardVisible
           ? 'opacity-100 translate-y-0'
           : 'translate-y-full opacity-0'
       )}

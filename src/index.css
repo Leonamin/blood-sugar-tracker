@@ -407,3 +407,8 @@ body {
 .bottom-nav-space {
   padding-bottom: 76px;
 }
+
+input, textarea {
+  -webkit-user-select: none; /* 텍스트 선택 방지 */
+  touch-action: manipulation; /* 기본 터치 동작 유지 */
+}
