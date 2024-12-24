@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHome } from "@/5_viewmodels/home/useHome";
 import SolidButton from "@/1_components/ui/button/solid-button";
-import { dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
+import { dateToEndUnixTimestamp, dateToStartUnixTimestamp, dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
 import { IndicatorStep } from "@/0_model/types/indicatorStep";
@@ -11,16 +11,19 @@ import { ChipDropdown } from "@/1_components/ui/dropdown/chip-dropdown";
 import HomeKeyboardHeader from '@/6_view/home/0_components/HomeKeyboardHeader';
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
+import { usePageVisibility } from "@/3_hook/usePageVisibility";
 
 const Home = () => {
   const { bloodSugars, loading, fetchBloodSugars, addBloodSugar } = useHome();
   const [value, setValue] = useState("0");
   const [memo, setMemo] = useState("");
+  const visibilityState = usePageVisibility();
 
-  const startDate = new Date(new Date().setDate(new Date().getDate() - 15));
-  const endDate = new Date(new Date().setDate(new Date().getDate() + 15));
+  const [today, setToday] = useState(new Date());
 
-  const today = new Date();
+  useEffect(() => {
+    setToday(new Date());
+  }, [visibilityState]);
 
   // today를 2024-12-20 형식으로 환
   const getFormattedDate = (date: Date) => {
@@ -32,8 +35,15 @@ const Home = () => {
 
   useEffect(() => {
     fetchBloodSugars({
-      from: dateToUnixTimestamp(startDate),
-      to: dateToUnixTimestamp(endDate),
+      from: dateToStartUnixTimestamp(today),
+      to: dateToEndUnixTimestamp(today),
+    });
+  }, [today]);
+
+  useEffect(() => {
+    fetchBloodSugars({
+      from: dateToStartUnixTimestamp(today),
+      to: dateToEndUnixTimestamp(today),
     });
   }, []);
 
@@ -51,8 +61,8 @@ const Home = () => {
   const processFormSubmit = async () => {
     await addBloodSugar(parseInt(value), memo);
     await fetchBloodSugars({
-      from: dateToUnixTimestamp(startDate),
-      to: dateToUnixTimestamp(endDate),
+      from: dateToStartUnixTimestamp(today),
+      to: dateToEndUnixTimestamp(today),
     });
 
     // 입력 폼 초기화
