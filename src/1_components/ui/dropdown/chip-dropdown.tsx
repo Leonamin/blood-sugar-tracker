@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import Chip from "../chip/chip";
 import { ChipProps } from "../chip/chip";
 import { IconChevronDown } from "@/1_components/icons";
+import { useTextsDimensions } from '@/3_hook/useTextDimensions';
 
 export interface DropdownData {
     label: string;
@@ -26,7 +27,15 @@ export const ChipDropdown = ({
 }: ChipDropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-
+    
+    // 모이터가 변경될 때만 텍스트 배열을 업데이트
+    const allTexts = useMemo(() => 
+        [placeholder, ...data.map(item => item.label)],
+        [placeholder, data]
+    );
+    
+    const { maxWidth } = useTextsDimensions(allTexts);
+    
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -48,11 +57,13 @@ export const ChipDropdown = ({
             />
 
             {isOpen && (
-                <div className="absolute top-full left-0 w-full mt-1 rounded-8 z-50
-                    shadow-shadow4
-                    bg-inverse-bg
-                    dark:bg-inverse-bg-dark
-                ">
+                <div 
+                    className="absolute top-full right-0 mt-1 rounded-8 z-50
+                        shadow-shadow4
+                        bg-inverse-bg
+                        dark:bg-inverse-bg-dark"
+                    style={{ width: maxWidth + 40 }}
+                >
                     {data.map((item, index) => (
                         <div
                             key={index}
