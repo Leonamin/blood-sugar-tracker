@@ -17,8 +17,7 @@ export default function HomeKeyboardHeader({
   onMemoVisibleChanged,
   onMemoChanged,
 }: HomeKeyboardHeaderProps) {
-  const isKeyboardVisible = true;
-  // const isKeyboardVisible = useKeyboardDetect();
+  const isKeyboardVisible = useKeyboardDetect();
   const [isMemoVisible, setIsMemoVisible] = useState(false);
 
   const handleClickMemo = () => {
