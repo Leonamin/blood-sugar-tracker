@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useHome } from "@/5_viewmodels/home/useHome";
-import SolidButton from "@/1_components/ui/button/solid-button";
 import { dateToEndUnixTimestamp, dateToStartUnixTimestamp, dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
@@ -10,7 +9,6 @@ import { DropdownData } from "@/1_components/ui/dropdown/dropdown";
 import { ChipDropdown } from "@/1_components/ui/dropdown/chip-dropdown";
 import HomeKeyboardHeader from '@/6_view/home/0_components/HomeKeyboardHeader';
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
-import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
 import { usePageVisibility } from "@/3_hook/usePageVisibility";
 
 const Home = () => {
@@ -90,14 +88,6 @@ const Home = () => {
     }
   }
 
-  const valueToStep = (value: number): IndicatorStep | undefined => {
-    if (value === 0) return undefined
-    const category = selectedCategory.data;
-    
-    const glucoseLevel = BloodSugarCategory.getGlucoseLevel(category, value);
-    return GlucoseLevel.getIndicatorStep(glucoseLevel);
-  }
-
 
   const categoryData: DropdownData[] = [
     { label: BloodSugarCategory.getLabel(BloodSugarCategory.Normal), data: BloodSugarCategory.Normal },
@@ -143,7 +133,7 @@ const Home = () => {
           <BloodSugarInputForm
             value={value}
             onChange={handleValueChange}
-            valueToStep={valueToStep}
+            bloodSugarCategory={selectedCategory.data}
           />
         </form>
         {bloodSugars.length > 0 && <div>

@@ -2,20 +2,23 @@ import { useEffect, useState } from 'react';
 import SemiCircleStepIndicator from '@/1_components/ui/indicator/semi-circle-step-indicator';
 import type { BloodSugarUnit } from '@/0_model/types/bloodSugarUnit';
 import { twMerge } from 'tailwind-merge';
-import { IndicatorStep } from '@/0_model/types/indicatorStep';
+import { BloodSugarCategory } from '@/0_model/types/bloodSugarCategory';
+import { GlucoseLevel } from '@/0_model/types/glucoseLevel';
 
 interface BloodSugarInputFormProps {
   value: string;
   unit?: BloodSugarUnit;
   onChange: (value: string) => void;
-  valueToStep?: (value: number) => IndicatorStep | undefined;
+  bloodSugarCategory: BloodSugarCategory;
+  minValue?: number;
 }
 
 export default function BloodSugarInputForm({
   value,
   unit = 'mg/dL',
   onChange,
-  valueToStep,
+  bloodSugarCategory,
+  minValue = 10,
 }: BloodSugarInputFormProps) {
   const [localValue, setLocalValue] = useState<string>(value);
 
@@ -51,7 +54,8 @@ export default function BloodSugarInputForm({
     return parsedValue;
   }
 
-  const step = valueToStep?.(parseSafeValue(value)) ?? 0;
+  const level = BloodSugarCategory.getGlucoseLevel(bloodSugarCategory, parseSafeValue(value));
+  const step = parseSafeValue(value) < minValue ? 0 : GlucoseLevel.getIndicatorStep(level);
 
   return (
     <div className="relative flex flex-col items-center">
