@@ -3,10 +3,8 @@ import { useHome } from "@/5_viewmodels/home/useHome";
 import { dateToEndUnixTimestamp, dateToStartUnixTimestamp, dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
-import { IndicatorStep } from "@/0_model/types/indicatorStep";
 import { cn } from "@/lib/utils";
-import { DropdownData } from "@/1_components/ui/dropdown/dropdown";
-import { ChipDropdown } from "@/1_components/ui/dropdown/chip-dropdown";
+import { DropdownChip, DropdownData, DropdownList, DropdownProvider } from "@/1_components/ui/dropdown/dropdown";
 import HomeKeyboardHeader from '@/6_view/home/0_components/HomeKeyboardHeader';
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 import { usePageVisibility } from "@/3_hook/usePageVisibility";
@@ -89,12 +87,12 @@ const Home = () => {
   }
 
 
-  const categoryData: DropdownData[] = [
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Normal), data: BloodSugarCategory.Normal },
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.PostMeal2Hours), data: BloodSugarCategory.PostMeal2Hours },
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Fasting), data: BloodSugarCategory.Fasting },
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.BeforeExercise), data: BloodSugarCategory.BeforeExercise },
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.AfterExercise), data: BloodSugarCategory.AfterExercise },
+  const categoryData: DropdownData<BloodSugarCategory>[] = [
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Normal), value: BloodSugarCategory.Normal },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.PostMeal2Hours), value: BloodSugarCategory.PostMeal2Hours },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Fasting), value: BloodSugarCategory.Fasting },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.BeforeExercise), value: BloodSugarCategory.BeforeExercise },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.AfterExercise), value: BloodSugarCategory.AfterExercise },
   ];
 
   const [selectedCategory, setSelectedCategory] = useState<DropdownData>(
@@ -121,19 +119,20 @@ const Home = () => {
           <span className="text-h5b color-text-primary">
             {getFormattedDate(today)}
           </span>
-          <ChipDropdown
+          <DropdownProvider
             data={categoryData}
             selectedData={selectedCategory}
-            placeholder="선택"
             onSelect={setSelectedCategory}
-            variant="brand"
-          />
+          >
+            <DropdownChip placeholder="선택" />
+            <DropdownList data={categoryData} />
+          </DropdownProvider>
         </div>
         <form onSubmit={handleFormSubmit} className="mb-4">
           <BloodSugarInputForm
             value={value}
             onChange={handleValueChange}
-            bloodSugarCategory={selectedCategory.data}
+            bloodSugarCategory={selectedCategory.value}
           />
         </form>
         {bloodSugars.length > 0 && <div>

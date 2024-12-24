@@ -701,11 +701,11 @@ const DropdownExample = () => {
   const [selectedData, setSelectedData] = useState<DropdownData>();
 
   const dropdownData: DropdownData[] = [
-    { label: "옵션 1", data: 1 },
-    { label: "옵션 2", data: 2 },
-    { label: "옵션 3", data: 3 },
-    { label: "옵션 4", data: 4 },
-    { label: "옵션 5", data: 5 },
+    { label: "옵션 1", value: 1 },
+    { label: "옵션 2", value: 2 },
+    { label: "옵션 3", value: 3 },
+    { label: "옵션 4", value: 4 },
+    { label: "옵션 5", value: 5 },
   ];
 
   return (
