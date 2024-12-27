@@ -6,6 +6,8 @@ import Snackbar from '@/1_components/ui/overlay/snackbar/snackbar';
 import { cn } from '@/lib/utils';
 import { ClassValue } from 'clsx';
 import { IconCalendar, IconClock } from '@/1_components/icons';
+import MultilineTextForm from '@/1_components/ui/form/multiline-text-form';
+import SolidButton from '@/1_components/ui/button/solid-button';
 
 const LabelTitle = ({ label }: { label: string }): ReactNode => (
   <div className="flex items-center gap-0.5">
@@ -140,6 +142,50 @@ const BloodSugarRecordDetail = () => {
       <div className="flex flex-col space-y-8">
         <GlucoseData />
         <RecordDate />
+        <MemoSection />
+      </div>
+    )
+  }
+
+  const MemoSection = (): ReactNode => {
+    return (
+      <div className="flex flex-col space-y-2">
+        <LabelTitle label="메모" />
+        <MultilineTextForm
+          value={recordDetail?.memo || ''}
+          placeholder="메모를 입력해주세요."
+          handleChange={() => { }}
+        />
+      </div>
+    )
+  }
+
+
+  const BottomButtons = (): ReactNode => {
+    return (
+      <div className={
+        cn(
+          "fixed bottom-0 left-0 right-0",
+          "flex items-center justify-between gap-2",
+          "px-4 pt-2 pb-12",
+        )
+      }>
+        <SolidButton
+          fullWidth
+          size="48"
+          color="error"
+          onClick={() => { }}
+        >
+          삭제
+        </SolidButton>
+        <SolidButton
+          fullWidth
+          size="48"
+          color="primary"
+          onClick={() => { }}
+        >
+          수정
+        </SolidButton>
       </div>
     )
   }
@@ -150,7 +196,7 @@ const BloodSugarRecordDetail = () => {
       <main className="flex-1 p-4 px-4 pt-[calc(56px+16px)]">
         <RecordDetail />
       </main>
-
+      <BottomButtons />
     </div >
   );
 };
