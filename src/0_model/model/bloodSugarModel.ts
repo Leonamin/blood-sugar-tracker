@@ -58,6 +58,10 @@ class BloodSugarModel {
       ? this.value * this.MGDL_TO_MMOL_RATIO
       : this.value;
   }
+
+  recordedAtToDate(): Date {
+    return new Date(this.recordedAt);
+  }
 }
 
 interface BloodSugarWriteProps {
