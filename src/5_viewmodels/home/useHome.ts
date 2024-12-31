@@ -1,31 +1,33 @@
 // viewmodels/useBloodSugar.js
-import { useState } from "react";
-import { BloodSugarService } from "@/2_services/bloodSugarService.js";
-import { BloodSugarWriteProps } from "@/0_model/model/bloodSugarModel";
+import { useDispatch, useSelector } from 'react-redux';
+import { BloodSugarService } from "@/2_services/bloodSugarService";
+import { setLoading, setRecords } from '@/8_store/bloodSugar/bloodSugarSlice';
+import { RootState } from '@/8_store/store';
 import { UnixTimestampRange } from "@/0_model/types/unixtimestamp";
+import { BloodSugarReadEntity } from '@/0_model/entity/bloodSugarEntity';
 
 const bloodSugarService = new BloodSugarService();
 
 export function useHome() {
-  const [bloodSugars, setBloodSugars] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { records, loading } = useSelector((state: RootState) => state.bloodSugarRecords);
 
   const fetchBloodSugars = async (query: UnixTimestampRange) => {
-    setLoading(true);
+    dispatch(setLoading(true));
     try {
       const data = await bloodSugarService.getBloodSugarByRange(
         new Date(query.from),
         new Date(query.to),
       );
       data.sort((a, b) => new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime());
-      setBloodSugars(data);
+      dispatch(setRecords(data.map(BloodSugarReadEntity.toModel)));
     } finally {
-      setLoading(false);
+      dispatch(setLoading(false));
     }
   };
 
   const addBloodSugar = async (value: number, memo?: string) => {
-    setLoading(true);
+    dispatch(setLoading(true));
     try {
       await bloodSugarService.createBloodSugar({
         value,
@@ -35,15 +37,21 @@ export function useHome() {
         memo,
       });
     } finally {
-      setLoading(false);
+      dispatch(setLoading(false));
     }
   };
 
   const deleteBloodSugar = async (id: string) => {
-    setLoading(true);
+    dispatch(setLoading(true));
     await bloodSugarService.deleteBloodSugar(id);
-    setLoading(false);
+    dispatch(setLoading(false));
   }
 
-  return { bloodSugars, loading, fetchBloodSugars, addBloodSugar, deleteBloodSugar };
+  return { 
+    bloodSugars: records, 
+    loading, 
+    fetchBloodSugars,
+    addBloodSugar,
+    deleteBloodSugar
+  };
 }

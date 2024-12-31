@@ -9,6 +9,8 @@ import Settings from "./pages/Settings";
 import ComponentExamples from "@/pages/ComponentExamples";
 import { useEffect } from "react";
 import BloodSugarRecordDetail from "./pages/BloodSugarRecordDetail";
+import { Provider } from "react-redux";
+import store from "./8_store/store";
 
 const queryClient = new QueryClient();
 
@@ -27,24 +29,27 @@ const App = () => {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <BrowserRouter basename="/">
-          <div className="min-h-screen bg-background dark:bg-background-dark">
-            <Routes>
-              <Route path="/" element={<Navigate to="/home" replace />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/stats" element={<Stats />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/component-examples" element={<ComponentExamples />} />
-              <Route path="/record-detail" element={<BloodSugarRecordDetail />} />
-            </Routes>
-            {shouldShowBottomNav(window.location.pathname) && <BottomNav />}
-          </div>
-        </BrowserRouter>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <BrowserRouter basename="/">
+            <div className="min-h-screen bg-background dark:bg-background-dark">
+              <Routes>
+                <Route path="/" element={<Navigate to="/home" replace />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/calendar" element={<Calendar />} />
+                <Route path="/stats" element={<Stats />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/component-examples" element={<ComponentExamples />} />
+                <Route path="/record-detail" element={<BloodSugarRecordDetail />} />
+              </Routes>
+              {shouldShowBottomNav(window.location.pathname) && <BottomNav />}
+            </div>
+          </BrowserRouter>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </Provider>
+
   )
 };
 
