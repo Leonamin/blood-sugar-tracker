@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { ReactNode, useEffect } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useBloodSugarRecordDetail } from '@/5_viewmodels/bloodSugarRecordDetail/useBloodSugarRecordDetail';
 import AppBar from '@/1_components/ui/layout/appBar';
 import Snackbar from '@/1_components/ui/overlay/snackbar/snackbar';
@@ -8,6 +8,69 @@ import { ClassValue } from 'clsx';
 import { IconCalendar, IconClock } from '@/1_components/icons';
 import MultilineTextForm from '@/1_components/ui/form/multiline-text-form';
 import SolidButton from '@/1_components/ui/button/solid-button';
+import { CRUDType } from '@/0_model/types/CRUDType';
+import BloodSugarModel from '@/0_model/model/bloodSugarModel';
+import { BloodSugarUnit } from '@/0_model/types/bloodSugarUnit';
+import { DateUtils } from '@/7_utils/dateUtils';
+
+interface BloodSugarRecordDetailContext {
+  recordDetail: BloodSugarModel | null;
+  unit: BloodSugarUnit;
+  setUnit: (unit: BloodSugarUnit) => void;
+  crudType: CRUDType;
+  setCrudType: (crudType: CRUDType) => void;
+}
+
+const BloodSugarRecordDetailContext = createContext<BloodSugarRecordDetailContext>({
+  recordDetail: null,
+  unit: 'mg/dL',
+  crudType: CRUDType.Read,
+  setCrudType: () => { },
+  setUnit: () => { },
+});
+
+const BloodSugarRecordDetailProvider = ({ children }: { children: ReactNode }): ReactNode => {
+  const location = useLocation();
+  const {
+    recordDetail,
+    fetchRecordDetail,
+    updateBloodSugar,
+    deleteBloodSugar,
+  } = useBloodSugarRecordDetail();
+
+  // 쿼리 파라미터에서 uid 추출
+  const query = new URLSearchParams(location.search);
+  const uid = query.get('id');
+  const initialUnit: BloodSugarUnit = query.get('unit') as BloodSugarUnit || 'mg/dL';
+
+  useEffect(() => {
+    fetchRecordDetail(uid);
+  }, []);
+
+  const [crudType, setCrudType] = useState<CRUDType>(CRUDType.Read);
+  const [unit, setUnit] = useState<BloodSugarUnit>(initialUnit);
+
+  return (
+    <BloodSugarRecordDetailContext.Provider value={{
+      crudType,
+      setCrudType,
+      recordDetail,
+      unit,
+      setUnit,
+    }}>
+      {children}
+    </BloodSugarRecordDetailContext.Provider>
+  )
+}
+
+const useBloodSugarRecordDetailContext = (): BloodSugarRecordDetailContext => {
+  const context = useContext(BloodSugarRecordDetailContext);
+  if (!context) {
+    throw new Error('useBloodSugarRecordDetailContext must be used within a BloodSugarRecordDetailProvider');
+  }
+
+  return context;
+}
 
 const LabelTitle = ({ label }: { label: string }): ReactNode => (
   <div className="flex items-center gap-0.5">
@@ -33,62 +96,46 @@ const PlaceholderCard = (
   </div>
 )
 
-const BloodSugarRecordDetail = () => {
-  const location = useLocation();
-  const {
-    recordDetail,
-    fetchRecordDetail,
-    updateBloodSugar,
-    deleteBloodSugar,
-  } = useBloodSugarRecordDetail();
+const GlucoseStatusBar = (): ReactNode => {
+  const { recordDetail, unit } = useBloodSugarRecordDetailContext();
 
-  // 쿼리 파라미터에서 uid 추출
-  const query = new URLSearchParams(location.search);
-  const uid = query.get('id');
-  const unit = query.get('unit') || 'mg/dL';
-
-  useEffect(() => {
-    fetchRecordDetail(uid);
-  }, []);
-
-  const GlucoseStatusBar = (): ReactNode => {
-    /// 70 이하 저혈당 70이상 100 정상 100이상 140 전당뇨 140이상 당뇨병
-    if (recordDetail?.value < 70) {
-      return <Snackbar
-        message="저혈당"
-        description="혈당이 낮아요."
-        type="info"
-        showCloseButton={false}
-      />
-    }
-    else if (recordDetail?.value < 100) {
-      return <Snackbar
-        message="정상"
-        description="혈당이 정상적이에요."
-        type="success"
-        showCloseButton={false}
-      />
-    } else if (recordDetail?.value <= 140) {
-      return <Snackbar
-        message="전당뇨"
-        description="혈당이 살짝 높아요."
-        type="warning"
-        showCloseButton={false}
-      />
-    } else {
-      return <Snackbar
-        message="당뇨병"
-        description="혈당이 높아요."
-        type="error"
-        showCloseButton={false}
-      />
-    }
+  /// 70 이하 저혈당 70이상 100 정상 100이상 140 전당뇨 140이상 당뇨병
+  if (recordDetail?.value < 70) {
+    return <Snackbar
+      message="저혈당"
+      description="혈당이 낮아요."
+      type="info"
+      showCloseButton={false}
+    />
   }
+  else if (recordDetail?.value < 100) {
+    return <Snackbar
+      message="정상"
+      description="혈당이 정상적이에요."
+      type="success"
+      showCloseButton={false}
+    />
+  } else if (recordDetail?.value <= 140) {
+    return <Snackbar
+      message="전당뇨"
+      description="혈당이 살짝 높아요."
+      type="warning"
+      showCloseButton={false}
+    />
+  } else {
+    return <Snackbar
+      message="당뇨병"
+      description="혈당이 높아요."
+      type="error"
+      showCloseButton={false}
+    />
+  }
+}
 
+const GlucoseData = (): ReactNode => {
+  const { recordDetail, unit } = useBloodSugarRecordDetailContext();
 
-
-
-  const GlucoseData = (): ReactNode => (
+  return (
     <div
       className="flex flex-col space-y-2"
     >
@@ -105,99 +152,119 @@ const BloodSugarRecordDetail = () => {
       <GlucoseStatusBar />
     </div>
   )
+}
 
-  const RecordDate = (): ReactNode => {
-    return (
-      <div className="flex gap-3">
-        <div className="flex flex-col flex-1">
-          <LabelTitle label="날짜" />
-          <PlaceholderCard
-            bgColor="color-bg-disabled"
-            borderColor="color-border-disabled"
-          >
-            <div className="flex items-center justify-between w-full">
-              <span className="text-body2r color-text-primary">날짜~</span>
-              <IconCalendar size={16} />
-            </div>
-          </PlaceholderCard>
-        </div>
-        <div className="flex flex-col flex-1">
-          <LabelTitle label="시간" />
-          <PlaceholderCard
-            bgColor="color-bg-disabled"
-            borderColor="color-border-disabled"
-          >
-            <div className="flex items-center justify-between w-full">
-              <span className="text-body2r color-text-primary">시간~</span>
-              <IconClock size={16} />
-            </div>
-          </PlaceholderCard>
-        </div>
-      </div>
-    );
-  }
+const RecordDate = (): ReactNode => {
+  const { recordDetail } = useBloodSugarRecordDetailContext();
 
-  const RecordDetail = (): ReactNode => {
-    return (
-      <div className="flex flex-col space-y-8">
-        <GlucoseData />
-        <RecordDate />
-        <MemoSection />
-      </div>
-    )
-  }
+  const date = recordDetail?.recordedAtToDate();
 
-  const MemoSection = (): ReactNode => {
-    return (
-      <div className="flex flex-col space-y-2">
-        <LabelTitle label="메모" />
-        <MultilineTextForm
-          value={recordDetail?.memo || ''}
-          placeholder="메모를 입력해주세요."
-          handleChange={() => { }}
-        />
-      </div>
-    )
-  }
+  const displayTime = DateUtils.dateToHM(date);
+  const displayDate = DateUtils.dateToYMD(date);
 
-
-  const BottomButtons = (): ReactNode => {
-    return (
-      <div className={
-        cn(
-          "fixed bottom-0 left-0 right-0",
-          "flex items-center justify-between gap-2",
-          "px-4 pt-2 pb-12",
-        )
-      }>
-        <SolidButton
-          fullWidth
-          size="48"
-          color="error"
-          onClick={() => { }}
+  return (
+    <div className="flex gap-3">
+      <div className="flex flex-col flex-1">
+        <LabelTitle label="날짜" />
+        <PlaceholderCard
+          bgColor="color-bg-disabled"
+          borderColor="color-border-disabled"
         >
-          삭제
-        </SolidButton>
-        <SolidButton
-          fullWidth
-          size="48"
-          color="primary"
-          onClick={() => { }}
-        >
-          수정
-        </SolidButton>
+          <div className="flex items-center justify-between w-full">
+            <span className="text-body2r color-text-primary">{displayDate}</span>
+            <IconCalendar size={16} />
+          </div>
+        </PlaceholderCard>
       </div>
-    )
+      <div className="flex flex-col flex-1">
+        <LabelTitle label="시간" />
+        <PlaceholderCard
+          bgColor="color-bg-disabled"
+          borderColor="color-border-disabled"
+        >
+          <div className="flex items-center justify-between w-full">
+            <span className="text-body2r color-text-primary">{displayTime}</span>
+            <IconClock size={16} />
+          </div>
+        </PlaceholderCard>
+      </div>
+    </div>
+  );
+}
+
+const RecordDetail = (): ReactNode => {
+  const { recordDetail } = useBloodSugarRecordDetailContext();
+
+  // 데이터가 없으면 렌더링하지 않음
+  if (!recordDetail) {
+    return null;
   }
 
   return (
-    <div className="flex flex-col">
-      <AppBar title="기록 상세" />
-      <main className="flex-1 p-4 px-4 pt-[calc(56px+16px)]">
-        <RecordDetail />
-      </main>
-      <BottomButtons />
-    </div >
+    <div className="flex flex-col space-y-8">
+      <GlucoseData />
+      <RecordDate />
+      <MemoSection />
+    </div>
+  )
+}
+
+const MemoSection = (): ReactNode => {
+  const { recordDetail } = useBloodSugarRecordDetailContext();
+
+  return (
+    <div className="flex flex-col space-y-2">
+      <LabelTitle label="메모" />
+      <MultilineTextForm
+        value={recordDetail?.memo || ''}
+        placeholder="메모를 입력해주세요."
+        handleChange={() => { }}
+      />
+    </div>
+  )
+}
+
+
+const BottomButtons = (): ReactNode => {
+  return (
+    <div className={
+      cn(
+        "fixed bottom-0 left-0 right-0",
+        "flex items-center justify-between gap-2",
+        "px-4 pt-2 pb-12",
+      )
+    }>
+      <SolidButton
+        fullWidth
+        size="48"
+        color="error"
+        onClick={() => { }}
+      >
+        삭제
+      </SolidButton>
+      <SolidButton
+        fullWidth
+        size="48"
+        color="primary"
+        onClick={() => { }}
+      >
+        수정
+      </SolidButton>
+    </div>
+  )
+}
+
+const BloodSugarRecordDetail = () => {
+  return (
+    <BloodSugarRecordDetailProvider>
+      <div className="flex flex-col">
+        <AppBar title="기록 상세" />
+        <main className="flex-1 p-4 px-4 pt-[calc(56px+16px)]">
+          <RecordDetail />
+        </main>
+        <BottomButtons />
+      </div>
+    </BloodSugarRecordDetailProvider>
   );
 };
 
