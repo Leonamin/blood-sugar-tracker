@@ -227,7 +227,7 @@ const MemoSection = (): ReactNode => {
 
 
 const BottomButtons = (): ReactNode => {
-  const { recordDetail, deleteBloodSugar } = useBloodSugarRecordDetailContext();
+  const { recordDetail, deleteBloodSugar, crudType, setCrudType } = useBloodSugarRecordDetailContext();
   const navigate = useNavigate();
 
   const handleDelete = async () => {
@@ -237,6 +237,41 @@ const BottomButtons = (): ReactNode => {
     }
   }
 
+  // 수정 모드일 때의 버튼
+  if (crudType === CRUDType.Update) {
+    return (
+      <div className={
+        cn(
+          "fixed bottom-0 left-0 right-0",
+          "flex items-center justify-between gap-2",
+          "px-4 pt-2 pb-12",
+        )
+      }>
+        <SolidButton
+          fullWidth
+          size="48"
+          color="error"
+          onClick={() => {
+            setCrudType(CRUDType.Read);
+          }}
+        >
+          수정 취소
+        </SolidButton>
+        <SolidButton
+          fullWidth
+          size="48"
+          color="primary"
+          onClick={() => {
+            // 수정 완료 로직은 추후 구현
+          }}
+        >
+          수정 완료
+        </SolidButton>
+      </div>
+    )
+  }
+
+  // 읽기 모드일 때의 버튼
   return (
     <div className={
       cn(
@@ -259,7 +294,9 @@ const BottomButtons = (): ReactNode => {
         fullWidth
         size="48"
         color="primary"
-        onClick={() => { }}
+        onClick={() => {
+          setCrudType(CRUDType.Update);
+        }}
       >
         수정
       </SolidButton>
