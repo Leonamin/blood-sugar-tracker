@@ -11,7 +11,7 @@ export class BloodSugarRepository {
 
   async createBloodSugarRecord(
     data: BloodSugarWriteProps
-  ) : Promise<void> {
+  ) : Promise<BloodSugarReadEntity> {
     return await this.adapter.createBloodSugarEntity(data);
   }
 
