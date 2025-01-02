@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState, useEffect } from "react";
 
 interface BottomSheetContext {
   isOpen: boolean;
@@ -67,8 +67,28 @@ const BottomSheet = ({
   className
 }: BottomSheetProps) => {
   const { isOpen, close } = useBottomSheetContext();
+  const [isVisible, setIsVisible] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+      // 다음 프레임에서 애니메이션 시작
+      requestAnimationFrame(() => {
+        setIsAnimating(true);
+      });
+    } else {
+      setIsAnimating(false);
+      // 트랜지션이 완료된 후에 컴포넌트를 안보이게 설정
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  if (!isVisible && !isOpen) return null;
 
   return (
     <>
@@ -77,7 +97,7 @@ const BottomSheet = ({
         className={cn(
           "fixed z-50 inset-0 bg-black/40",
           "transition-opacity duration-300",
-          isOpen ? "opacity-100" : "opacity-0"
+          isAnimating ? "opacity-100" : "opacity-0"
         )}
         onClick={close}
       />
@@ -90,7 +110,7 @@ const BottomSheet = ({
           "transform transition-transform duration-300",
           borderRadius,
           padding,
-          isOpen ? "translate-y-0" : "translate-y-full"
+          isAnimating ? "translate-y-0" : "translate-y-full"
         )}
       >
         {children}
