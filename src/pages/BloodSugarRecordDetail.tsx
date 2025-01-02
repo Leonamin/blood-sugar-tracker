@@ -12,6 +12,7 @@ import { CRUDType } from '@/0_model/types/CRUDType';
 import BloodSugarModel from '@/0_model/model/bloodSugarModel';
 import { BloodSugarUnit } from '@/0_model/types/bloodSugarUnit';
 import { DateUtils } from '@/7_utils/dateUtils';
+import OutlineTextField from '@/1_components/ui/textfield/OutlineTextField';
 
 interface BloodSugarRecordDetailContext {
   recordDetail: BloodSugarModel | null;
@@ -134,14 +135,23 @@ const GlucoseStatusBar = (): ReactNode => {
 }
 
 const GlucoseData = (): ReactNode => {
-  const { recordDetail, unit } = useBloodSugarRecordDetailContext();
+  const { recordDetail, unit, crudType } = useBloodSugarRecordDetailContext();
+
+  const isReadOnly = crudType === "read";
 
   return (
     <div
       className="flex flex-col space-y-2"
     >
       <LabelTitle label="혈당" />
-      <PlaceholderCard
+      <OutlineTextField
+        value={recordDetail?.value.toString() || ''}
+        onChange={(value) => {
+        }}
+        suffix={<span className="text-caption1r color-text-primary">{unit}</span>}
+        readOnly={isReadOnly}
+      />
+      {/* <PlaceholderCard
         bgColor="color-bg-inverse"
         borderColor="color-border-primary"
       >
@@ -149,7 +159,7 @@ const GlucoseData = (): ReactNode => {
           <span className="text-body2r color-text-primary">{recordDetail?.value}</span>
           <span className="text-caption1r color-text-primary">{unit}</span>
         </div>
-      </PlaceholderCard>
+      </PlaceholderCard> */}
       <GlucoseStatusBar />
     </div>
   )
