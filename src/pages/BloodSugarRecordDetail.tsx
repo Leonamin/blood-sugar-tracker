@@ -134,7 +134,7 @@ const GlucoseStatusBar = (): ReactNode => {
   }
 }
 
-const GlucoseData = (): ReactNode => {
+const SectionGlucoseData = (): ReactNode => {
   const { recordDetail, unit, crudType } = useBloodSugarRecordDetailContext();
 
   const isReadOnly = crudType === CRUDType.Read;
@@ -156,7 +156,7 @@ const GlucoseData = (): ReactNode => {
   )
 }
 
-const RecordDate = (): ReactNode => {
+const SectionDate = (): ReactNode => {
   const { recordDetail } = useBloodSugarRecordDetailContext();
 
   const date = recordDetail?.recordedAtToDate();
@@ -166,7 +166,7 @@ const RecordDate = (): ReactNode => {
 
   return (
     <div className="flex gap-3">
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 space-y-2">
         <LabelTitle label="날짜" />
         <PlaceholderCard
           bgColor="color-bg-disabled"
@@ -178,7 +178,7 @@ const RecordDate = (): ReactNode => {
           </div>
         </PlaceholderCard>
       </div>
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 space-y-2">
         <LabelTitle label="시간" />
         <PlaceholderCard
           bgColor="color-bg-disabled"
@@ -194,24 +194,7 @@ const RecordDate = (): ReactNode => {
   );
 }
 
-const RecordDetail = (): ReactNode => {
-  const { recordDetail } = useBloodSugarRecordDetailContext();
-
-  // 데이터가 없으면 렌더링하지 않음
-  if (!recordDetail) {
-    return null;
-  }
-
-  return (
-    <div className="flex flex-col space-y-8">
-      <GlucoseData />
-      <RecordDate />
-      <MemoSection />
-    </div>
-  )
-}
-
-const MemoSection = (): ReactNode => {
+const SectionMemo = (): ReactNode => {
   const { recordDetail, crudType } = useBloodSugarRecordDetailContext();
 
   const isReadOnly = crudType === CRUDType.Read;
@@ -228,6 +211,25 @@ const MemoSection = (): ReactNode => {
     </div>
   )
 }
+
+const RecordDetail = (): ReactNode => {
+  const { recordDetail } = useBloodSugarRecordDetailContext();
+
+  // 데이터가 없으면 렌더링하지 않음
+  if (!recordDetail) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col space-y-8">
+      <SectionGlucoseData />
+      <SectionDate />
+      <SectionMemo />
+    </div>
+  )
+}
+
+
 
 
 const BottomButtons = (): ReactNode => {
