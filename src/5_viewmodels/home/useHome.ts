@@ -8,11 +8,14 @@ import {
   fetchBsRecords,
 } from "@/8_store/bloodSugar/bloodSugarSlice";
 import { useAppDispatch } from "@/3_hook/useAppDispatch";
+import { selectBloodSugarModelsByDate } from '@/8_store/bloodSugar/bloodSugarSelectors';
 
 export function useHome() {
   const dispatch = useAppDispatch();
-  const { records } = useSelector(
-    (state: RootState) => state.bloodSugarRecords
+  const today = new Date(); // 현재 날짜
+  
+  const bloodSugars = useSelector(state => 
+    selectBloodSugarModelsByDate(state, today)
   );
 
   const fetchBloodSugars = async (query: UnixTimestampRange) => {
@@ -20,7 +23,7 @@ export function useHome() {
     const to = new Date(query.to);
 
     dispatch(fetchBsRecords({ from, to }));
-    records.sort(
+    bloodSugars.sort(
       (a, b) =>
         new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime()
     );
@@ -43,7 +46,7 @@ export function useHome() {
   };
 
   return {
-    bloodSugars: records,
+    bloodSugars,
     fetchBloodSugars,
     addBloodSugar,
     deleteBloodSugar,

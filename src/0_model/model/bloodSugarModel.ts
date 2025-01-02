@@ -2,6 +2,7 @@ import { BloodSugarUnit } from "../types/bloodSugarUnit";
 import { UnixTimestamp } from "../types/unixtimestamp";
 /**
  * 혈당 모델 속성 인터페이스
+ * Redux에서도 사용
  * @property uid - 고유 식별자
  * @property value - 혈당 수치 
  * @property unit - 혈당 단위 (mg/dL 또는 mmol/L)
@@ -9,7 +10,7 @@ import { UnixTimestamp } from "../types/unixtimestamp";
  * @property recordedDate - 기록 날짜 (YYYY-MM-DD)
  * @property memoUid - 연결된 메모 ID (선택사항)
  */
-interface BloodSugarModelProps {
+export interface BloodSugarModelProps {
   uid: string;
   value: number; 
   unit: BloodSugarUnit;
@@ -62,9 +63,20 @@ class BloodSugarModel {
   recordedAtToDate(): Date {
     return new Date(this.recordedAt);
   }
+
+  toProps(): BloodSugarModelProps {
+    return {
+      uid: this.uid,
+      value: this.value,
+      unit: this.unit,
+      recordedAt: this.recordedAt,
+      recordedDate: this.recordedDate,
+      memo: this.memo,
+    };
+  }
 }
 
-interface BloodSugarWriteProps {
+export interface BloodSugarWriteProps {
   value?: number;
   unit?: BloodSugarUnit;
   recordedAt?: string;
@@ -73,4 +85,3 @@ interface BloodSugarWriteProps {
 }
 
 export default BloodSugarModel;
-export type { BloodSugarWriteProps };

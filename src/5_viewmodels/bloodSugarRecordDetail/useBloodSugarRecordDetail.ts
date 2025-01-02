@@ -9,11 +9,13 @@ import {
   updateBsRecordByUid,
 } from "@/8_store/bloodSugar/bloodSugarSlice";
 import { useAppDispatch } from "@/3_hook/useAppDispatch";
+import { selectBloodSugarModelById } from '@/8_store/bloodSugar/bloodSugarSelectors';
 
 export function useBloodSugarRecordDetail(uid: string) {
   const dispatch = useAppDispatch();
-  const { records } = useSelector(
-    (state: RootState) => state.bloodSugarRecords
+  
+  const recordDetail = useSelector(state => 
+    selectBloodSugarModelById(state, uid)
   );
 
   const fetchRecordDetail = async (uid: string) => {
@@ -35,7 +37,7 @@ export function useBloodSugarRecordDetail(uid: string) {
   };
 
   return {
-    recordDetail: records.find((record) => record.uid === uid),
+    recordDetail: recordDetail,
     fetchRecordDetail,
     updateBloodSugar,
     deleteBloodSugar,
