@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import BloodSugarModel from '@/0_model/model/bloodSugarModel';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import BloodSugarModel, { BloodSugarWriteProps } from '@/0_model/model/bloodSugarModel';
+import { bloodSugarService } from '@/2_services/bloodSugarService';
 
 interface BloodSugarState {
   records: BloodSugarModel[];
@@ -11,25 +12,94 @@ const initialState: BloodSugarState = {
   loading: false,
 };
 
+
+const createBsRecord = createAsyncThunk(
+  'bloodSugar/createRecord',
+  async (data: BloodSugarWriteProps, {dispatch}) => {
+    const response = await bloodSugarService.createBloodSugar(data);
+    if (response.success) {
+      dispatch(addRecord(response.data));
+    }
+  }
+)
+
+const updateBsRecordByUid = createAsyncThunk(
+  'bloodSugar/updateRecordByUid',
+  async (prop: {
+    uid: string;
+    data: BloodSugarWriteProps;
+  }, {dispatch}) => {
+    const response = await bloodSugarService.updateBloodSugar(prop.uid, prop.data);
+    if (response.success) {
+      dispatch(updateRecordByUid(response.data));
+    }
+  }
+)
+
+const deleteBsRecordByUid = createAsyncThunk(
+  'bloodSugar/deleteRecordByUid',
+  async (uid: string, {dispatch}) => {
+    const response = await bloodSugarService.deleteBloodSugar(uid);
+    if (response.success) {
+      dispatch(deleteRecordByUid(uid));
+    }
+  }
+)
+
+const fetchBsRecords = createAsyncThunk<BloodSugarModel[], {from: Date; to: Date}>(
+  'bloodSugar/fetchRecords',
+  async (range: {
+    from: Date;
+    to: Date;
+  }): Promise<BloodSugarModel[]> => {
+    const response = await bloodSugarService.getBloodSugarByRange(range.from, range.to);
+    if (response.success) {
+      return response.data;
+    } else {
+      throw new Error(response.error);
+    }
+  }
+)
+
+const fetchBsRecordByUid = createAsyncThunk(
+  'bloodSugar/fetchRecordByUid',
+  async (uid: string) => {
+    const response = await bloodSugarService.getBloodSugar(uid);
+    return response.data;
+  }
+)
+
 export const bloodSugarSlice = createSlice({
   name: 'bloodSugar',
   initialState,
   reducers: {
-    setRecords: (state, action: PayloadAction<BloodSugarModel[]>) => {
-      state.records = action.payload;
-    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
+    /**
+     * Service에서 생성된 데이터를 추가하는 액션
+     * 외부에서 사용될 일 없음
+     * @param state 
+     * @param action 
+     */
     addRecord: (state, action: PayloadAction<BloodSugarModel>) => {
-      if (state.records.find(record => record.uid === action.payload.uid)) {
-        return;
-      }
       state.records.push(action.payload);
     },
+    /**
+     * Service에서 삭제된 데이터를 삭제하는 액션
+     * 외부에서 사용될 일 없음
+     * @param state 
+     * @param action 
+     */
     deleteRecordByUid: (state, action: PayloadAction<string>) => {
       state.records = state.records.filter(record => record.uid !== action.payload);
     },
+    /**
+     * Service에서 업데이트된 데이터를 업데이트하는 액션
+     * 외부에서 사용될 일 없음
+     * @param state 
+     * @param action 
+     */
     updateRecordByUid: (state, action: PayloadAction<BloodSugarModel>) => {
       const index = state.records.findIndex(record => record.uid === action.payload.uid);
       if (index !== -1) {
@@ -37,7 +107,29 @@ export const bloodSugarSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchBsRecords.fulfilled, (state, action) => {
+      // 새로운 데이터의 uid 목록 생성
+      const newUids = new Set(action.payload.map(record => record.uid));
+      
+      // 기존 데이터 중 새로운 데이터와 중복되지 않는 것만 필터링
+      const filteredExisting = state.records.filter(record => !newUids.has(record.uid));
+      
+      // 기존 데이터와 새로운 데이터 합치기
+      state.records = [...filteredExisting, ...action.payload];
+    });
+    builder.addCase(fetchBsRecordByUid.fulfilled, (state, action) => {
+      const newUid = action.payload.uid;
+      const existingIndex = state.records.findIndex(record => record.uid === newUid);
+      if (existingIndex !== -1) {
+        state.records[existingIndex] = action.payload;
+      } else {
+        state.records.push(action.payload);
+      }
+    });
+  }
 });
 
-export const { setRecords, addRecord, deleteRecordByUid, updateRecordByUid, setLoading } = bloodSugarSlice.actions;
+export const { setLoading, addRecord, deleteRecordByUid, updateRecordByUid } = bloodSugarSlice.actions;
+export { createBsRecord, updateBsRecordByUid, deleteBsRecordByUid, fetchBsRecords, fetchBsRecordByUid };
 export default bloodSugarSlice.reducer; 
