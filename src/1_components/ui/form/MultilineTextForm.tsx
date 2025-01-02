@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { ClassValue } from "clsx";
 import { useEffect, useRef } from "react";
 import { IconAlertOctagon, } from "@/1_components/icons";
 
@@ -10,6 +9,7 @@ export interface MultilineTextFormProps extends React.HTMLAttributes<HTMLDivElem
     showCount?: boolean;
     maxLength?: number;
     minLines?: number;
+    readOnly?: boolean;
     maxLines?: number;
     disabled?: boolean;
     validator?: (value: string) => boolean;
@@ -50,6 +50,7 @@ const MultilineTextForm = ({
     validator,
     errorMessage,
     className,
+    readOnly = false,
     ...props
 }: MultilineTextFormProps) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -70,6 +71,7 @@ const MultilineTextForm = ({
     }, [value, minLines, maxLines]);
 
     const getStateStyles = () => {
+        if (readOnly) return "color-border-primary";
         if (disabled) return "color-border-disabled color-bg-disabled";
         if (hasError) return "color-border-danger";
         if (isFilled) return "color-border-primary";
@@ -103,13 +105,15 @@ const MultilineTextForm = ({
                     className={cn(
                         "w-full resize-none bg-transparent text-body2r focus:outline-none",
                         getTextStyles(),
-                        disabled && "cursor-not-allowed"
+                        disabled && "cursor-not-allowed",
+                        readOnly && "cursor-default",
                     )}
                     value={value}
                     onChange={(e) => handleChange(e.target.value)}
                     placeholder={placeholder}
                     maxLength={maxLength}
                     disabled={disabled}
+                    readOnly={readOnly}
                 />
                 {showCount && (
                     <Counter

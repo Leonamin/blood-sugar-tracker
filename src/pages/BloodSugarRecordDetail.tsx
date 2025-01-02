@@ -6,7 +6,7 @@ import Snackbar from '@/1_components/ui/overlay/snackbar/snackbar';
 import { cn } from '@/lib/utils';
 import { ClassValue } from 'clsx';
 import { IconCalendar, IconClock } from '@/1_components/icons';
-import MultilineTextForm from '@/1_components/ui/form/multiline-text-form';
+import MultilineTextForm from '@/1_components/ui/form/MultilineTextForm';
 import SolidButton from '@/1_components/ui/button/solid-button';
 import { CRUDType } from '@/0_model/types/CRUDType';
 import BloodSugarModel from '@/0_model/model/bloodSugarModel';
@@ -137,7 +137,7 @@ const GlucoseStatusBar = (): ReactNode => {
 const GlucoseData = (): ReactNode => {
   const { recordDetail, unit, crudType } = useBloodSugarRecordDetailContext();
 
-  const isReadOnly = crudType === "read";
+  const isReadOnly = crudType === CRUDType.Read;
 
   return (
     <div
@@ -151,15 +151,6 @@ const GlucoseData = (): ReactNode => {
         suffix={<span className="text-caption1r color-text-primary">{unit}</span>}
         readOnly={isReadOnly}
       />
-      {/* <PlaceholderCard
-        bgColor="color-bg-inverse"
-        borderColor="color-border-primary"
-      >
-        <div className="flex items-center justify-between w-full">
-          <span className="text-body2r color-text-primary">{recordDetail?.value}</span>
-          <span className="text-caption1r color-text-primary">{unit}</span>
-        </div>
-      </PlaceholderCard> */}
       <GlucoseStatusBar />
     </div>
   )
@@ -221,7 +212,9 @@ const RecordDetail = (): ReactNode => {
 }
 
 const MemoSection = (): ReactNode => {
-  const { recordDetail } = useBloodSugarRecordDetailContext();
+  const { recordDetail, crudType } = useBloodSugarRecordDetailContext();
+
+  const isReadOnly = crudType === CRUDType.Read;
 
   return (
     <div className="flex flex-col space-y-2">
@@ -230,6 +223,7 @@ const MemoSection = (): ReactNode => {
         value={recordDetail?.memo || ''}
         placeholder="메모를 입력해주세요."
         handleChange={() => { }}
+        readOnly={isReadOnly}
       />
     </div>
   )

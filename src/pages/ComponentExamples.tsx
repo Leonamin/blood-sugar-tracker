@@ -5,7 +5,7 @@ import SolidButton from "@/1_components/ui/button/solid-button";
 import Tag from "@/1_components/ui/tag/tag";
 import { CheckBox } from "@/1_components/ui/button/check-box";
 import TextButton from "@/1_components/ui/button/text-button";
-import MultilineTextForm from "@/1_components/ui/form/multiline-text-form";
+import MultilineTextForm from "@/1_components/ui/form/MultilineTextForm";
 import GraphicIconDanger from "@/1_components/graphic-icons/GraphicIconDanger";
 import GraphicIconInfo from "@/1_components/graphic-icons/GraphicIconInfo";
 import GraphicIconSuccess from "@/1_components/graphic-icons/GraphicIconSuccess";
