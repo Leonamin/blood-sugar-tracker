@@ -12,7 +12,7 @@ import { Utils } from "@/7_utils/utils";
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const { bloodSugars, loading, fetchBloodSugars, addBloodSugar, deleteBloodSugar } = useHome();
+  const { bloodSugars, fetchBloodSugars, addBloodSugar, deleteBloodSugar } = useHome();
   const [value, setValue] = useState("0");
   const [memo, setMemo] = useState("");
   const visibilityState = usePageVisibility();

@@ -23,12 +23,12 @@ const createBsRecord = createAsyncThunk(
   }
 )
 
-const updateBsRecordByUid = createAsyncThunk(
+const updateBsRecordByUid = createAsyncThunk<void, {
+  uid: string;
+  data: BloodSugarWriteProps;
+}>(
   'bloodSugar/updateRecordByUid',
-  async (prop: {
-    uid: string;
-    data: BloodSugarWriteProps;
-  }, {dispatch}) => {
+  async (prop, {dispatch}) => {
     const response = await bloodSugarService.updateBloodSugar(prop.uid, prop.data);
     if (response.success) {
       dispatch(updateRecordByUid(response.data));
@@ -36,9 +36,9 @@ const updateBsRecordByUid = createAsyncThunk(
   }
 )
 
-const deleteBsRecordByUid = createAsyncThunk(
+const deleteBsRecordByUid = createAsyncThunk<void, string>(
   'bloodSugar/deleteRecordByUid',
-  async (uid: string, {dispatch}) => {
+  async (uid, {dispatch}) => {
     const response = await bloodSugarService.deleteBloodSugar(uid);
     if (response.success) {
       dispatch(deleteRecordByUid(uid));
@@ -61,9 +61,9 @@ const fetchBsRecords = createAsyncThunk<BloodSugarModel[], {from: Date; to: Date
   }
 )
 
-const fetchBsRecordByUid = createAsyncThunk(
+const fetchBsRecordByUid = createAsyncThunk<BloodSugarModel, string>(
   'bloodSugar/fetchRecordByUid',
-  async (uid: string) => {
+  async (uid) => {
     const response = await bloodSugarService.getBloodSugar(uid);
     return response.data;
   }
@@ -117,6 +117,10 @@ export const bloodSugarSlice = createSlice({
       
       // 기존 데이터와 새로운 데이터 합치기
       state.records = [...filteredExisting, ...action.payload];
+      state.records.sort(
+        (a, b) =>
+          new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime()
+      );
     });
     builder.addCase(fetchBsRecordByUid.fulfilled, (state, action) => {
       const newUid = action.payload.uid;
@@ -126,6 +130,10 @@ export const bloodSugarSlice = createSlice({
       } else {
         state.records.push(action.payload);
       }
+      state.records.sort(
+        (a, b) =>
+          new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime()
+      );
     });
   }
 });
