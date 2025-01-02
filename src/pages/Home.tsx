@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHome } from "@/5_viewmodels/home/useHome";
-import { dateToEndUnixTimestamp, dateToStartUnixTimestamp, dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
+import { dateToEndUnixTimestamp, dateToStartUnixTimestamp } from "@/0_model/types/unixtimestamp";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,7 @@ import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 import { usePageVisibility } from "@/3_hook/usePageVisibility";
 import { Utils } from "@/7_utils/utils";
 import { useNavigate } from 'react-router-dom';
+import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 
 const Home = () => {
   const { bloodSugars, fetchBloodSugars, addBloodSugar, deleteBloodSugar } = useHome();
@@ -151,7 +152,7 @@ const Home = () => {
           <ul>
             {bloodSugars.map((sugar) => (
               <li key={sugar.uid} className="pb-2">
-                <BloodSugarRecordTile bloodSugar={sugar} bloodSugarCategory={selectedCategory.value}
+                <BloodSugarRecordTile bloodSugar={sugar as BloodSugarModel} bloodSugarCategory={selectedCategory.value}
                   onDelete={() => {
                     handleDelete(sugar.uid);
                   }}
