@@ -1,49 +1,51 @@
 // viewmodels/useBloodSugar.js
-import { useState } from "react";
-import { BloodSugarService } from "@/2_services/bloodSugarService.js";
-import { BloodSugarWriteProps } from "@/0_model/model/bloodSugarModel";
+import { useSelector } from "react-redux";
+import { RootState } from "@/8_store/store";
 import { UnixTimestampRange } from "@/0_model/types/unixtimestamp";
-
-const bloodSugarService = new BloodSugarService();
+import {
+  createBsRecord,
+  deleteBsRecordByUid,
+  fetchBsRecords,
+} from "@/8_store/bloodSugar/bloodSugarSlice";
+import { useAppDispatch } from "@/3_hook/useAppDispatch";
 
 export function useHome() {
-  const [bloodSugars, setBloodSugars] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const { records } = useSelector(
+    (state: RootState) => state.bloodSugarRecords
+  );
 
   const fetchBloodSugars = async (query: UnixTimestampRange) => {
-    setLoading(true);
-    try {
-      const data = await bloodSugarService.getBloodSugarByRange(
-        new Date(query.from),
-        new Date(query.to),
-      );
-      data.sort((a, b) => new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime());
-      setBloodSugars(data);
-    } finally {
-      setLoading(false);
-    }
+    const from = new Date(query.from);
+    const to = new Date(query.to);
+
+    dispatch(fetchBsRecords({ from, to }));
+    records.sort(
+      (a, b) =>
+        new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime()
+    );
   };
 
   const addBloodSugar = async (value: number, memo?: string) => {
-    setLoading(true);
-    try {
-      await bloodSugarService.createBloodSugar({
+    dispatch(
+      createBsRecord({
         value,
         unit: "mg/dL",
         recordedAt: new Date().toISOString(),
-        recordedDate: new Date().toLocaleDateString('en-CA'),
+        recordedDate: new Date().toLocaleDateString("en-CA"),
         memo,
-      });
-    } finally {
-      setLoading(false);
-    }
+      })
+    );
   };
 
   const deleteBloodSugar = async (id: string) => {
-    setLoading(true);
-    await bloodSugarService.deleteBloodSugar(id);
-    setLoading(false);
-  }
+    dispatch(deleteBsRecordByUid(id));
+  };
 
-  return { bloodSugars, loading, fetchBloodSugars, addBloodSugar, deleteBloodSugar };
+  return {
+    bloodSugars: records,
+    fetchBloodSugars,
+    addBloodSugar,
+    deleteBloodSugar,
+  };
 }

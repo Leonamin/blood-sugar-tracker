@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useBloodSugarRecordDetail } from '@/5_viewmodels/bloodSugarRecordDetail/useBloodSugarRecordDetail';
 import AppBar from '@/1_components/ui/layout/appBar';
@@ -19,6 +19,7 @@ interface BloodSugarRecordDetailContext {
   setUnit: (unit: BloodSugarUnit) => void;
   crudType: CRUDType;
   setCrudType: (crudType: CRUDType) => void;
+  deleteBloodSugar: (uid: string) => Promise<boolean>;
 }
 
 const BloodSugarRecordDetailContext = createContext<BloodSugarRecordDetailContext>({
@@ -27,25 +28,24 @@ const BloodSugarRecordDetailContext = createContext<BloodSugarRecordDetailContex
   crudType: CRUDType.Read,
   setCrudType: () => { },
   setUnit: () => { },
+  deleteBloodSugar: () => Promise.resolve(false),
 });
 
 const BloodSugarRecordDetailProvider = ({ children }: { children: ReactNode }): ReactNode => {
   const location = useLocation();
-  const {
-    recordDetail,
-    fetchRecordDetail,
-    updateBloodSugar,
-    deleteBloodSugar,
-  } = useBloodSugarRecordDetail();
+  
 
   // 쿼리 파라미터에서 uid 추출
   const query = new URLSearchParams(location.search);
   const uid = query.get('id');
   const initialUnit: BloodSugarUnit = query.get('unit') as BloodSugarUnit || 'mg/dL';
 
-  useEffect(() => {
-    fetchRecordDetail(uid);
-  }, []);
+
+  const {
+    recordDetail,
+    updateBloodSugar,
+    deleteBloodSugar,
+  } = useBloodSugarRecordDetail(uid);
 
   const [crudType, setCrudType] = useState<CRUDType>(CRUDType.Read);
   const [unit, setUnit] = useState<BloodSugarUnit>(initialUnit);
@@ -57,6 +57,7 @@ const BloodSugarRecordDetailProvider = ({ children }: { children: ReactNode }): 
       recordDetail,
       unit,
       setUnit,
+      deleteBloodSugar,
     }}>
       {children}
     </BloodSugarRecordDetailContext.Provider>
@@ -226,6 +227,16 @@ const MemoSection = (): ReactNode => {
 
 
 const BottomButtons = (): ReactNode => {
+  const { recordDetail, deleteBloodSugar } = useBloodSugarRecordDetailContext();
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    const result = await deleteBloodSugar(recordDetail.uid);
+    if (result) {
+      navigate(-1);
+    }
+  }
+
   return (
     <div className={
       cn(
@@ -238,7 +249,9 @@ const BottomButtons = (): ReactNode => {
         fullWidth
         size="48"
         color="error"
-        onClick={() => { }}
+        onClick={() => {
+          handleDelete();
+        }}
       >
         삭제
       </SolidButton>

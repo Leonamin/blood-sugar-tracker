@@ -1,30 +1,43 @@
-import { BloodSugarReadEntity } from "@/0_model/entity/bloodSugarEntity";
-import BloodSugarModel, {  BloodSugarWriteProps } from "@/0_model/model/bloodSugarModel";
-import { BloodSugarService } from "@/2_services/bloodSugarService";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/8_store/store";
+import {
+  BloodSugarWriteProps,
+} from "@/0_model/model/bloodSugarModel";
+import {
+  deleteBsRecordByUid,
+  fetchBsRecordByUid,
+  updateBsRecordByUid,
+} from "@/8_store/bloodSugar/bloodSugarSlice";
+import { useAppDispatch } from "@/3_hook/useAppDispatch";
 
-const bloodSugarService = new BloodSugarService();
-
-export function useBloodSugarRecordDetail() {
-  const [recordDetail, setRecordDetail] = useState<BloodSugarModel | null>(null);
+export function useBloodSugarRecordDetail(uid: string) {
+  const dispatch = useAppDispatch();
+  const { records } = useSelector(
+    (state: RootState) => state.bloodSugarRecords
+  );
 
   const fetchRecordDetail = async (uid: string) => {
-    const record = await bloodSugarService.getBloodSugar(uid);
-    setRecordDetail(BloodSugarReadEntity.toModel(record));
-  }
+    dispatch(fetchBsRecordByUid(uid));  
+  };
 
   const updateBloodSugar = async (uid: string, data: BloodSugarWriteProps) => {
-    await bloodSugarService.updateBloodSugar(uid, data);
-  }
+    dispatch(updateBsRecordByUid({ uid, data }));
+  };
 
-  const deleteBloodSugar = async (id: string) => {
-    await bloodSugarService.deleteBloodSugar(id);
-  }
+  const deleteBloodSugar = async (uid: string): Promise<boolean> => {
+    try {
+      dispatch(deleteBsRecordByUid(uid));
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
 
   return {
-    recordDetail,
+    recordDetail: records.find((record) => record.uid === uid),
     fetchRecordDetail,
     updateBloodSugar,
     deleteBloodSugar,
-  }
+  };
 }
