@@ -84,12 +84,24 @@ interface MonthlyCalendarProps {
     children?: ReactNode;
     hideOutSideDays?: boolean;
     dayTileRatioStyle?: string;
+    normalDateStyle?: ClassValue;
+    selectedDateStyle?: ClassValue;
+    outsideDateStyle?: ClassValue;
+    dayTileBuilder?: (date: Date) => ReactNode;
 }
 
 export const MonthlyCalendar = ({
     className,
     hideOutSideDays = false,
-    dayTileRatioStyle = 'aspect-[1/1.2]'
+    dayTileRatioStyle = 'aspect-[1/1.2]',
+    dayTileBuilder = (date: Date) =>
+        <MonthlyDayTile
+            date={date}
+            dayTileRatioStyle="aspect-[1/1.2]"
+            normalDateStyle="text-body2 font-semibold"
+            selectedDateStyle="border-2 color-border-success color-bg-success-subtle rounded-full"
+            outsideDateStyle="color-text-disabled"
+        />
 }: MonthlyCalendarProps) => {
     const { selectedDay, focusedDay, setSelectedDay, setFocusedDay } = useMonthlyCalendarContext();
 
@@ -153,10 +165,6 @@ export const MonthlyCalendar = ({
         ))
     }
 
-    /* Styling */
-    const normalDateStyle: ClassValue = "text-body2 font-semibold"
-    const selectedDateStyle = "border-2 color-border-success color-bg-success-subtle rounded-full"
-    const outsideDateStyle = "color-text-disabled"
     return (
         <div className={cn("w-full",
             "box-border",
@@ -168,16 +176,7 @@ export const MonthlyCalendar = ({
                 {days.map((date, i) => {
                     if (!date) return <div key={`empty-${i}`} />;
 
-                    return (
-                        <MonthlyDayTile
-                            key={date.toISOString()}
-                            date={date}
-                            dayTileRatioStyle={dayTileRatioStyle}
-                            normalDateStyle={normalDateStyle}
-                            selectedDateStyle={selectedDateStyle}
-                            outsideDateStyle={outsideDateStyle}
-                        />
-                    );
+                    return dayTileBuilder(date);  // 커스텀 빌더 사용
                 })}
             </div>
         </div>
@@ -252,9 +251,9 @@ interface DayTileProps {
 const MonthlyDayTile = ({
     date,
     dayTileRatioStyle = "aspect-[1/1.2]",
-    normalDateStyle = "text-body2 font-semibold",
-    selectedDateStyle = "border-2 color-border-success color-bg-success-subtle rounded-full",
-    outsideDateStyle = "color-text-disabled",
+    normalDateStyle,
+    selectedDateStyle,
+    outsideDateStyle,
 }: DayTileProps) => {
     const { isOutsideDay, isSelectedDay, handleDayClick } = useMonthlyCalendarContext();
 
