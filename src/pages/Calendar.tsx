@@ -9,14 +9,17 @@ import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider, Monthl
 import { useAppDispatch } from "@/3_hook/useAppDispatch";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import { DateUtils } from "@/7_utils/dateUtils";
+import { NavigatorUtils } from "@/7_utils/navigatorUtils";
 import { selectBloodSugarModelsAll, selectBloodSugarModelsByDate } from "@/8_store/bloodSugar/bloodSugarSelectors";
 import { deleteBsRecordByUid } from "@/8_store/bloodSugar/bloodSugarSlice";
 import { setSelectedDay, setFocusedDay } from "@/8_store/calendar/calendarSlice";
 import { RootState } from "@/8_store/store";
 import { cn } from "@/lib/utils";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Calendar = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const selectedDay = useSelector((state: RootState) => state.calendar.selectedDay);
   const focusedDay = useSelector((state: RootState) => state.calendar.focusedDay);
@@ -84,7 +87,7 @@ const Calendar = () => {
   }
 
   const handleEdit = (uid: string) => {
-    // dispatch(editBsRecordByUid(uid));
+    NavigatorUtils.navigateToBsDetail(navigate, uid);
   }
 
   const handleAdd = () => {

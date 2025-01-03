@@ -11,6 +11,7 @@ import { usePageVisibility } from "@/3_hook/usePageVisibility";
 import { Utils } from "@/7_utils/utils";
 import { useNavigate } from 'react-router-dom';
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
+import { NavigatorUtils } from "@/7_utils/navigatorUtils";
 
 const Home = () => {
   const { bloodSugars, fetchBloodSugars, addBloodSugar, deleteBloodSugar } = useHome();
@@ -65,9 +66,10 @@ const Home = () => {
       to: dateToEndUnixTimestamp(today),
     });
   }
-
+  
   const handleEdit = async (id: string) => {
-    navigate(`/record-detail?id=${id}`);
+    NavigatorUtils.navigateToBsDetail(navigate, id);
+
   }
 
   const processFormSubmit = async () => {
