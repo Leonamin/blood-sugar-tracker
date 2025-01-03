@@ -13,7 +13,7 @@ import GraphicIconWarning from "@/1_components/graphic-icons/GraphicIconWarning"
 import CircleStepIndicator from "@/1_components/ui/indicator/circle-step-indicator";
 import SemiCircleStepIndicator from "@/1_components/ui/indicator/semi-circle-step-indicator";
 import Snackbar from "@/1_components/ui/overlay/snackbar/snackbar";
-import Dialog, { DialogProvider, useDialog } from "@/1_components/ui/overlay/dialog/dialog";
+import Dialog, { DialogProvider, useDialog } from "@/1_components/ui/overlay/dialog/Dialog";
 import { Calendar } from '@/1_components/ui/calendar/RangeCalendar';
 import { DateRange } from "react-day-picker";
 import { DateRangePickerBottomSheet } from "@/1_components/ui/picker/DateRangePickerBottomSheet";

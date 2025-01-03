@@ -95,7 +95,7 @@ const BottomSheet = ({
       {/* 배경 오버레이 */}
       <div
         className={cn(
-          "fixed z-50 inset-0 bg-black/40",
+          "fixed z-50 inset-0 color-bg-overlay",
           "transition-opacity duration-300",
           isAnimating ? "opacity-100" : "opacity-0"
         )}
