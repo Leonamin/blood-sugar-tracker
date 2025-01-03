@@ -60,7 +60,8 @@ const TimePickerContent = ({
   )
 
   return (
-    <>
+    // FIXME 알 수 없는 이유로 <>를 사용하면 top margin이 16px 추가됨
+    <div>
       <div onClick={isDisabled ? undefined : open}>{child}</div>
       <BottomSheet>
         <Picker value={selectedTime} onChange={handleChange}>
@@ -78,7 +79,7 @@ const TimePickerContent = ({
 
       </BottomSheet>
 
-    </>
+    </ div>
   )
 }
 
