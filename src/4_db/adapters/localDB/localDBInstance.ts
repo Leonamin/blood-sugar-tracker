@@ -4,9 +4,11 @@ import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
 import { RxDBMigrationSchemaPlugin } from "rxdb/plugins/migration-schema";
 import { bloodSugarSchema } from "./schemas/bloodSugarSchema";
+import { RxDBUpdatePlugin } from 'rxdb/plugins/update';
 
 addRxPlugin(RxDBMigrationSchemaPlugin);
 addRxPlugin(RxDBDevModePlugin); // 개발 시 유용한 플러그인
+addRxPlugin(RxDBUpdatePlugin);
 // addRxPlugin(RxDBValidatePlugin);
 
 const createDatabase = async () => {

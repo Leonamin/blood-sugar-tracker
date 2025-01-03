@@ -22,8 +22,14 @@ export function useBloodSugarRecordDetail(uid: string) {
     dispatch(fetchBsRecordByUid(uid));  
   };
 
-  const updateBloodSugar = async (uid: string, data: BloodSugarWriteProps) => {
-    dispatch(updateBsRecordByUid({ uid, data }));
+  const updateBloodSugar = async (uid: string, data: BloodSugarWriteProps): Promise<boolean> => {
+    try {
+      dispatch(updateBsRecordByUid({ uid, data }));
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   };
 
   const deleteBloodSugar = async (uid: string): Promise<boolean> => {

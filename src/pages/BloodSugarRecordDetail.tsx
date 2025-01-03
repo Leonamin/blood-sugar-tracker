@@ -22,7 +22,16 @@ interface BloodSugarRecordDetailContext {
   setUnit: (unit: BloodSugarUnit) => void;
   crudType: CRUDType;
   setCrudType: (crudType: CRUDType) => void;
-  deleteBloodSugar: (uid: string) => Promise<boolean>;
+  handleDelete: () => Promise<void>;
+  handleUpdate: () => Promise<void>;
+  bsValue: string;
+  setBsValue: (value: string) => void;
+  memo: string;
+  setMemo: (memo: string) => void;
+  date: Date;
+  setDate: (date: Date) => void;
+  time: string;
+  setTime: (time: string) => void;
 }
 
 const BloodSugarRecordDetailContext = createContext<BloodSugarRecordDetailContext>({
@@ -31,7 +40,16 @@ const BloodSugarRecordDetailContext = createContext<BloodSugarRecordDetailContex
   crudType: CRUDType.Read,
   setCrudType: () => { },
   setUnit: () => { },
-  deleteBloodSugar: () => Promise.resolve(false),
+  handleDelete: () => Promise.resolve(),
+  handleUpdate: () => Promise.resolve(),
+  bsValue: '',
+  setBsValue: () => { },
+  memo: '',
+  setMemo: () => { },
+  date: new Date(),
+  setDate: () => { },
+  time: '',
+  setTime: () => { },
 });
 
 const BloodSugarRecordDetailProvider = ({ children }: { children: ReactNode }): ReactNode => {
@@ -53,6 +71,36 @@ const BloodSugarRecordDetailProvider = ({ children }: { children: ReactNode }): 
   const [crudType, setCrudType] = useState<CRUDType>(CRUDType.Read);
   const [unit, setUnit] = useState<BloodSugarUnit>(initialUnit);
 
+
+  // Create Update 모드를 위한 변수
+  const [bsValue, setBsValue] = useState<string>(recordDetail?.value.toString() || '');
+  // const [category, setCategory] = useState<BloodSugarCategory>(recordDetail?.category || BloodSugarCategory.Normal);
+  const [memo, setMemo] = useState<string>(recordDetail?.memo || '');
+  const [date, setDate] = useState<Date>(recordDetail?.recordedAtToDate() || new Date());
+  const [time, setTime] = useState<string>(DateUtils.dateToHM(date) || '');
+
+
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    const result = await deleteBloodSugar(uid);
+    if (result) {
+      navigate(-1);
+    }
+  }
+
+  const handleUpdate = async () => {
+    const result = await updateBloodSugar(uid, {
+      value: parseInt(bsValue),
+      memo: memo,
+      recordedAt: date.toISOString(),
+    });
+
+    if (result) {
+      setCrudType(CRUDType.Read);
+    }
+  }
+
   return (
     <BloodSugarRecordDetailContext.Provider value={{
       crudType,
@@ -60,7 +108,16 @@ const BloodSugarRecordDetailProvider = ({ children }: { children: ReactNode }): 
       recordDetail,
       unit,
       setUnit,
-      deleteBloodSugar,
+      handleDelete,
+      handleUpdate,
+      bsValue,
+      setBsValue,
+      memo,
+      setMemo,
+      date,
+      setDate,
+      time,
+      setTime,
     }}>
       {children}
     </BloodSugarRecordDetailContext.Provider>
@@ -101,10 +158,12 @@ const PlaceholderCard = (
 )
 
 const GlucoseStatusBar = (): ReactNode => {
-  const { recordDetail, unit } = useBloodSugarRecordDetailContext();
+  const { bsValue } = useBloodSugarRecordDetailContext();
+
+  const bsValueInt = parseInt(bsValue);
 
   /// 70 이하 저혈당 70이상 100 정상 100이상 140 전당뇨 140이상 당뇨병
-  if (recordDetail?.value < 70) {
+  if (bsValueInt < 70) {
     return <Snackbar
       message="저혈당"
       description="혈당이 낮아요."
@@ -112,14 +171,14 @@ const GlucoseStatusBar = (): ReactNode => {
       showCloseButton={false}
     />
   }
-  else if (recordDetail?.value < 100) {
+  else if (bsValueInt < 100) {
     return <Snackbar
       message="정상"
       description="혈당이 정상적이에요."
       type="success"
       showCloseButton={false}
     />
-  } else if (recordDetail?.value <= 140) {
+  } else if (bsValueInt <= 140) {
     return <Snackbar
       message="전당뇨"
       description="혈당이 살짝 높아요."
@@ -137,9 +196,19 @@ const GlucoseStatusBar = (): ReactNode => {
 }
 
 const SectionGlucoseData = (): ReactNode => {
-  const { recordDetail, unit, crudType } = useBloodSugarRecordDetailContext();
+  const { unit, crudType, bsValue, setBsValue } = useBloodSugarRecordDetailContext();
 
   const isReadOnly = crudType === CRUDType.Read;
+
+
+  const handleValueChange = (value: string) => {
+    const parsedValue = parseInt(value);
+    if (parsedValue > 400) {
+      setBsValue('400');
+    } else {
+      setBsValue(value);
+    }
+  }
 
   return (
     <div
@@ -147,8 +216,9 @@ const SectionGlucoseData = (): ReactNode => {
     >
       <LabelTitle label="혈당" />
       <OutlineTextField
-        value={recordDetail?.value.toString() || ''}
+        value={bsValue}
         onChange={(value) => {
+          handleValueChange(value);
         }}
         suffix={<span className="text-caption1r color-text-primary">{unit}</span>}
         readOnly={isReadOnly}
@@ -159,12 +229,11 @@ const SectionGlucoseData = (): ReactNode => {
 }
 
 const SectionDate = (): ReactNode => {
-  const { recordDetail } = useBloodSugarRecordDetailContext();
-
-  const date = recordDetail?.recordedAtToDate();
+  const { date, setDate, time, setTime } = useBloodSugarRecordDetailContext();
 
   const displayTime = DateUtils.dateToHM(date);
   const displayDate = DateUtils.dateToYMD(date);
+
 
   return (
     <div className="flex gap-3">
@@ -197,7 +266,7 @@ const SectionDate = (): ReactNode => {
 }
 
 const SectionMemo = (): ReactNode => {
-  const { recordDetail, crudType } = useBloodSugarRecordDetailContext();
+  const { memo, setMemo, crudType } = useBloodSugarRecordDetailContext();
 
   const isReadOnly = crudType === CRUDType.Read;
 
@@ -205,9 +274,9 @@ const SectionMemo = (): ReactNode => {
     <div className="flex flex-col space-y-2">
       <LabelTitle label="메모" />
       <MultilineTextForm
-        value={recordDetail?.memo || ''}
+        value={memo}
         placeholder="메모를 입력해주세요."
-        handleChange={() => { }}
+        handleChange={setMemo}
         readOnly={isReadOnly}
       />
     </div>
@@ -215,12 +284,10 @@ const SectionMemo = (): ReactNode => {
 }
 
 const RecordDetail = (): ReactNode => {
-  const { recordDetail } = useBloodSugarRecordDetailContext();
-
   // 데이터가 없으면 렌더링하지 않음
-  if (!recordDetail) {
-    return null;
-  }
+  // if (!recordDetail) {
+  //   return null;
+  // }
 
   return (
     <div className="flex flex-col space-y-8">
@@ -235,15 +302,7 @@ const RecordDetail = (): ReactNode => {
 
 
 const BottomButtons = (): ReactNode => {
-  const { recordDetail, deleteBloodSugar, crudType, setCrudType } = useBloodSugarRecordDetailContext();
-  const navigate = useNavigate();
-
-  const handleDelete = async () => {
-    const result = await deleteBloodSugar(recordDetail.uid);
-    if (result) {
-      navigate(-1);
-    }
-  }
+  const { recordDetail, handleDelete, handleUpdate, crudType, setCrudType } = useBloodSugarRecordDetailContext();
 
   // 수정 모드일 때의 버튼
   if (crudType === CRUDType.Update) {
@@ -270,7 +329,7 @@ const BottomButtons = (): ReactNode => {
           size="48"
           color="primary"
           onClick={() => {
-            // 수정 완료 로직은 추후 구현
+            handleUpdate();
           }}
         >
           수정 완료

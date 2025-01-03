@@ -1,7 +1,6 @@
 export namespace DateUtils {
   // parse date to hour:minute
   export function dateToHM(date: Date, locale: string = 'en-US'): string {
-    console.log(date);
     return date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
   }
 

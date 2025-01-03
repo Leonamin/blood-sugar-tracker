@@ -49,6 +49,7 @@ class BloodSugarService {
       const model = BloodSugarReadEntity.toModel(record);
       return TaskResponse.success(model);
     } catch (error) {
+      console.log("error occurred", error);
       return TaskResponse.failure(error.message);
     }
   }
