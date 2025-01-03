@@ -12,6 +12,12 @@ export const selectBloodSugarModels = createSelector(
   (records): BloodSugarModel[] => records.map(props => new BloodSugarModel(props))
 );
 
+// 모든 데이터를 가져오는 선택자
+export const selectBloodSugarModelsAll = createSelector(
+  [selectBloodSugarModels],
+  (models): BloodSugarModel[] => models
+);
+
 // 특정 날짜의 기록만 필터링하는 선택자
 export const selectBloodSugarModelsByDate = createSelector(
   [selectBloodSugarModels, (_, date: Date) => date],
