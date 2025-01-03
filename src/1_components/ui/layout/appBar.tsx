@@ -6,9 +6,10 @@ interface AppBarProps {
   title: string;
   className?: string;
   actions?: React.ReactNode;
+  isCenter?: boolean;
 }
 
-const AppBar = ({ title, className, actions }: AppBarProps) => {
+const AppBar = ({ title, className, actions, isCenter = true }: AppBarProps) => {
   const navigate = useNavigate();
 
   return (
@@ -24,8 +25,11 @@ const AppBar = ({ title, className, actions }: AppBarProps) => {
         </button>
       </div>
 
-      {/* title - centered regardless of other elements */}
-      <div className="flex-1 flex justify-center">
+      {/* title - centered or left-aligned based on isCenter */}
+      <div className={cn(
+        "flex",
+        isCenter ? "flex-1 justify-center" : "ml-[56px]" // back button width(24px) + padding(16px*2)
+      )}>
         <h1 className="text-body1sb">{title}</h1>
       </div>
 
