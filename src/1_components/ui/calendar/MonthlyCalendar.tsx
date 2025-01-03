@@ -4,6 +4,8 @@ import { cn } from '@/lib/utils';
 import { IconChevronLeft, IconChevronRight } from '@/1_components/icons';
 import { ClassValue } from 'clsx';
 import SolidButton from '../button/solid-button';
+import { IndicatorStep } from '@/0_model/types/indicatorStep';
+import CircleStepIndicator from '../indicator/circle-step-indicator';
 
 // Context
 
@@ -273,6 +275,56 @@ const MonthlyDayTile = ({
             )}
         >
             {format(date, 'd')}
+        </button>
+    );
+}
+
+interface MonthlyDayTileWithIndicatorProps {
+    date: Date;
+    dayTileRatioStyle: ClassValue;
+    indicatorStep: IndicatorStep;
+    hasMemo: boolean;
+}
+
+export const MonthlyDayTileWithIndicator = ({
+    date,
+    dayTileRatioStyle = "aspect-[1/1.2]",
+    indicatorStep,
+    hasMemo
+}: MonthlyDayTileWithIndicatorProps) => {
+    const { isOutsideDay, isSelectedDay, handleDayClick } = useMonthlyCalendarContext();
+
+    const { normalDateStyle,
+        selectedDateStyle,
+        outsideDateStyle } = {
+        normalDateStyle: "text-body2 font-semibold",
+        selectedDateStyle: "border-2 color-border-success color-bg-success-subtle rounded-full",
+        outsideDateStyle: "color-text-disabled",
+    }
+
+    const isOutside = isOutsideDay(date);
+    const isSelected = isSelectedDay(date);
+
+    const hasIndicator = indicatorStep > 0;
+
+    return (
+        <button
+            key={date.toISOString()}
+            onClick={() => handleDayClick?.(date)}
+            className={cn(
+                "flex items-center justify-center relative",
+                dayTileRatioStyle,
+                normalDateStyle,
+                isSelected && selectedDateStyle,
+                isOutside && outsideDateStyle,
+            )}
+        >
+
+            {hasIndicator && <CircleStepIndicator step={indicatorStep}>
+                {format(date, 'd')}
+            </CircleStepIndicator>}
+            {!hasIndicator && format(date, 'd')}
+
         </button>
     );
 }

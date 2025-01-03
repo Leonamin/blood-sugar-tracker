@@ -1,12 +1,15 @@
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
+import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
+import { IndicatorStep } from "@/0_model/types/indicatorStep";
+import { UnixTimestamp } from "@/0_model/types/unixtimestamp";
 import { IconPlus } from "@/1_components/icons";
 import TextButton from "@/1_components/ui/button/text-button";
-import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider } from "@/1_components/ui/calendar/MonthlyCalendar";
-import { Card } from "@/1_components/ui/card";
+import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider, MonthlyDayTileWithIndicator } from "@/1_components/ui/calendar/MonthlyCalendar";
 import { useAppDispatch } from "@/3_hook/useAppDispatch";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
-import { selectBloodSugarModels, selectBloodSugarModelsAll, selectBloodSugarModelsByDate } from "@/8_store/bloodSugar/bloodSugarSelectors";
+import { DateUtils } from "@/7_utils/dateUtils";
+import { selectBloodSugarModelsAll, selectBloodSugarModelsByDate } from "@/8_store/bloodSugar/bloodSugarSelectors";
 import { deleteBsRecordByUid } from "@/8_store/bloodSugar/bloodSugarSlice";
 import { setSelectedDay, setFocusedDay } from "@/8_store/calendar/calendarSlice";
 import { RootState } from "@/8_store/store";
@@ -18,7 +21,6 @@ const Calendar = () => {
   const selectedDay = useSelector((state: RootState) => state.calendar.selectedDay);
   const focusedDay = useSelector((state: RootState) => state.calendar.focusedDay);
 
-
   const bloodSugars = useSelector((state: RootState) =>
     selectBloodSugarModelsAll(state)
   );
@@ -26,6 +28,48 @@ const Calendar = () => {
   const selectedDayBloodSugars = useSelector((state: RootState) =>
     selectBloodSugarModelsByDate(state, selectedDay)
   );
+
+  // 로직
+
+  function getBsRecord(date: Date): BloodSugarModel | null {
+    const filteredRecords = bloodSugars.filter(record => DateUtils.isSameDay(
+      UnixTimestamp.unixTimestampToDate(record.recordedAt),
+      date
+    ));
+
+    if (filteredRecords.length === 0) {
+      return null;
+    }
+
+    // 테스트
+
+    const targetDate = UnixTimestamp.unixTimestampToDate(filteredRecords[0].recordedAt);
+
+    const isSameDay = DateUtils.isSameDay(targetDate, date);
+
+    console.log(date);
+    console.log(targetDate);
+    console.log(filteredRecords);
+    console.log('두 날짜가 같음?',isSameDay);
+
+    // 테스트 끝
+
+    // 가장 마지막 기록 반환
+    return filteredRecords.reduce((latest, current) =>
+      current.recordedAt > latest.recordedAt ? current : latest
+    );
+  }
+
+  function classifyBsIndicatorStep(record?: BloodSugarModel): IndicatorStep {
+    if (!record) {
+      return 0;
+    }
+    const level = BloodSugarCategory.getGlucoseLevel(BloodSugarCategory.Normal, record.value);
+    const step = GlucoseLevel.getIndicatorStep(level);
+    return step;
+  }
+
+  // UI 이벤트
 
   const changeSelectedDay = (day: Date) => {
     dispatch(setSelectedDay(day));
@@ -66,15 +110,23 @@ const Calendar = () => {
         )}
       >
         <MonthlyCalendarProvider
+          selectedDay={selectedDay}
+          focusedDay={focusedDay}
           setSelectedDay={changeSelectedDay}
           setFocusedDay={changeFocusedDay}
         >
           <MonthlyCalendarHeader className="p-4" />
           <MonthlyCalendar
-            selectedDay={selectedDay}
-            focusedDay={focusedDay}
-            setSelectedDay={changeSelectedDay}
-            setFocusedDay={changeFocusedDay}
+            dayTileBuilder={
+              (date: Date) =>
+                <MonthlyDayTileWithIndicator
+                  date={date}
+                  dayTileRatioStyle="aspect-[1/1.2]"
+                  // indicatorStep={1}
+                  indicatorStep={classifyBsIndicatorStep(getBsRecord(date))}
+                  hasMemo={false}
+              />
+            }
           />
         </MonthlyCalendarProvider>
       </div>
