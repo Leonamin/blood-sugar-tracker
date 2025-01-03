@@ -76,8 +76,10 @@ const BottomSheet = ({
 
   useEffect(() => {
     if (isOpen) {
+      document.body.style.overflow = 'hidden';
       onOpen?.();
     } else {
+      document.body.style.overflow = 'auto';
       onClose?.();
     }
   }, [isOpen]);
