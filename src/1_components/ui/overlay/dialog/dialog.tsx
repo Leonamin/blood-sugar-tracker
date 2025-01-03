@@ -98,6 +98,14 @@ const Dialog = ({
 
     useEffect(() => {
         if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
+        if (isOpen) {
             setIsVisible(true);
             // 다음 프레임에서 애니메이션 시작
             requestAnimationFrame(() => {

@@ -48,6 +48,8 @@ interface BottomSheetProps {
   children: ReactNode;
   padding?: string;
   borderRadius?: string;
+  onOpen?: () => void;
+  onClose?: () => void;
   className?: string;
 }
 
@@ -64,11 +66,23 @@ const BottomSheet = ({
   children,
   padding = "p-4",
   borderRadius = "rounded-t-[16px]",
-  className
+  onOpen,
+  onClose,
+  className,
 }: BottomSheetProps) => {
   const { isOpen, close } = useBottomSheetContext();
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      onOpen?.();
+    } else {
+      document.body.style.overflow = 'auto';
+      onClose?.();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -91,7 +105,8 @@ const BottomSheet = ({
   if (!isVisible && !isOpen) return null;
 
   return (
-    <>
+    // FIXME 알 수 없는 이유로 <>를 사용하면 top margin이 16px 추가됨
+    <div>
       {/* 배경 오버레이 */}
       <div
         className={cn(
@@ -115,7 +130,7 @@ const BottomSheet = ({
       >
         {children}
       </div>
-    </>
+    </ div>
   );
 };
 

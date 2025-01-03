@@ -20,10 +20,11 @@ import { DateRangePickerBottomSheet } from "@/1_components/ui/picker/DateRangePi
 import { DropdownChip, DropdownData, DropdownList, DropdownProvider, useDropdown } from "@/1_components/ui/dropdown/dropdown";
 import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider } from "@/1_components/ui/calendar/MonthlyCalendar";
 import Badge from "@/1_components/ui/badge/badge";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Card } from "@/1_components/ui/card";
 import BottomSheet, { BottomSheetProvider, useBottomSheet } from "@/1_components/ui/overlay/bottomsheet/BottomSheet";
-// ... (기존 Home.tsx의 모든 import문)
+import { Time } from "@/0_model/types/Time";
+import TimePicker from "@/1_components/ui/picker/TimePicker";
 
 const ComponentExamples = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -46,6 +47,10 @@ const ComponentExamples = () => {
     to: Date
   }>()
 
+  const [time, setTime] = useState<Time>(
+    Time.parseFromDate(new Date())
+  )
+
   const handleConfirm = () => {
     console.log('confirmed!');
   };
@@ -64,11 +69,28 @@ const ComponentExamples = () => {
   return (
     <div className="p-4 pb-20 animate-fade-in">
 
+      <h1 className="text-2xl font-bold mb-6">Time Picker Examples</h1>
+      <Card className="p-6 space-y-4">
+        <TimePicker
+          child={<div>{Time.toHHMMAMPM(time)}</div>}
+          initialValue={time}
+          onComplete={(newTime) => {
+            console.log('newTime', newTime);
+            setTime(newTime);
+          }}
+        />
+      </Card>
+
       <h1 className="text-2xl font-bold mb-6">Bottom Sheet Examples</h1>
       <Card className="p-6 space-y-4">
-        <BottomSheetProvider>
-          <BottomSheetExample />
-        </BottomSheetProvider>
+        <BottomSheetExample
+          child={<SolidButton>Bottom Sheet 열기</SolidButton>}
+          time={{ hour: 12, minute: 30, ampm: 'AM' }}
+          onTimeChange={() => {
+            console.log('time changed');
+          }}
+        />
+
       </Card>
 
       <h1 className="text-2xl font-bold mb-6">Monthly Calendar Examples</h1>
@@ -777,15 +799,62 @@ const MonthlyCalendarExample = () => {
   );
 };
 
-const BottomSheetExample = () => {
-  const { open } = useBottomSheet();
+const BottomSheetExample = ({
+  child,
+  time,
+  onTimeChange,
+}: {
+  child: ReactNode
+  time: Time
+  onTimeChange: (time: Time) => void
+}) => {
+  const BottomSheetContent = () => {
+    const { open, close } = useBottomSheet();
+
+    const [selectedTime, setSelectedTime] = useState<Time>(time);
+
+    const handleChange = (value: Time) => {
+      setSelectedTime(value);
+    }
+
+    const handleCancel = () => {
+      close();
+    }
+
+    const handleConfirm = () => {
+      onTimeChange(selectedTime);
+      close();
+    }
+
+    return (
+      <div>
+        <BottomSheet
+        >
+          <div className="flex flex-row gap-2">
+            <SolidButton
+              color="outline"
+              fullWidth
+              onClick={handleCancel}
+            >취소</SolidButton>
+            <SolidButton
+              color="primary"
+              fullWidth
+              onClick={handleConfirm}
+            >확인</SolidButton>
+          </div>
+
+        </BottomSheet>
+        <div onClick={open}>
+          {child}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <BottomSheet>
-        <div>Bottom Sheet 컨텐츠</div>
-      </BottomSheet>
-      <SolidButton onClick={open}>Bottom Sheet 열기</SolidButton>
-    </div>
+    <BottomSheetProvider>
+      <BottomSheetContent />
+    </BottomSheetProvider>
   );
 };
 
