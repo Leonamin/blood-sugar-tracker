@@ -25,6 +25,8 @@ import { Card } from "@/1_components/ui/card";
 import BottomSheet, { BottomSheetProvider, useBottomSheet } from "@/1_components/ui/overlay/bottomsheet/BottomSheet";
 import { Time } from "@/0_model/types/Time";
 import TimePicker from "@/1_components/ui/picker/TimePicker";
+import CalendarPicker from "@/1_components/ui/picker/CalendarPicker";
+import { format } from "date-fns";
 
 const ComponentExamples = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -41,7 +43,7 @@ const ComponentExamples = () => {
 
   const [value, setValue] = useState('');
 
-  const [date, setDate] = useState<Date>()
+  const [date, setDate] = useState<Date>(new Date())
   const [dateRange, setDateRange] = useState<{
     from: Date
     to: Date
@@ -68,6 +70,18 @@ const ComponentExamples = () => {
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+
+      <h1 className="text-2xl font-bold mb-6">Calendar Picker Examples</h1>
+      <Card className="p-6 space-y-4">
+        <CalendarPicker
+          child={<div>{format(date, 'yyyy-MM-dd')}</div>}
+          initialValue={date}
+          onComplete={(newDate) => {
+            console.log('newDate', newDate);
+            setDate(newDate);
+          }}
+        />
+      </Card>
 
       <h1 className="text-2xl font-bold mb-6">Time Picker Examples</h1>
       <Card className="p-6 space-y-4">
