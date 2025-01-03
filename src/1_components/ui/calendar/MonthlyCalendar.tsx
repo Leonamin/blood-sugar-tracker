@@ -33,6 +33,7 @@ interface MonthlyCalendarProps {
     className?: string;
     children?: ReactNode;
     hideOutSideDays?: boolean;
+    dayTileRatioStyle?: string;
 }
 
 export const MonthlyCalendarProvider = ({
@@ -65,6 +66,7 @@ export const MonthlyCalendar = ({
     setFocusedDay,
     className,
     hideOutSideDays = false,
+    dayTileRatioStyle = 'aspect-[1/1.2]'
 }: MonthlyCalendarProps) => {
     const getDaysInMonth = (date: Date) => {
         const year = date.getFullYear();
@@ -164,7 +166,8 @@ export const MonthlyCalendar = ({
                             key={date.toISOString()}
                             onClick={() => handleSelectDayButtonClick?.(date)}
                             className={cn(
-                                "aspect-[1/1.2] flex items-center justify-center relative",
+                                "flex items-center justify-center relative",
+                                dayTileRatioStyle,
                                 normalDateStyle,
                                 isSelected && selectedDateStyle,
                                 isOutsideDay(date) && outsideDateStyle,

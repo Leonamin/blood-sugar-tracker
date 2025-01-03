@@ -5,7 +5,7 @@ import SolidButton from "@/1_components/ui/button/solid-button";
 import Tag from "@/1_components/ui/tag/tag";
 import { CheckBox } from "@/1_components/ui/button/check-box";
 import TextButton from "@/1_components/ui/button/text-button";
-import MultilineTextForm from "@/1_components/ui/form/multiline-text-form";
+import MultilineTextForm from "@/1_components/ui/form/MultilineTextForm";
 import GraphicIconDanger from "@/1_components/graphic-icons/GraphicIconDanger";
 import GraphicIconInfo from "@/1_components/graphic-icons/GraphicIconInfo";
 import GraphicIconSuccess from "@/1_components/graphic-icons/GraphicIconSuccess";
@@ -13,16 +13,20 @@ import GraphicIconWarning from "@/1_components/graphic-icons/GraphicIconWarning"
 import CircleStepIndicator from "@/1_components/ui/indicator/circle-step-indicator";
 import SemiCircleStepIndicator from "@/1_components/ui/indicator/semi-circle-step-indicator";
 import Snackbar from "@/1_components/ui/overlay/snackbar/snackbar";
-import Dialog, { DialogProvider, useDialog } from "@/1_components/ui/overlay/dialog/dialog";
+import Dialog, { DialogProvider, useDialog } from "@/1_components/ui/overlay/dialog/Dialog";
 import { Calendar } from '@/1_components/ui/calendar/RangeCalendar';
 import { DateRange } from "react-day-picker";
 import { DateRangePickerBottomSheet } from "@/1_components/ui/picker/DateRangePickerBottomSheet";
 import { DropdownChip, DropdownData, DropdownList, DropdownProvider, useDropdown } from "@/1_components/ui/dropdown/dropdown";
 import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider } from "@/1_components/ui/calendar/MonthlyCalendar";
 import Badge from "@/1_components/ui/badge/badge";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Card } from "@/1_components/ui/card";
-// ... (기존 Home.tsx의 모든 import문)
+import BottomSheet, { BottomSheetProvider, useBottomSheet } from "@/1_components/ui/overlay/bottomsheet/BottomSheet";
+import { Time } from "@/0_model/types/Time";
+import TimePicker from "@/1_components/ui/picker/TimePicker";
+import CalendarPicker from "@/1_components/ui/picker/CalendarPicker";
+import { format } from "date-fns";
 
 const ComponentExamples = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -39,11 +43,15 @@ const ComponentExamples = () => {
 
   const [value, setValue] = useState('');
 
-  const [date, setDate] = useState<Date>()
+  const [date, setDate] = useState<Date>(new Date())
   const [dateRange, setDateRange] = useState<{
     from: Date
     to: Date
   }>()
+
+  const [time, setTime] = useState<Time>(
+    Time.parseFromDate(new Date())
+  )
 
   const handleConfirm = () => {
     console.log('confirmed!');
@@ -62,6 +70,42 @@ const ComponentExamples = () => {
   // chip
   return (
     <div className="p-4 pb-20 animate-fade-in">
+
+      <h1 className="text-2xl font-bold mb-6">Calendar Picker Examples</h1>
+      <Card className="p-6 space-y-4">
+        <CalendarPicker
+          child={<div>{format(date, 'yyyy-MM-dd')}</div>}
+          initialValue={date}
+          onComplete={(newDate) => {
+            console.log('newDate', newDate);
+            setDate(newDate);
+          }}
+        />
+      </Card>
+
+      <h1 className="text-2xl font-bold mb-6">Time Picker Examples</h1>
+      <Card className="p-6 space-y-4">
+        <TimePicker
+          child={<div>{Time.toHHMMAMPM(time)}</div>}
+          initialValue={time}
+          onComplete={(newTime) => {
+            console.log('newTime', newTime);
+            setTime(newTime);
+          }}
+        />
+      </Card>
+
+      <h1 className="text-2xl font-bold mb-6">Bottom Sheet Examples</h1>
+      <Card className="p-6 space-y-4">
+        <BottomSheetExample
+          child={<SolidButton>Bottom Sheet 열기</SolidButton>}
+          time={{ hour: 12, minute: 30, ampm: 'AM' }}
+          onTimeChange={() => {
+            console.log('time changed');
+          }}
+        />
+
+      </Card>
 
       <h1 className="text-2xl font-bold mb-6">Monthly Calendar Examples</h1>
       <Card className="p-6 space-y-4">
@@ -766,6 +810,65 @@ const MonthlyCalendarExample = () => {
         setFocusedDay={setFocusedDay}
       />
     </MonthlyCalendarProvider>
+  );
+};
+
+const BottomSheetExample = ({
+  child,
+  time,
+  onTimeChange,
+}: {
+  child: ReactNode
+  time: Time
+  onTimeChange: (time: Time) => void
+}) => {
+  const BottomSheetContent = () => {
+    const { open, close } = useBottomSheet();
+
+    const [selectedTime, setSelectedTime] = useState<Time>(time);
+
+    const handleChange = (value: Time) => {
+      setSelectedTime(value);
+    }
+
+    const handleCancel = () => {
+      close();
+    }
+
+    const handleConfirm = () => {
+      onTimeChange(selectedTime);
+      close();
+    }
+
+    return (
+      <div>
+        <BottomSheet
+        >
+          <div className="flex flex-row gap-2">
+            <SolidButton
+              color="outline"
+              fullWidth
+              onClick={handleCancel}
+            >취소</SolidButton>
+            <SolidButton
+              color="primary"
+              fullWidth
+              onClick={handleConfirm}
+            >확인</SolidButton>
+          </div>
+
+        </BottomSheet>
+        <div onClick={open}>
+          {child}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <BottomSheetProvider>
+      <BottomSheetContent />
+    </BottomSheetProvider>
   );
 };
 

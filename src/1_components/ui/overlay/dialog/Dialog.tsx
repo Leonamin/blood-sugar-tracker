@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import SolidButton, { ButtonProps } from "../../button/solid-button";
 
 interface DialogContext {
@@ -29,18 +29,18 @@ export const DialogProvider = ({ children, onConfirm }: DialogProviderProps) => 
 
     const open = () => setIsOpen(true);
     const close = () => setIsOpen(false);
-    
+
     const handleConfirm = () => {
         onConfirm?.();
         close();
     };
 
     return (
-        <DialogContext.Provider value={{ 
-            isOpen, 
-            open, 
-            close, 
-            onConfirm: handleConfirm 
+        <DialogContext.Provider value={{
+            isOpen,
+            open,
+            close,
+            onConfirm: handleConfirm
         }}>
             {children}
         </DialogContext.Provider>
@@ -93,21 +93,60 @@ const Dialog = ({
     className,
 }: DialogProps) => {
     const { isOpen, close } = useDialogContext();
+    const [isVisible, setIsVisible] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(false);
 
-    if (!isOpen) return null;
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
+        if (isOpen) {
+            setIsVisible(true);
+            // 다음 프레임에서 애니메이션 시작
+            requestAnimationFrame(() => {
+                setIsAnimating(true);
+            });
+        } else {
+            setIsAnimating(false);
+            // 트랜지션이 완료된 후에 컴포넌트를 안보이게 설정
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen]);
+
+    if (!isVisible && !isOpen) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-8">
             <div
-                className="fixed inset-0 color-bg-overlay"
+                className={
+                    cn(
+                        "fixed inset-0 color-bg-overlay",
+                        "transition-opacity duration-300",
+                        isAnimating ? "opacity-100" : "opacity-0"
+                    )
+                }
                 onClick={close}
             />
 
             <div className={cn(
-                "relative bg-white rounded-16 py-6 px-4 w-full animate-fade-in",
+                "relative color-bg-inverse rounded-16 py-6 px-4 w-full",
+                "transition-opacity duration-300",
+                "transition-transform duration-300",
+                isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
                 className
             )}>
+                {/* 헤더 & 설명과 컨텐츠 사이 24px */}
                 <div className="space-y-6">
+                    {/* 헤더와 설명 사이 4px */}
                     <div className="space-y-1">
                         <h2 className="text-h5b color-text-primary">{title}</h2>
                         {description && (
