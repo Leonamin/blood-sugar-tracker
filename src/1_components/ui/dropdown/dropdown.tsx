@@ -80,14 +80,17 @@ export const useDropdown = <T,>() => {
 
 interface DropdownChipProps {
     placeholder?: string;
+    isDisabled?: boolean;
 }
 
 export const DropdownChip = <T,>({
     placeholder = "선택해주세요",
+    isDisabled = false,
 }: DropdownChipProps) => {
     const { isOpen, open, close, selectedData } = useDropdown<T>();
 
     const handleClick = () => {
+        if (isDisabled) return;
         isOpen ? close() : open();
     };
 

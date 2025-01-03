@@ -13,6 +13,8 @@ import BloodSugarModel from '@/0_model/model/bloodSugarModel';
 import { BloodSugarUnit } from '@/0_model/types/bloodSugarUnit';
 import { DateUtils } from '@/7_utils/dateUtils';
 import OutlineTextField from '@/1_components/ui/textfield/OutlineTextField';
+import { DropdownChip, DropdownData, DropdownList, DropdownProvider } from '@/1_components/ui/dropdown/dropdown';
+import { BloodSugarCategory } from '@/0_model/types/bloodSugarCategory';
 
 interface BloodSugarRecordDetailContext {
   recordDetail: BloodSugarModel | null;
@@ -34,7 +36,7 @@ const BloodSugarRecordDetailContext = createContext<BloodSugarRecordDetailContex
 
 const BloodSugarRecordDetailProvider = ({ children }: { children: ReactNode }): ReactNode => {
   const location = useLocation();
-  
+
 
   // 쿼리 파라미터에서 uid 추출
   const query = new URLSearchParams(location.search);
@@ -310,11 +312,47 @@ const BottomButtons = (): ReactNode => {
   )
 }
 
+const HeaderActions = (): ReactNode => {
+  const { crudType } = useBloodSugarRecordDetailContext();
+
+  const isReadOnly = crudType === CRUDType.Read;
+
+  const categoryData: DropdownData<BloodSugarCategory>[] = [
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Normal), value: BloodSugarCategory.Normal },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.PostMeal2Hours), value: BloodSugarCategory.PostMeal2Hours },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Fasting), value: BloodSugarCategory.Fasting },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.BeforeExercise), value: BloodSugarCategory.BeforeExercise },
+    { label: BloodSugarCategory.getLabel(BloodSugarCategory.AfterExercise), value: BloodSugarCategory.AfterExercise },
+  ];
+
+  const [selectedCategory, setSelectedCategory] = useState<DropdownData>(
+    categoryData[0]
+  );
+
+  return (
+    <div className="flex px-4">
+      <DropdownProvider
+        data={categoryData}
+        selectedData={selectedCategory}
+        onSelect={setSelectedCategory}
+      >
+        <DropdownChip placeholder="선택" isDisabled={isReadOnly} />
+        <DropdownList data={categoryData} />
+      </DropdownProvider>
+    </div>
+  )
+}
+
 const BloodSugarRecordDetail = () => {
   return (
     <BloodSugarRecordDetailProvider>
       <div className="flex flex-col">
-        <AppBar title="기록 상세" />
+        <AppBar title="기록 상세"
+          isCenter={false}
+          actions={
+            <HeaderActions />
+          }
+        />
         <main className="flex-1 p-4 px-4 pt-[calc(56px+16px)]">
           <RecordDetail />
         </main>
