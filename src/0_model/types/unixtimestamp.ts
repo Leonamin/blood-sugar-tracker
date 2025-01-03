@@ -39,6 +39,10 @@ namespace UnixTimestamp {
     const to = timeStampStringToUnixTimestamp(timestampString);
     return { from, to };
   }
+
+  export function unixTimestampToDate(timestamp: UnixTimestamp): Date {
+    return new Date(timestamp);
+  }
 }
 
 function dateToUnixTimestamp(date: Date): UnixTimestamp {
@@ -59,10 +63,6 @@ function dateToEndUnixTimestamp(date: Date): UnixTimestamp {
   return dateToUnixTimestamp(endOfDay);
 }
 
-function unixTimestampToDate(timestamp: UnixTimestamp): Date {
-  return new Date(timestamp);
-}
-
 function getUnixTimestampRange(
   startDate: Date,
   endDate: Date
@@ -79,7 +79,6 @@ export {
   dateToUnixTimestamp,
   dateToStartUnixTimestamp,
   dateToEndUnixTimestamp,
-  unixTimestampToDate,
   getUnixTimestampRange,
   UnixTimestamp,
 };

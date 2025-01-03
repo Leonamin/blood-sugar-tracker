@@ -1,7 +1,7 @@
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
-import { unixTimestampToDate } from "@/0_model/types/unixtimestamp";
+import { UnixTimestamp } from "@/0_model/types/unixtimestamp";
 import { IconBlood, IconDotsHorizontal } from "@/1_components/icons";
 import { DropdownData, DropdownList, DropdownProvider, IconDropdown } from "@/1_components/ui/dropdown/dropdown";
 import CircleStepIndicator from "@/1_components/ui/indicator/circle-step-indicator";
@@ -28,7 +28,7 @@ const BloodSugarRecordTile = (
 ) => {
   const { value, unit, recordedAt, memo } = bloodSugar;
 
-  const formattedRecordedAt = format(unixTimestampToDate(recordedAt), 'HH:mm');
+  const formattedRecordedAt = format(UnixTimestamp.unixTimestampToDate(recordedAt), 'HH:mm');
 
   const glucoseLevel = BloodSugarCategory.getGlucoseLevel(bloodSugarCategory, value);
   const step = GlucoseLevel.getIndicatorStep(glucoseLevel);
