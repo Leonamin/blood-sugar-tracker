@@ -36,6 +36,31 @@ namespace Time {
       ampm: value.ampm,
     }
   }
+
+  export const toHHMM = (value: Time): string => {
+    return `${value.hour.toString().padStart(2, '0')}:${value.minute.toString().padStart(2, '0')}`;
+  }
+  
+  export const toHHMMAMPM = (value: Time): string => {
+    return `${value.hour.toString().padStart(2, '0')}:${value.minute.toString().padStart(2, '0')} ${value.ampm}`;
+  }
+
+  export const parseFromDate = (date: Date): Time => {
+    return {
+      hour: date.getHours() % 12 || 12,
+      minute: date.getMinutes(),
+      ampm: date.getHours() >= 12 ? 'PM' : 'AM',
+    }
+  }
+
+  export const parseFromHHMM = (value: string): Time => {
+    const [hour, minute] = value.split(':').map(Number);
+    return {
+      hour: hour % 12 || 12,
+      minute: minute,
+      ampm: hour >= 12 ? 'PM' : 'AM',
+    }
+  }
 }
 
 export { Time };
