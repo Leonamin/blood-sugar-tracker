@@ -182,7 +182,11 @@ export const MonthlyCalendar = ({
     );
 };
 
-export const MonthlyCalendarHeader = () => {
+export const MonthlyCalendarHeader = ({
+    className,
+}: {
+    className?: string;
+}) => {
     const { focusedDay, setFocusedDay, setSelectedDay } = useMonthlyCalendarContext();
     const today = focusedDay || new Date();
 
@@ -205,7 +209,10 @@ export const MonthlyCalendarHeader = () => {
     const iconSize = 24;
 
     return (
-        <div className="flex items-center justify-between">
+        <div className={cn(
+            "flex items-center justify-between",
+            className,
+        )}>
             <div className="flex items-center justify-start">
                 <div className="flex items-center gap-1">
                     <button className="cursor-pointer" onClick={() => handleChevronClick('left')}>
