@@ -105,7 +105,8 @@ const BottomSheet = ({
   if (!isVisible && !isOpen) return null;
 
   return (
-    <>
+    // FIXME 알 수 없는 이유로 <>를 사용하면 top margin이 16px 추가됨
+    <div>
       {/* 배경 오버레이 */}
       <div
         className={cn(
@@ -129,7 +130,7 @@ const BottomSheet = ({
       >
         {children}
       </div>
-    </>
+    </ div>
   );
 };
 
