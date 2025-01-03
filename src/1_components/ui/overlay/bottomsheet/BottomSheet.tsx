@@ -48,6 +48,8 @@ interface BottomSheetProps {
   children: ReactNode;
   padding?: string;
   borderRadius?: string;
+  onOpen?: () => void;
+  onClose?: () => void;
   className?: string;
 }
 
@@ -64,11 +66,21 @@ const BottomSheet = ({
   children,
   padding = "p-4",
   borderRadius = "rounded-t-[16px]",
-  className
+  onOpen,
+  onClose,
+  className,
 }: BottomSheetProps) => {
   const { isOpen, close } = useBottomSheetContext();
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      onOpen?.();
+    } else {
+      onClose?.();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
