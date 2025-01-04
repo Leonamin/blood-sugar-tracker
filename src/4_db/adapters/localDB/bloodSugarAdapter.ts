@@ -52,15 +52,26 @@ export class LocalDBBloodSugarAdapter extends BaseAdapter {
 
   async updateBloodSugarEntity(
     uid: string,
-    data: BloodSugarWriteEntity
+    data: Partial<BloodSugarWriteEntity>
   ): Promise<BloodSugarReadEntity> {
     const db = await getDatabase();
     const record = await db.bloodsugar.findOne(uid).exec();
     if (!record) {
       throw new Error("Record not found");
     }
+    // undefined 값을 가진 필드 제거
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([_, value]) => value !== undefined)
+    );
+
+    // 기존 데이터와 새로운 데이터를 병합
+    const updatedData = {
+      ...record.toJSON(),  // 기존 데이터
+      ...filteredData,            // 새로운 데이터로 덮어쓰기
+    };
+
     await record.update({
-      $set: data,
+      $set: updatedData,
     });
     return record;
   }
