@@ -1,5 +1,5 @@
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
-import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
+import { BloodSugarCategory, BloodSugarCategoryUtils } from "@/0_model/types/bloodSugarCategory";
 import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
 import { IndicatorStep } from "@/0_model/types/indicatorStep";
 import { UnixTimestamp } from "@/0_model/types/unixtimestamp";
@@ -67,7 +67,7 @@ const Calendar = () => {
     if (!record) {
       return 0;
     }
-    const level = BloodSugarCategory.getGlucoseLevel(BloodSugarCategory.Normal, record.value);
+    const level = BloodSugarCategoryUtils.getGlucoseLevel(BloodSugarCategory.Fasting, record.value);
     const step = GlucoseLevel.getIndicatorStep(level);
     return step;
   }
@@ -181,7 +181,6 @@ const SectionBsRecordList = ({
             {bloodSugars.map((sugar) => (
               <li key={sugar.uid} className="pb-2">
                 <BloodSugarRecordTile bloodSugar={sugar as BloodSugarModel}
-                  bloodSugarCategory={BloodSugarCategory.Normal}
                   onDelete={() => {
                     handleDelete(sugar.uid);
                   }}

@@ -1,5 +1,5 @@
 // services/bloodSugarService.js
-import { BloodSugarReadEntity } from "@/0_model/entity/bloodSugarEntity";
+import { BloodSugarReadEntityUtils } from "@/0_model/entity/bloodSugarEntity";
 import BloodSugarModel, { BloodSugarWriteProps } from "@/0_model/model/bloodSugarModel";
 import { TaskResponse } from "@/0_model/model/taskResponse";
 import { dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
@@ -12,7 +12,7 @@ class BloodSugarService {
   async createBloodSugar(data: BloodSugarWriteProps): Promise<TaskResponse<BloodSugarModel>> {
     try {
       const record = await bloodSugarRepo.createBloodSugarRecord(data);
-      const model = BloodSugarReadEntity.toModel(record);
+      const model = BloodSugarReadEntityUtils.toModel(record);
       return TaskResponse.success(model);
     } catch (error) {
       return TaskResponse.failure(error.message);
@@ -22,7 +22,7 @@ class BloodSugarService {
   async getBloodSugar(uid: string): Promise<TaskResponse<BloodSugarModel>> {
     try {
       const record = await bloodSugarRepo.readBloodSugarRecord(uid);
-      const model = BloodSugarReadEntity.toModel(record);
+      const model = BloodSugarReadEntityUtils.toModel(record);
       return TaskResponse.success(model);
     } catch (error) {
       return TaskResponse.failure(error.message);
@@ -35,7 +35,7 @@ class BloodSugarService {
         from: dateToUnixTimestamp(startDate),
         to: dateToUnixTimestamp(endDate),
       });
-      const models = records.map(record => BloodSugarReadEntity.toModel(record));
+      const models = records.map(record => BloodSugarReadEntityUtils.toModel(record));
       return TaskResponse.success(models);
     } catch (error) {
       return TaskResponse.failure(error.message);
@@ -46,7 +46,7 @@ class BloodSugarService {
     try {
       await bloodSugarRepo.updateBloodSugarRecord(uid, data);
       const record = await bloodSugarRepo.readBloodSugarRecord(uid);
-      const model = BloodSugarReadEntity.toModel(record);
+      const model = BloodSugarReadEntityUtils.toModel(record);
       return TaskResponse.success(model);
     } catch (error) {
       console.log("error occurred", error);

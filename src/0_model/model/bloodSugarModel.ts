@@ -1,3 +1,4 @@
+import { BloodSugarCategory } from "../types/bloodSugarCategory";
 import { BloodSugarUnit } from "../types/bloodSugarUnit";
 import { UnixTimestamp } from "../types/unixtimestamp";
 /**
@@ -14,6 +15,7 @@ export interface BloodSugarModelProps {
   uid: string;
   value: number; 
   unit: BloodSugarUnit;
+  category: BloodSugarCategory;
   recordedAt: UnixTimestamp;
   recordedDate: string;
   memo?: string;
@@ -29,6 +31,7 @@ class BloodSugarModel {
   readonly uid: string;
   readonly value: number;
   readonly unit: BloodSugarUnit;
+  readonly category: BloodSugarCategory;
   readonly recordedAt: UnixTimestamp;
   readonly recordedDate: string;
   readonly memo: string;
@@ -37,6 +40,7 @@ class BloodSugarModel {
     this.uid = props.uid;
     this.value = props.value;
     this.unit = props.unit;
+    this.category = props.category;
     this.recordedAt = props.recordedAt;
     this.recordedDate = props.recordedDate;
     this.memo = props.memo;
@@ -69,6 +73,7 @@ class BloodSugarModel {
       uid: this.uid,
       value: this.value,
       unit: this.unit,
+      category: this.category,
       recordedAt: this.recordedAt,
       recordedDate: this.recordedDate,
       memo: this.memo,
@@ -79,6 +84,7 @@ class BloodSugarModel {
 export interface BloodSugarWriteProps {
   value?: number;
   unit?: BloodSugarUnit;
+  category?: BloodSugarCategory;
   recordedAt?: string;
   recordedDate?: string;
   memo?: string;

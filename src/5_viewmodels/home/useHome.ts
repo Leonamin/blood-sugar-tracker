@@ -9,6 +9,7 @@ import {
 } from "@/8_store/bloodSugar/bloodSugarSlice";
 import { useAppDispatch } from "@/3_hook/useAppDispatch";
 import { selectBloodSugarModelsByDate } from '@/8_store/bloodSugar/bloodSugarSelectors';
+import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
 
 export function useHome() {
   const dispatch = useAppDispatch();
@@ -29,11 +30,12 @@ export function useHome() {
     );
   };
 
-  const addBloodSugar = async (value: number, memo?: string) => {
+  const addBloodSugar = async (value: number, category: BloodSugarCategory, memo?: string) => {
     dispatch(
       createBsRecord({
         value,
         unit: "mg/dL",
+        category,
         recordedAt: new Date().toISOString(),
         recordedDate: new Date().toLocaleDateString("en-CA"),
         memo,

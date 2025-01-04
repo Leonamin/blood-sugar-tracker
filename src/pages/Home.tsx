@@ -1,22 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useHome } from "@/5_viewmodels/home/useHome";
-import { dateToEndUnixTimestamp, dateToStartUnixTimestamp } from "@/0_model/types/unixtimestamp";
+import {
+  dateToEndUnixTimestamp,
+  dateToStartUnixTimestamp,
+} from "@/0_model/types/unixtimestamp";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
 import { cn } from "@/lib/utils";
-import { DropdownChip, DropdownData, DropdownList, DropdownProvider } from "@/1_components/ui/dropdown/dropdown";
-import HomeKeyboardHeader from '@/6_view/home/0_components/HomeKeyboardHeader';
-import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
+import {
+  DropdownChip,
+  DropdownData,
+  DropdownList,
+  DropdownProvider,
+} from "@/1_components/ui/dropdown/dropdown";
+import HomeKeyboardHeader from "@/6_view/home/0_components/HomeKeyboardHeader";
+import {
+  BloodSugarCategory,
+  BloodSugarCategoryUtils,
+} from "@/0_model/types/bloodSugarCategory";
 import { usePageVisibility } from "@/3_hook/usePageVisibility";
 import { Utils } from "@/7_utils/utils";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { NavigatorUtils } from "@/7_utils/navigatorUtils";
 
 const Home = () => {
-  const { bloodSugars, fetchBloodSugars, addBloodSugar, deleteBloodSugar } = useHome();
+  const { bloodSugars, fetchBloodSugars, addBloodSugar, deleteBloodSugar } =
+    useHome();
   const [value, setValue] = useState("0");
   const [memo, setMemo] = useState("");
+  const [category, setCategory] = useState(BloodSugarCategory.Fasting);
   const visibilityState = usePageVisibility();
   const navigate = useNavigate();
 
@@ -29,10 +42,10 @@ const Home = () => {
   // today를 2024-12-20 형식으로 환
   const getFormattedDate = (date: Date) => {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
-  }
+  };
 
   useEffect(() => {
     fetchBloodSugars({
@@ -57,7 +70,7 @@ const Home = () => {
 
   const handleSave = async () => {
     await processFormSubmit();
-  }
+  };
 
   const handleDelete = async (id: string) => {
     await deleteBloodSugar(id);
@@ -65,18 +78,17 @@ const Home = () => {
       from: dateToStartUnixTimestamp(today),
       to: dateToEndUnixTimestamp(today),
     });
-  }
-  
+  };
+
   const handleEdit = async (id: string) => {
     NavigatorUtils.navigateToBsDetail(navigate, id);
-
-  }
+  };
 
   const processFormSubmit = async () => {
     console.log(memo);
     if (Utils.isNaN(parseInt(value))) return;
 
-    await addBloodSugar(parseInt(value), memo);
+    await addBloodSugar(parseInt(value), selectedCategory.value, memo);
     await fetchBloodSugars({
       from: dateToStartUnixTimestamp(today),
       to: dateToEndUnixTimestamp(today),
@@ -85,7 +97,7 @@ const Home = () => {
     // 입력 폼 초기화
     setValue("");
     setMemo("");
-  }
+  };
 
   const handleMemoVisibleChanged = (visible: boolean) => {
     if (!visible) {
@@ -95,7 +107,7 @@ const Home = () => {
         inputElement.focus();
       }
     }
-  }
+  };
 
   const maxValue = 400;
   const handleValueChange = (value: string) => {
@@ -105,37 +117,44 @@ const Home = () => {
     } else {
       setValue(value);
     }
-  }
+  };
 
-
-  const categoryData: DropdownData<BloodSugarCategory>[] = [
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Normal), value: BloodSugarCategory.Normal },
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.PostMeal2Hours), value: BloodSugarCategory.PostMeal2Hours },
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.Fasting), value: BloodSugarCategory.Fasting },
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.BeforeExercise), value: BloodSugarCategory.BeforeExercise },
-    { label: BloodSugarCategory.getLabel(BloodSugarCategory.AfterExercise), value: BloodSugarCategory.AfterExercise },
-  ];
-
-  const [selectedCategory, setSelectedCategory] = useState<DropdownData>(
-    categoryData[0]
+  const categoryData = useMemo(
+    () => [
+      {
+        label: BloodSugarCategoryUtils.getLabel(BloodSugarCategory.Fasting),
+        value: BloodSugarCategory.Fasting,
+      },
+      {
+        label: BloodSugarCategoryUtils.getLabel(
+          BloodSugarCategory.PostMeal2Hours
+        ),
+        value: BloodSugarCategory.PostMeal2Hours,
+      },
+    ],
+    []
   );
+
+  const selectedCategory = useMemo(() => 
+    categoryData.find((data) => data.value === category) || categoryData[0]
+  , [category, categoryData]);
+
+  const handleCategoryChange = (category: DropdownData<BloodSugarCategory>) => {
+    setCategory(category.value);
+  };
 
   return (
     <div className={cn("color-bg-primary min-h-screen", "px-4", "relative")}>
       {/* {loading && <LoadingOverlay />} */}
       <div className="overflow-y-auto bottom-nav-space">
-
-        <div className={cn(
-          "flex items-center justify-between",
-          "py-3 mb-3"
-        )}>
+        <div className={cn("flex items-center justify-between", "py-3 mb-3")}>
           <span className="text-h5b color-text-primary">
             {getFormattedDate(today)}
           </span>
           <DropdownProvider
             data={categoryData}
             selectedData={selectedCategory}
-            onSelect={setSelectedCategory}
+            onSelect={handleCategoryChange}
           >
             <DropdownChip placeholder="선택" />
             <DropdownList data={categoryData} />
@@ -148,28 +167,37 @@ const Home = () => {
             bloodSugarCategory={selectedCategory.value}
           />
         </form>
-        {bloodSugars.length > 0 && <div>
-          <span
-            className="text-body1sb color-text-primary py-2">내 기록</span>
-          <ul>
-            {bloodSugars.map((sugar) => (
-              <li key={sugar.uid} className="pb-2">
-                <BloodSugarRecordTile bloodSugar={sugar as BloodSugarModel} bloodSugarCategory={selectedCategory.value}
-                  onDelete={() => {
-                    handleDelete(sugar.uid);
-                  }}
-                  onEdit={() => {
-                    handleEdit(sugar.uid);
-                  }}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>}
+        {bloodSugars.length > 0 && (
+          <div>
+            <span className="text-body1sb color-text-primary py-2">
+              내 기록
+            </span>
+            <ul>
+              {bloodSugars.map((sugar) => (
+                <li key={sugar.uid} className="pb-2">
+                  <BloodSugarRecordTile
+                    bloodSugar={sugar as BloodSugarModel}
+                    onDelete={() => {
+                      handleDelete(sugar.uid);
+                    }}
+                    onEdit={() => {
+                      handleEdit(sugar.uid);
+                    }}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
-      <HomeKeyboardHeader onTapSave={handleSave} memo={memo} onMemoChanged={setMemo} onMemoVisibleChanged={handleMemoVisibleChanged} />
+      <HomeKeyboardHeader
+        onTapSave={handleSave}
+        memo={memo}
+        onMemoChanged={setMemo}
+        onMemoVisibleChanged={handleMemoVisibleChanged}
+      />
     </div>
   );
-}
+};
 
 export default Home;

@@ -1,22 +1,25 @@
 import BloodSugarModel, {  BloodSugarWriteProps } from "../model/bloodSugarModel";
+import { BloodSugarCategoryUtils } from "../types/bloodSugarCategory";
 import { BloodSugarUnit } from "../types/bloodSugarUnit";
-import { dateToUnixTimestamp, UnixTimestamp, unixTimestampToDate } from "../types/unixtimestamp";
+import { UnixTimestamp } from "../types/unixtimestamp";
 
-interface BloodSugarReadEntity {
+export interface BloodSugarReadEntity {
   uid: string;
   value: number;
   unit: BloodSugarUnit;
+  category: string;
   recordedAt: string;
   recordedDate: string;
   memo: string;
 }
 
-namespace BloodSugarReadEntity {
-  export const toModel = (entity: BloodSugarReadEntity): BloodSugarModel => {
+const BloodSugarReadEntityUtils = {
+  toModel(entity: BloodSugarReadEntity): BloodSugarModel {
     return new BloodSugarModel({
       uid: entity.uid,
       value: entity.value,
       unit: entity.unit,
+      category: BloodSugarCategoryUtils.fromString(entity.category),
       recordedAt: UnixTimestamp.dateStringToUnixTimestamp(entity.recordedAt),
       recordedDate: entity.recordedDate,
       memo: entity.memo,
@@ -27,6 +30,7 @@ namespace BloodSugarReadEntity {
 interface BloodSugarWriteEntity {
   value?: number;
   unit?: BloodSugarUnit;
+  category?: string;
   recordedAt?: string;
   recordedDate?: string;
   memo?: string;
@@ -36,6 +40,7 @@ const writePropsToEntity = (props: BloodSugarWriteProps): BloodSugarWriteEntity 
   return {
     value: props.value,
     unit: props.unit,
+    category: props.category,
     recordedAt: props.recordedAt,
     recordedDate: props.recordedDate,
     memo: props.memo,
@@ -43,4 +48,4 @@ const writePropsToEntity = (props: BloodSugarWriteProps): BloodSugarWriteEntity 
 };
 
 export type { BloodSugarWriteEntity };
-export { BloodSugarReadEntity, writePropsToEntity };
+export { BloodSugarReadEntityUtils, writePropsToEntity };
