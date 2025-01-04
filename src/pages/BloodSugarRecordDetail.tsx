@@ -126,7 +126,6 @@ const BloodSugarRecordDetailProvider = ({
       value: parseInt(bsValue),
       memo: memo,
       category: category,
-      recordedAt: date,
     });
 
     if (result) {
