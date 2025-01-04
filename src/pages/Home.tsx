@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useHome } from "@/5_viewmodels/home/useHome";
-import {
-  dateToEndUnixTimestamp,
-  dateToStartUnixTimestamp,
-} from "@/0_model/types/unixtimestamp";
+import { UnixTimestamp } from "@/0_model/types/unixtimestamp";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
 import { cn } from "@/lib/utils";
@@ -23,6 +20,7 @@ import { Utils } from "@/7_utils/utils";
 import { useNavigate } from "react-router-dom";
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { NavigatorUtils } from "@/7_utils/navigatorUtils";
+import DateUtils from "@/7_utils/dateUtils";
 
 const Home = () => {
   const { bloodSugars, fetchBloodSugars, addBloodSugar, deleteBloodSugar } =
@@ -39,25 +37,17 @@ const Home = () => {
     setToday(new Date());
   }, [visibilityState]);
 
-  // today를 2024-12-20 형식으로 환
-  const getFormattedDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
   useEffect(() => {
     fetchBloodSugars({
-      from: dateToStartUnixTimestamp(today),
-      to: dateToEndUnixTimestamp(today),
+      from: UnixTimestamp.toStartUnixTimestamp(today),
+      to: UnixTimestamp.toEndUnixTimestamp(today),
     });
   }, [today]);
 
   useEffect(() => {
     fetchBloodSugars({
-      from: dateToStartUnixTimestamp(today),
-      to: dateToEndUnixTimestamp(today),
+      from: UnixTimestamp.toStartUnixTimestamp(today),
+      to: UnixTimestamp.toEndUnixTimestamp(today),
     });
   }, []);
 
@@ -75,8 +65,8 @@ const Home = () => {
   const handleDelete = async (id: string) => {
     await deleteBloodSugar(id);
     await fetchBloodSugars({
-      from: dateToStartUnixTimestamp(today),
-      to: dateToEndUnixTimestamp(today),
+      from: UnixTimestamp.toStartUnixTimestamp(today),
+      to: UnixTimestamp.toEndUnixTimestamp(today),
     });
   };
 
@@ -90,8 +80,8 @@ const Home = () => {
 
     await addBloodSugar(parseInt(value), selectedCategory.value, memo);
     await fetchBloodSugars({
-      from: dateToStartUnixTimestamp(today),
-      to: dateToEndUnixTimestamp(today),
+      from: UnixTimestamp.toStartUnixTimestamp(today),
+      to: UnixTimestamp.toEndUnixTimestamp(today),
     });
 
     // 입력 폼 초기화
@@ -149,7 +139,7 @@ const Home = () => {
       <div className="overflow-y-auto bottom-nav-space">
         <div className={cn("flex items-center justify-between", "py-3 mb-3")}>
           <span className="text-h5b color-text-primary">
-            {getFormattedDate(today)}
+            {DateUtils.toDashYMD(today)}
           </span>
           <DropdownProvider
             data={categoryData}

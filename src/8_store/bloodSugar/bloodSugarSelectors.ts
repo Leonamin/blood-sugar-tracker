@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import BloodSugarModel from '@/0_model/model/bloodSugarModel';
-import { DateUtils } from '@/7_utils/dateUtils';
+import DateUtils from '@/7_utils/dateUtils';
 
 // 기본 선택자
 const selectBloodSugarRecords = (state: RootState) => state.bloodSugarRecords.records;
@@ -22,9 +22,9 @@ export const selectBloodSugarModelsAll = createSelector(
 export const selectBloodSugarModelsByDate = createSelector(
   [selectBloodSugarModels, (_, date: Date) => date],
   (models, date): BloodSugarModel[] => {
-    const targetDate = DateUtils.dateToYMD(date);
+    const targetDate = DateUtils.toYMD(date);
     return models.filter(model => 
-      DateUtils.dateToYMD(model.recordedAtToDate()) === targetDate
+      model.recordedDate === targetDate
     );
   }
 );

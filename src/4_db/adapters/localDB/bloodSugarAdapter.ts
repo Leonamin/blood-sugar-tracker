@@ -40,9 +40,9 @@ export class LocalDBBloodSugarAdapter extends BaseAdapter {
     const result = await db.bloodsugar
       .find({
         selector: {
-          recordedDate: {
-            $gte: new Date(range.from).toISOString(),
-            $lte: new Date(range.to).toISOString(),
+          recordedAt: {
+            $gte: range.from.toString(),
+            $lte: range.to.toString(),
           },
         },
       })

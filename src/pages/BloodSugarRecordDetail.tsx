@@ -18,7 +18,7 @@ import SolidButton from "@/1_components/ui/button/solid-button";
 import { CRUDType } from "@/0_model/types/CRUDType";
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { BloodSugarUnit } from "@/0_model/types/bloodSugarUnit";
-import { DateUtils } from "@/7_utils/dateUtils";
+import DateUtils  from "@/7_utils/dateUtils";
 import OutlineTextField from "@/1_components/ui/textfield/OutlineTextField";
 import {
   DropdownChip,
@@ -108,9 +108,9 @@ const BloodSugarRecordDetailProvider = ({
   );
   const [memo, setMemo] = useState<string>(recordDetail?.memo || "");
   const [date, setDate] = useState<Date>(
-    recordDetail?.recordedAtToDate() || new Date()
+    recordDetail?.recordedAt || new Date()
   );
-  const [time, setTime] = useState<string>(DateUtils.dateToHM(date) || "");
+  const [time, setTime] = useState<string>(DateUtils.toFormattedHM(date) || "");
 
   const navigate = useNavigate();
 
@@ -289,8 +289,8 @@ const SectionGlucoseData = (): ReactNode => {
 const SectionDate = (): ReactNode => {
   const { date, setDate, time, setTime } = useBloodSugarRecordDetailContext();
 
-  const displayTime = DateUtils.dateToHM(date);
-  const displayDate = DateUtils.dateToYMD(date);
+  const displayTime = DateUtils.toFormattedHM(date);
+  const displayDate = DateUtils.toYMD(date);
 
   return (
     <div className="flex gap-3">

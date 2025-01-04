@@ -2,13 +2,12 @@ import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { BloodSugarCategory, BloodSugarCategoryUtils } from "@/0_model/types/bloodSugarCategory";
 import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
 import { IndicatorStep } from "@/0_model/types/indicatorStep";
-import { UnixTimestamp } from "@/0_model/types/unixtimestamp";
 import { IconPlus } from "@/1_components/icons";
 import TextButton from "@/1_components/ui/button/text-button";
 import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider, MonthlyDayTileWithIndicator } from "@/1_components/ui/calendar/MonthlyCalendar";
 import { useAppDispatch } from "@/3_hook/useAppDispatch";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
-import { DateUtils } from "@/7_utils/dateUtils";
+import DateUtils  from "@/7_utils/dateUtils";
 import { NavigatorUtils } from "@/7_utils/navigatorUtils";
 import { selectBloodSugarModelsAll, selectBloodSugarModelsByDate } from "@/8_store/bloodSugar/bloodSugarSelectors";
 import { deleteBsRecordByUid } from "@/8_store/bloodSugar/bloodSugarSlice";
@@ -36,26 +35,13 @@ const Calendar = () => {
 
   function getBsRecord(date: Date): BloodSugarModel | null {
     const filteredRecords = bloodSugars.filter(record => DateUtils.isSameDay(
-      UnixTimestamp.unixTimestampToDate(record.recordedAt),
+      record.recordedAt,
       date
     ));
 
     if (filteredRecords.length === 0) {
       return null;
     }
-
-    // 테스트
-
-    const targetDate = UnixTimestamp.unixTimestampToDate(filteredRecords[0].recordedAt);
-
-    const isSameDay = DateUtils.isSameDay(targetDate, date);
-
-    console.log(date);
-    console.log(targetDate);
-    console.log(filteredRecords);
-    console.log('두 날짜가 같음?',isSameDay);
-
-    // 테스트 끝
 
     // 가장 마지막 기록 반환
     return filteredRecords.reduce((latest, current) =>
