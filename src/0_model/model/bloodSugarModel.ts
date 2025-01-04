@@ -80,7 +80,7 @@ export interface BloodSugarWriteProps {
   value?: number;
   unit?: BloodSugarUnit;
   category?: BloodSugarCategory;
-  recordedAt?: string;
+  recordedAt?: Date;
   recordedDate?: string;
   memo?: string;
 }

@@ -1,9 +1,8 @@
-import { BloodSugarReadEntity } from "@/0_model/entity/bloodSugarEntity";
-import { BloodSugarWriteProps } from "@/0_model/model/bloodSugarModel";
+import { BloodSugarReadEntity, BloodSugarWriteEntity } from "@/0_model/entity/bloodSugarEntity";
 import { UnixTimestampRange } from "@/0_model/types/unixtimestamp";
 
 export abstract class BaseAdapter {
-  abstract createBloodSugarEntity(data: BloodSugarWriteProps): Promise<BloodSugarReadEntity>;
+  abstract createBloodSugarEntity(data: BloodSugarWriteEntity): Promise<BloodSugarReadEntity>;
   abstract readBloodSugarEntity(
     uid: string,
   ) : Promise<BloodSugarReadEntity>
@@ -14,7 +13,7 @@ export abstract class BaseAdapter {
 
   abstract updateBloodSugarEntity(
     uid: string,
-    data: BloodSugarWriteProps,
+    data: BloodSugarWriteEntity,
   ) : Promise<BloodSugarReadEntity>
 
   abstract deleteBloodSugarEntity(uid: string) : Promise<void>

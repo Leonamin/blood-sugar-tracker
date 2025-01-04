@@ -1,5 +1,5 @@
 // services/bloodSugarService.js
-import { BloodSugarReadEntityUtils } from "@/0_model/entity/bloodSugarEntity";
+import { BloodSugarReadEntityUtils, writePropsToEntity } from "@/0_model/entity/bloodSugarEntity";
 import BloodSugarModel, {
   BloodSugarWriteProps,
 } from "@/0_model/model/bloodSugarModel";
@@ -15,7 +15,7 @@ class BloodSugarService {
     data: BloodSugarWriteProps
   ): Promise<TaskResponse<BloodSugarModel>> {
     try {
-      const record = await bloodSugarRepo.createBloodSugarRecord(data);
+      const record = await bloodSugarRepo.createBloodSugarRecord(writePropsToEntity(data));
       const model = BloodSugarReadEntityUtils.toModel(record);
       return TaskResponse.success(model);
     } catch (error) {
@@ -60,7 +60,7 @@ class BloodSugarService {
     data: BloodSugarWriteProps
   ): Promise<TaskResponse<BloodSugarModel>> {
     try {
-      await bloodSugarRepo.updateBloodSugarRecord(uid, data);
+      await bloodSugarRepo.updateBloodSugarRecord(uid, writePropsToEntity(data));
       const record = await bloodSugarRepo.readBloodSugarRecord(uid);
       const model = BloodSugarReadEntityUtils.toModel(record);
       return TaskResponse.success(model);

@@ -2,19 +2,18 @@
 import { BaseAdapter } from "../baseAdapter";
 import {
   BloodSugarReadEntity,
-  writePropsToEntity,
+  BloodSugarWriteEntity,
 } from "@/0_model/entity/bloodSugarEntity";
-import { BloodSugarWriteProps } from "@/0_model/model/bloodSugarModel";
 import { UnixTimestampRange } from "@/0_model/types/unixtimestamp";
 import { getDatabase } from "@/4_db/adapters/localDB/localDBInstance";
 import { writeEntityToSchema } from "@/4_db/adapters/localDB/schemas/bloodSugarSchema";
 
 export class LocalDBBloodSugarAdapter extends BaseAdapter {
   async createBloodSugarEntity(
-    data: BloodSugarWriteProps
+    data: BloodSugarWriteEntity
   ): Promise<BloodSugarReadEntity> {
     const db = await getDatabase();
-    const entityData = writeEntityToSchema(writePropsToEntity(data));
+    const entityData = writeEntityToSchema(data);
     
     // uid가 없는 경우 생성
     if (!entityData.uid) {
@@ -53,7 +52,7 @@ export class LocalDBBloodSugarAdapter extends BaseAdapter {
 
   async updateBloodSugarEntity(
     uid: string,
-    data: BloodSugarWriteProps
+    data: BloodSugarWriteEntity
   ): Promise<BloodSugarReadEntity> {
     const db = await getDatabase();
     const record = await db.bloodsugar.findOne(uid).exec();

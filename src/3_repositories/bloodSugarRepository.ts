@@ -1,4 +1,4 @@
-import { BloodSugarReadEntity } from "@/0_model/entity/bloodSugarEntity";
+import { BloodSugarReadEntity, BloodSugarWriteEntity } from "@/0_model/entity/bloodSugarEntity";
 import { BloodSugarWriteProps } from "@/0_model/model/bloodSugarModel";
 import { UnixTimestampRange } from "@/0_model/types/unixtimestamp";
 import { BaseAdapter } from "@/4_db/adapters/baseAdapter";
@@ -10,7 +10,7 @@ export class BloodSugarRepository {
   }
 
   async createBloodSugarRecord(
-    data: BloodSugarWriteProps
+    data: BloodSugarWriteEntity
   ) : Promise<BloodSugarReadEntity> {
     return await this.adapter.createBloodSugarEntity(data);
   }
@@ -29,7 +29,7 @@ export class BloodSugarRepository {
 
   async updateBloodSugarRecord(
     uid: string,
-    data: BloodSugarWriteProps
+    data: BloodSugarWriteEntity
   ): Promise<BloodSugarReadEntity> {
     return await this.adapter.updateBloodSugarEntity(uid, data);
   }

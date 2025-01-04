@@ -26,7 +26,7 @@ export function useHome() {
     dispatch(fetchBsRecords({ from, to }));
     bloodSugars.sort(
       (a, b) =>
-        new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime()
+        b.recordedAt.getTime() - a.recordedAt.getTime()
     );
   };
 
@@ -36,7 +36,7 @@ export function useHome() {
         value,
         unit: "mg/dL",
         category,
-        recordedAt: UnixTimestamp.now().toString(),
+        recordedAt: new Date(),
         recordedDate: DateUtils.toYMD(new Date()),
         memo,
       })
