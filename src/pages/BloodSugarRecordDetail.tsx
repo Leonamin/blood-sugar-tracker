@@ -108,7 +108,7 @@ const BloodSugarRecordDetailProvider = ({
   );
   const [memo, setMemo] = useState<string>(recordDetail?.memo || "");
   const [date, setDate] = useState<Date>(
-    recordDetail?.recordedAtToDate() || new Date()
+    recordDetail?.recordedAt || new Date()
   );
   const [time, setTime] = useState<string>(DateUtils.toFormattedHM(date) || "");
 
