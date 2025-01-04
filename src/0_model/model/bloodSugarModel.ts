@@ -1,5 +1,5 @@
+import { BloodSugarCategory } from "../types/bloodSugarCategory";
 import { BloodSugarUnit } from "../types/bloodSugarUnit";
-import { UnixTimestamp } from "../types/unixtimestamp";
 /**
  * 혈당 모델 속성 인터페이스
  * Redux에서도 사용
@@ -14,7 +14,8 @@ export interface BloodSugarModelProps {
   uid: string;
   value: number; 
   unit: BloodSugarUnit;
-  recordedAt: UnixTimestamp;
+  category: BloodSugarCategory;
+  recordedAt: Date;
   recordedDate: string;
   memo?: string;
 }
@@ -29,7 +30,8 @@ class BloodSugarModel {
   readonly uid: string;
   readonly value: number;
   readonly unit: BloodSugarUnit;
-  readonly recordedAt: UnixTimestamp;
+  readonly category: BloodSugarCategory;
+  readonly recordedAt: Date;
   readonly recordedDate: string;
   readonly memo: string;
 
@@ -37,6 +39,7 @@ class BloodSugarModel {
     this.uid = props.uid;
     this.value = props.value;
     this.unit = props.unit;
+    this.category = props.category;
     this.recordedAt = props.recordedAt;
     this.recordedDate = props.recordedDate;
     this.memo = props.memo;
@@ -60,15 +63,12 @@ class BloodSugarModel {
       : this.value;
   }
 
-  recordedAtToDate(): Date {
-    return new Date(this.recordedAt);
-  }
-
   toProps(): BloodSugarModelProps {
     return {
       uid: this.uid,
       value: this.value,
       unit: this.unit,
+      category: this.category,
       recordedAt: this.recordedAt,
       recordedDate: this.recordedDate,
       memo: this.memo,
@@ -79,7 +79,8 @@ class BloodSugarModel {
 export interface BloodSugarWriteProps {
   value?: number;
   unit?: BloodSugarUnit;
-  recordedAt?: string;
+  category?: BloodSugarCategory;
+  recordedAt?: Date;
   recordedDate?: string;
   memo?: string;
 }

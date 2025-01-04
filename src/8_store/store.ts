@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import bloodSugarSlice from "./bloodSugar/bloodSugarSlice";
+import calendarSlice from "./calendar/calendarSlice";
 
 const store = configureStore({
   reducer: {
     bloodSugarRecords: bloodSugarSlice,
+    calendar: calendarSlice,
   }
 })
 

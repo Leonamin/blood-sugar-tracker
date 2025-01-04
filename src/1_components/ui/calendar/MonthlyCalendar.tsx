@@ -4,6 +4,8 @@ import { cn } from '@/lib/utils';
 import { IconChevronLeft, IconChevronRight } from '@/1_components/icons';
 import { ClassValue } from 'clsx';
 import SolidButton from '../button/solid-button';
+import { IndicatorStep } from '@/0_model/types/indicatorStep';
+import CircleStepIndicator from '../indicator/circle-step-indicator';
 
 // Context
 
@@ -12,6 +14,11 @@ interface MonthlyCalendarContext {
     setSelectedDay: (date: Date) => void;
     focusedDay?: Date;
     setFocusedDay: (date: Date) => void;
+
+    // 날짜 타일 관련
+    isOutsideDay: (date: Date) => boolean;
+    isSelectedDay: (date: Date) => boolean;
+    handleDayClick?: (date: Date) => void;
 }
 
 const MonthlyCalendarContext = createContext<MonthlyCalendarContext | null>(null);
@@ -25,15 +32,12 @@ const useMonthlyCalendarContext = () => {
 };
 
 // Provider
-interface MonthlyCalendarProps {
-    focusedDay?: Date;
-    selectedDay?: Date;
-    setSelectedDay: (date: Date) => void;
-    setFocusedDay: (date: Date) => void;
-    className?: string;
+interface MonthlyCalendarProviderProps {
+    selectedDay: Date;
+    focusedDay: Date;
+    setSelectedDay?: (date: Date) => void;
+    setFocusedDay?: (date: Date) => void;
     children?: ReactNode;
-    hideOutSideDays?: boolean;
-    dayTileRatioStyle?: string;
 }
 
 export const MonthlyCalendarProvider = ({
@@ -42,7 +46,22 @@ export const MonthlyCalendarProvider = ({
     setSelectedDay,
     setFocusedDay,
     children,
-}: MonthlyCalendarProps) => {
+}: MonthlyCalendarProviderProps) => {
+
+    const isOutsideDay = (date: Date) => {
+        return date.getMonth() !== focusedDay?.getMonth() || date.getFullYear() !== focusedDay?.getFullYear();
+    };
+
+    const isSelectedDay = (date: Date) => {
+        return selectedDay?.getDate() === date.getDate() &&
+            selectedDay?.getMonth() === date.getMonth() &&
+            selectedDay?.getFullYear() === date.getFullYear();
+    };
+
+    const handleDayClick = (date: Date) => {
+        setSelectedDay(date);
+        setFocusedDay(date);
+    }
 
     return (
         <MonthlyCalendarContext.Provider value={{
@@ -50,6 +69,9 @@ export const MonthlyCalendarProvider = ({
             setSelectedDay,
             focusedDay,
             setFocusedDay,
+            isOutsideDay,
+            isSelectedDay,
+            handleDayClick,
         }}>
             {children}
         </MonthlyCalendarContext.Provider>
@@ -59,15 +81,32 @@ export const MonthlyCalendarProvider = ({
 // Component
 
 
+interface MonthlyCalendarProps {
+    className?: string;
+    children?: ReactNode;
+    hideOutSideDays?: boolean;
+    dayTileRatioStyle?: string;
+    normalDateStyle?: ClassValue;
+    selectedDateStyle?: ClassValue;
+    outsideDateStyle?: ClassValue;
+    dayTileBuilder?: (date: Date) => ReactNode;
+}
+
 export const MonthlyCalendar = ({
-    focusedDay,
-    selectedDay,
-    setSelectedDay,
-    setFocusedDay,
     className,
     hideOutSideDays = false,
-    dayTileRatioStyle = 'aspect-[1/1.2]'
+    dayTileRatioStyle = 'aspect-[1/1.2]',
+    dayTileBuilder = (date: Date) =>
+        <MonthlyDayTile
+            date={date}
+            dayTileRatioStyle="aspect-[1/1.2]"
+            normalDateStyle="text-body2 font-semibold"
+            selectedDateStyle="border-2 color-border-success color-bg-success-subtle rounded-full"
+            outsideDateStyle="color-text-disabled"
+        />
 }: MonthlyCalendarProps) => {
+    const { selectedDay, focusedDay, setSelectedDay, setFocusedDay } = useMonthlyCalendarContext();
+
     const getDaysInMonth = (date: Date) => {
         const year = date.getFullYear();
         const month = date.getMonth();
@@ -105,23 +144,7 @@ export const MonthlyCalendar = ({
     };
 
     // 날짜 상태
-
-    const isOutsideDay = (date: Date) => {
-        return date.getMonth() !== focusedDay?.getMonth() || date.getFullYear() !== focusedDay?.getFullYear();
-    };
-
-    const isDateSelected = (date: Date) => {
-        return selectedDay?.getDate() === date.getDate() &&
-            selectedDay?.getMonth() === date.getMonth() &&
-            selectedDay?.getFullYear() === date.getFullYear();
-    };
-
     const days = getDaysInMonth(focusedDay || new Date());
-
-    const handleSelectDayButtonClick = (date: Date) => {
-        setSelectedDay(date);
-        setFocusedDay(date);
-    }
 
     const WeekRow = () => {
         const weekDays = {
@@ -144,10 +167,6 @@ export const MonthlyCalendar = ({
         ))
     }
 
-    /* Styling */
-    const normalDateStyle: ClassValue = "text-body2 font-semibold"
-    const selectedDateStyle = "border-2 color-border-success color-bg-success-subtle rounded-full"
-    const outsideDateStyle = "color-text-disabled"
     return (
         <div className={cn("w-full",
             "box-border",
@@ -159,30 +178,19 @@ export const MonthlyCalendar = ({
                 {days.map((date, i) => {
                     if (!date) return <div key={`empty-${i}`} />;
 
-                    const isSelected = isDateSelected(date);
-
-                    return (
-                        <button
-                            key={date.toISOString()}
-                            onClick={() => handleSelectDayButtonClick?.(date)}
-                            className={cn(
-                                "flex items-center justify-center relative",
-                                dayTileRatioStyle,
-                                normalDateStyle,
-                                isSelected && selectedDateStyle,
-                                isOutsideDay(date) && outsideDateStyle,
-                            )}
-                        >
-                            {format(date, 'd')}
-                        </button>
-                    );
+                    return dayTileBuilder(date);  // 커스텀 빌더 사용
                 })}
             </div>
         </div>
     );
 };
 
-export const MonthlyCalendarHeader = () => {
+
+export const MonthlyCalendarHeader = ({
+    className,
+}: {
+    className?: string;
+}) => {
     const { focusedDay, setFocusedDay, setSelectedDay } = useMonthlyCalendarContext();
     const today = focusedDay || new Date();
 
@@ -205,7 +213,10 @@ export const MonthlyCalendarHeader = () => {
     const iconSize = 24;
 
     return (
-        <div className="flex items-center justify-between">
+        <div className={cn(
+            "flex items-center justify-between",
+            className,
+        )}>
             <div className="flex items-center justify-start">
                 <div className="flex items-center gap-1">
                     <button className="cursor-pointer" onClick={() => handleChevronClick('left')}>
@@ -229,4 +240,91 @@ export const MonthlyCalendarHeader = () => {
         </div>
 
     )
+}
+
+interface DayTileProps {
+    date: Date;
+    dayTileRatioStyle: ClassValue;
+    normalDateStyle: ClassValue;
+    selectedDateStyle: ClassValue;
+    outsideDateStyle: ClassValue;
+}
+
+const MonthlyDayTile = ({
+    date,
+    dayTileRatioStyle = "aspect-[1/1.2]",
+    normalDateStyle,
+    selectedDateStyle,
+    outsideDateStyle,
+}: DayTileProps) => {
+    const { isOutsideDay, isSelectedDay, handleDayClick } = useMonthlyCalendarContext();
+
+    const isOutside = isOutsideDay(date);
+    const isSelected = isSelectedDay(date);
+
+    return (
+        <button
+            key={date.toISOString()}
+            onClick={() => handleDayClick?.(date)}
+            className={cn(
+                "flex items-center justify-center relative",
+                dayTileRatioStyle,
+                normalDateStyle,
+                isSelected && selectedDateStyle,
+                isOutside && outsideDateStyle,
+            )}
+        >
+            {format(date, 'd')}
+        </button>
+    );
+}
+
+interface MonthlyDayTileWithIndicatorProps {
+    date: Date;
+    dayTileRatioStyle: ClassValue;
+    indicatorStep: IndicatorStep;
+    hasMemo: boolean;
+}
+
+export const MonthlyDayTileWithIndicator = ({
+    date,
+    dayTileRatioStyle = "aspect-[1/1.2]",
+    indicatorStep,
+    hasMemo
+}: MonthlyDayTileWithIndicatorProps) => {
+    const { isOutsideDay, isSelectedDay, handleDayClick } = useMonthlyCalendarContext();
+
+    const { normalDateStyle,
+        selectedDateStyle,
+        outsideDateStyle } = {
+        normalDateStyle: "text-body2 font-semibold",
+        selectedDateStyle: "border-2 color-border-success color-bg-success-subtle rounded-full",
+        outsideDateStyle: "color-text-disabled",
+    }
+
+    const isOutside = isOutsideDay(date);
+    const isSelected = isSelectedDay(date);
+
+    const hasIndicator = indicatorStep > 0;
+
+    return (
+        <button
+            key={date.toISOString()}
+            onClick={() => handleDayClick?.(date)}
+            className={cn(
+                "flex items-center justify-center relative",
+                dayTileRatioStyle,
+                normalDateStyle,
+                isSelected && selectedDateStyle,
+                isOutside && outsideDateStyle,
+            )}
+        >
+
+            {hasIndicator && <CircleStepIndicator step={indicatorStep}>
+                {format(date, 'd')}
+            </CircleStepIndicator>}
+            {!hasIndicator && format(date, 'd')}
+
+        </button>
+    );
 }

@@ -803,12 +803,7 @@ const MonthlyCalendarExample = () => {
 
     >
       <MonthlyCalendarHeader />
-      <MonthlyCalendar
-        selectedDay={selectedDay}
-        focusedDay={focusedDay}
-        setSelectedDay={setSelectedDay}
-        setFocusedDay={setFocusedDay}
-      />
+      <MonthlyCalendar />
     </MonthlyCalendarProvider>
   );
 };

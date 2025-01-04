@@ -1,32 +1,46 @@
 import BloodSugarModel, {  BloodSugarWriteProps } from "../model/bloodSugarModel";
+import { BloodSugarCategoryUtils } from "../types/bloodSugarCategory";
 import { BloodSugarUnit } from "../types/bloodSugarUnit";
-import { dateToUnixTimestamp, UnixTimestamp, unixTimestampToDate } from "../types/unixtimestamp";
+import { UnixTimestamp } from "../types/unixtimestamp";
 
-interface BloodSugarReadEntity {
+export interface BloodSugarReadEntity {
   uid: string;
   value: number;
   unit: BloodSugarUnit;
+  category: string;
   recordedAt: string;
   recordedDate: string;
   memo: string;
 }
 
-namespace BloodSugarReadEntity {
-  export const toModel = (entity: BloodSugarReadEntity): BloodSugarModel => {
+const BloodSugarReadEntityUtils = {
+  toModel(entity: BloodSugarReadEntity): BloodSugarModel {
     return new BloodSugarModel({
       uid: entity.uid,
       value: entity.value,
       unit: entity.unit,
-      recordedAt: UnixTimestamp.dateStringToUnixTimestamp(entity.recordedAt),
+      category: BloodSugarCategoryUtils.fromString(entity.category),
+      recordedAt: UnixTimestamp.fromStringToDate(entity.recordedAt),
       recordedDate: entity.recordedDate,
       memo: entity.memo,
     });
   }
 }
 
+/**
+ * 데이터베이스에 저장할 때 사용하는 엔티티
+ * 
+ * @value 수치 ex) 100
+ * @unit 단위 ex) mg/dL
+ * @category 카테고리 ex) fasting, postMeal
+ * @recordedAt 기록 시간 ex) 1735916400
+ * @recordedDate 기록 날짜 ex) 20240101
+ * @memo 메모 ex) 아침에 먹은 음식
+ */
 interface BloodSugarWriteEntity {
   value?: number;
   unit?: BloodSugarUnit;
+  category?: string;
   recordedAt?: string;
   recordedDate?: string;
   memo?: string;
@@ -36,11 +50,12 @@ const writePropsToEntity = (props: BloodSugarWriteProps): BloodSugarWriteEntity 
   return {
     value: props.value,
     unit: props.unit,
-    recordedAt: props.recordedAt,
+    category: props.category,
+    recordedAt: UnixTimestamp.fromDate(props.recordedAt).toString(),
     recordedDate: props.recordedDate,
     memo: props.memo,
   };
 };
 
 export type { BloodSugarWriteEntity };
-export { BloodSugarReadEntity, writePropsToEntity };
+export { BloodSugarReadEntityUtils, writePropsToEntity };

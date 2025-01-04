@@ -1,17 +1,15 @@
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
-import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
+import { BloodSugarCategory, BloodSugarCategoryUtils } from "@/0_model/types/bloodSugarCategory";
 import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
-import { unixTimestampToDate } from "@/0_model/types/unixtimestamp";
 import { IconBlood, IconDotsHorizontal } from "@/1_components/icons";
 import { DropdownData, DropdownList, DropdownProvider, IconDropdown } from "@/1_components/ui/dropdown/dropdown";
 import CircleStepIndicator from "@/1_components/ui/indicator/circle-step-indicator";
 import Tag from "@/1_components/ui/tag/tag";
+import DateUtils from "@/7_utils/dateUtils";
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
 
 interface BloodSugarRecordTileProps {
   bloodSugar: BloodSugarModel;
-  bloodSugarCategory: BloodSugarCategory;
   onDelete?: () => void;
   onEdit?: () => void;
 }
@@ -24,22 +22,18 @@ const MemoTile = ({ memo }: { memo: string }) => {
 }
 
 const BloodSugarRecordTile = (
-  { bloodSugar, bloodSugarCategory, onDelete, onEdit }: BloodSugarRecordTileProps
+  { bloodSugar, onDelete, onEdit }: BloodSugarRecordTileProps
 ) => {
   const { value, unit, recordedAt, memo } = bloodSugar;
 
-  const formattedRecordedAt = format(unixTimestampToDate(recordedAt), 'HH:mm');
+  const formattedRecordedAt = DateUtils.toFormattedHM(recordedAt);
 
-  const glucoseLevel = BloodSugarCategory.getGlucoseLevel(bloodSugarCategory, value);
+  const glucoseLevel = BloodSugarCategoryUtils.getGlucoseLevel(bloodSugar.category, bloodSugar.value);
   const step = GlucoseLevel.getIndicatorStep(glucoseLevel);
   const label = GlucoseLevel.getLabel(glucoseLevel);
   const color = GlucoseLevel.getColor(glucoseLevel);
 
-
-  const handleMoreButtonClick = () => {
-    console.log("more button clicked");
-  }
-
+  const categoryLabel = BloodSugarCategoryUtils.getLabel(bloodSugar.category);
 
   const dropdownData: DropdownData[] = [
     { label: "삭제", value: "delete" },
@@ -88,7 +82,7 @@ const BloodSugarRecordTile = (
       </span>
       {memo && <MemoTile memo={memo} />}
       <span className="text-caption1r color-text-tertiary">
-        {formattedRecordedAt}
+        {formattedRecordedAt} · {categoryLabel}
       </span>
     </div>
   </div>;
