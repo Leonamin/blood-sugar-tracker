@@ -1,6 +1,5 @@
 import { BloodSugarCategory } from "../types/bloodSugarCategory";
 import { BloodSugarUnit } from "../types/bloodSugarUnit";
-import { UnixTimestamp } from "../types/unixtimestamp";
 /**
  * 혈당 모델 속성 인터페이스
  * Redux에서도 사용
@@ -16,7 +15,7 @@ export interface BloodSugarModelProps {
   value: number; 
   unit: BloodSugarUnit;
   category: BloodSugarCategory;
-  recordedAt: UnixTimestamp;
+  recordedAt: Date;
   recordedDate: string;
   memo?: string;
 }
@@ -32,7 +31,7 @@ class BloodSugarModel {
   readonly value: number;
   readonly unit: BloodSugarUnit;
   readonly category: BloodSugarCategory;
-  readonly recordedAt: UnixTimestamp;
+  readonly recordedAt: Date;
   readonly recordedDate: string;
   readonly memo: string;
 
@@ -62,10 +61,6 @@ class BloodSugarModel {
     return this.unit === "mmol/L"
       ? this.value * this.MGDL_TO_MMOL_RATIO
       : this.value;
-  }
-
-  recordedAtToDate(): Date {
-    return new Date(this.recordedAt);
   }
 
   toProps(): BloodSugarModelProps {

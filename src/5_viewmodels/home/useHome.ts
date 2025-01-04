@@ -1,7 +1,6 @@
 // viewmodels/useBloodSugar.js
 import { useSelector } from "react-redux";
-import { RootState } from "@/8_store/store";
-import { UnixTimestampRange } from "@/0_model/types/unixtimestamp";
+import { UnixTimestamp, UnixTimestampRange } from "@/0_model/types/unixtimestamp";
 import {
   createBsRecord,
   deleteBsRecordByUid,
@@ -10,6 +9,7 @@ import {
 import { useAppDispatch } from "@/3_hook/useAppDispatch";
 import { selectBloodSugarModelsByDate } from '@/8_store/bloodSugar/bloodSugarSelectors';
 import { BloodSugarCategory } from "@/0_model/types/bloodSugarCategory";
+import DateUtils from "@/7_utils/dateUtils";
 
 export function useHome() {
   const dispatch = useAppDispatch();
@@ -20,8 +20,8 @@ export function useHome() {
   );
 
   const fetchBloodSugars = async (query: UnixTimestampRange) => {
-    const from = new Date(query.from);
-    const to = new Date(query.to);
+    const from = UnixTimestamp.toDate(query.from);
+    const to = UnixTimestamp.toDate(query.to);
 
     dispatch(fetchBsRecords({ from, to }));
     bloodSugars.sort(
@@ -36,8 +36,8 @@ export function useHome() {
         value,
         unit: "mg/dL",
         category,
-        recordedAt: new Date().toISOString(),
-        recordedDate: new Date().toLocaleDateString("en-CA"),
+        recordedAt: UnixTimestamp.now().toString(),
+        recordedDate: DateUtils.toYMD(new Date()),
         memo,
       })
     );

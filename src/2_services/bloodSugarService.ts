@@ -1,15 +1,19 @@
 // services/bloodSugarService.js
 import { BloodSugarReadEntityUtils } from "@/0_model/entity/bloodSugarEntity";
-import BloodSugarModel, { BloodSugarWriteProps } from "@/0_model/model/bloodSugarModel";
+import BloodSugarModel, {
+  BloodSugarWriteProps,
+} from "@/0_model/model/bloodSugarModel";
 import { TaskResponse } from "@/0_model/model/taskResponse";
-import { dateToUnixTimestamp } from "@/0_model/types/unixtimestamp";
+import { UnixTimestamp } from "@/0_model/types/unixtimestamp";
 import { BloodSugarRepository } from "@/3_repositories/bloodSugarRepository";
 import { LocalDBBloodSugarAdapter } from "@/4_db/adapters/localDB/bloodSugarAdapter";
 
 const bloodSugarRepo = new BloodSugarRepository(new LocalDBBloodSugarAdapter());
 
 class BloodSugarService {
-  async createBloodSugar(data: BloodSugarWriteProps): Promise<TaskResponse<BloodSugarModel>> {
+  async createBloodSugar(
+    data: BloodSugarWriteProps
+  ): Promise<TaskResponse<BloodSugarModel>> {
     try {
       const record = await bloodSugarRepo.createBloodSugarRecord(data);
       const model = BloodSugarReadEntityUtils.toModel(record);
@@ -29,20 +33,32 @@ class BloodSugarService {
     }
   }
 
-  async getBloodSugarByRange(startDate: Date, endDate: Date): Promise<TaskResponse<BloodSugarModel[]>> {
+  async getBloodSugarByRange(
+    startDate: Date,
+    endDate: Date
+  ): Promise<TaskResponse<BloodSugarModel[]>> {
     try {
+      const from = UnixTimestamp.fromDate(startDate);
+      const to = UnixTimestamp.fromDate(endDate);
+
       const records = await bloodSugarRepo.readBloodSugarRecordByRange({
-        from: dateToUnixTimestamp(startDate),
-        to: dateToUnixTimestamp(endDate),
+        from: from,
+        to: to,
       });
-      const models = records.map(record => BloodSugarReadEntityUtils.toModel(record));
+      const models = records.map((record) =>
+        BloodSugarReadEntityUtils.toModel(record)
+      );
+
       return TaskResponse.success(models);
     } catch (error) {
       return TaskResponse.failure(error.message);
     }
   }
 
-  async updateBloodSugar(uid: string, data: BloodSugarWriteProps): Promise<TaskResponse<BloodSugarModel>> {
+  async updateBloodSugar(
+    uid: string,
+    data: BloodSugarWriteProps
+  ): Promise<TaskResponse<BloodSugarModel>> {
     try {
       await bloodSugarRepo.updateBloodSugarRecord(uid, data);
       const record = await bloodSugarRepo.readBloodSugarRecord(uid);

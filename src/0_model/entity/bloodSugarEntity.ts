@@ -20,7 +20,7 @@ const BloodSugarReadEntityUtils = {
       value: entity.value,
       unit: entity.unit,
       category: BloodSugarCategoryUtils.fromString(entity.category),
-      recordedAt: UnixTimestamp.dateStringToUnixTimestamp(entity.recordedAt),
+      recordedAt: UnixTimestamp.fromStringToDate(entity.recordedAt),
       recordedDate: entity.recordedDate,
       memo: entity.memo,
     });
