@@ -11,10 +11,10 @@ const UnixTimestamp = {
    * @param timestampString ex) 1735979410
    * @returns Date
    */
-  fromStringToDate: (timestampString: string): Date => new Date(parseInt(timestampString)),
+  fromStringToDate: (timestampString: string): Date => new Date(parseInt(timestampString) * 1000),
   fromDate: (date: Date): number => Math.floor(date.getTime() / 1000),
   // UnixTimestamp 문자열을 받아서 
-  now: (): number => Math.floor(Date.now() / 1000),
+  now: (): number => Math.floor((new Date()).getTime() / 1000),
 
   toStartUnixTimestamp: (date: Date): number => {
     const startOfDay = new Date(date);
