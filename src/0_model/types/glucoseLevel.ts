@@ -8,8 +8,8 @@ export enum GlucoseLevel {
   Diabetes = "diabetes",
 }
 
-export namespace GlucoseLevel {
-  export function getIndicatorStep(level: GlucoseLevel): IndicatorStep {
+export const GlucoseLevelUtils = {
+  getIndicatorStep(level: GlucoseLevel): IndicatorStep {
     switch (level) {
       case GlucoseLevel.Low:
         return 1;
@@ -20,9 +20,9 @@ export namespace GlucoseLevel {
       case GlucoseLevel.Diabetes:
         return 4;
     }
-  }
+  },
 
-  export function getLabel(level: GlucoseLevel): string {
+  getLabel(level: GlucoseLevel): string {
     switch (level) {
       case GlucoseLevel.Low:
         return "저혈당";
@@ -33,9 +33,8 @@ export namespace GlucoseLevel {
       case GlucoseLevel.Diabetes:
         return "당뇨";
     }
-  }
-
-  export function getColor(level: GlucoseLevel): TagColorType {
+  },
+  getColor(level: GlucoseLevel): TagColorType {
     switch (level) {
       case GlucoseLevel.Low:
         return "info";
@@ -46,5 +45,5 @@ export namespace GlucoseLevel {
       case GlucoseLevel.Diabetes:
         return "error";
     }
-  }
-}
+  },
+};

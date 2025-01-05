@@ -1,8 +1,8 @@
 import { CRUDType } from '@/0_model/types/CRUDType';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { NavigateFunction } from 'react-router-dom';
 
-export namespace NavigatorUtils {
-  export function navigateToBsDetail(
+export const NavigatorUtils = {
+  navigateToBsDetail(
     navigate: NavigateFunction,
     id?: string,
     crudType?: CRUDType,
