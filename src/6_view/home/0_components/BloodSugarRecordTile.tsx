@@ -1,6 +1,6 @@
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { BloodSugarCategory, BloodSugarCategoryUtils } from "@/0_model/types/bloodSugarCategory";
-import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
+import { GlucoseLevel, GlucoseLevelUtils } from "@/0_model/types/glucoseLevel";
 import { IconBlood, IconDotsHorizontal } from "@/1_components/icons";
 import { DropdownData, DropdownList, DropdownProvider, IconDropdown } from "@/1_components/ui/dropdown/dropdown";
 import CircleStepIndicator from "@/1_components/ui/indicator/circle-step-indicator";
@@ -29,9 +29,9 @@ const BloodSugarRecordTile = (
   const formattedRecordedAt = DateUtils.toFormattedHM(recordedAt);
 
   const glucoseLevel = BloodSugarCategoryUtils.getGlucoseLevel(bloodSugar.category, bloodSugar.value);
-  const step = GlucoseLevel.getIndicatorStep(glucoseLevel);
-  const label = GlucoseLevel.getLabel(glucoseLevel);
-  const color = GlucoseLevel.getColor(glucoseLevel);
+  const step = GlucoseLevelUtils.getIndicatorStep(glucoseLevel);
+  const label = GlucoseLevelUtils.getLabel(glucoseLevel);
+  const color = GlucoseLevelUtils.getColor(glucoseLevel);
 
   const categoryLabel = BloodSugarCategoryUtils.getLabel(bloodSugar.category);
 

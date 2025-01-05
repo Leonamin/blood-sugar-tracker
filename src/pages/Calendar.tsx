@@ -1,6 +1,6 @@
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { BloodSugarCategory, BloodSugarCategoryUtils } from "@/0_model/types/bloodSugarCategory";
-import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
+import { GlucoseLevelUtils } from "@/0_model/types/glucoseLevel";
 import { IndicatorStep } from "@/0_model/types/indicatorStep";
 import { IconPlus } from "@/1_components/icons";
 import TextButton from "@/1_components/ui/button/text-button";
@@ -54,7 +54,7 @@ const Calendar = () => {
       return 0;
     }
     const level = BloodSugarCategoryUtils.getGlucoseLevel(BloodSugarCategory.Fasting, record.value);
-    const step = GlucoseLevel.getIndicatorStep(level);
+    const step = GlucoseLevelUtils.getIndicatorStep(level);
     return step;
   }
 
