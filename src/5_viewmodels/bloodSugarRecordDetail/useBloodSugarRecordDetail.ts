@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux";
-import { RootState } from "@/8_store/store";
 import {
   BloodSugarWriteProps,
 } from "@/0_model/model/bloodSugarModel";
 import {
+  createBsRecord,
   deleteBsRecordByUid,
-  fetchBsRecordByUid,
   updateBsRecordByUid,
 } from "@/8_store/bloodSugar/bloodSugarSlice";
 import { useAppDispatch } from "@/3_hook/useAppDispatch";
@@ -18,8 +17,14 @@ export function useBloodSugarRecordDetail(uid: string) {
     selectBloodSugarModelById(state, uid)
   );
 
-  const fetchRecordDetail = async (uid: string) => {
-    dispatch(fetchBsRecordByUid(uid));  
+  const createBloodSugar = async (data: BloodSugarWriteProps): Promise<boolean> => {
+    try {
+      dispatch(createBsRecord(data));
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   };
 
   const updateBloodSugar = async (uid: string, data: BloodSugarWriteProps): Promise<boolean> => {
@@ -44,7 +49,7 @@ export function useBloodSugarRecordDetail(uid: string) {
 
   return {
     recordDetail: recordDetail,
-    fetchRecordDetail,
+    createBloodSugar,
     updateBloodSugar,
     deleteBloodSugar,
   };

@@ -1,8 +1,7 @@
 import { cn } from "@/lib/utils";
-import { ClassValue } from "clsx";
 import { ReactNode } from "react";
 
-type PlaceholderVariant = 'default' | 'disabled';
+export type PlaceholderVariant = 'default' | 'disabled';
 
 interface PlaceholderCardProps {
   children: ReactNode;

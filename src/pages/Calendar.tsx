@@ -1,5 +1,6 @@
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { BloodSugarCategory, BloodSugarCategoryUtils } from "@/0_model/types/bloodSugarCategory";
+import { CRUDType } from "@/0_model/types/CRUDType";
 import { GlucoseLevelUtils } from "@/0_model/types/glucoseLevel";
 import { IndicatorStep } from "@/0_model/types/indicatorStep";
 import { IconPlus } from "@/1_components/icons";
@@ -77,7 +78,7 @@ const Calendar = () => {
   }
 
   const handleAdd = () => {
-    // dispatch(addBsRecord());
+    NavigatorUtils.navigateToBsDetail(navigate, null, CRUDType.Create);
   }
 
   return (

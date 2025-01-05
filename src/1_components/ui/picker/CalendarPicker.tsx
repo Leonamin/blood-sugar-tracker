@@ -1,6 +1,4 @@
-import { Time } from '@/0_model/types/Time';
 import { useEffect, useState } from 'react';
-import Picker from 'react-mobile-picker'
 import SolidButton from '../button/solid-button';
 import BottomSheet, { BottomSheetProvider, useBottomSheet } from '../overlay/bottomsheet/BottomSheet';
 import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider } from '../calendar/MonthlyCalendar';
@@ -17,13 +15,12 @@ interface CalendarPickerProps {
 
 const CalendarPickerContent = ({
   child,
-  initialValue: value,
-  onChange,
+  initialValue,
   onComplete,
   isDisabled,
 }: CalendarPickerProps) => {
-  const [selectedDay, setSelectedDay] = useState<Date>(new Date());
-  const [focusedDay, setFocusedDay] = useState<Date>(new Date());
+  const [selectedDay, setSelectedDay] = useState<Date>(initialValue);
+  const [focusedDay, setFocusedDay] = useState<Date>(initialValue);
 
   const { open, close } = useBottomSheet();
 
@@ -63,10 +60,6 @@ const CalendarPickerContent = ({
           >
             <MonthlyCalendarHeader />
             <MonthlyCalendar
-              selectedDay={selectedDay}
-              focusedDay={focusedDay}
-              setSelectedDay={setSelectedDay}
-              setFocusedDay={setFocusedDay}
               dayTileRatioStyle='aspect-square'
             />
           </MonthlyCalendarProvider>
