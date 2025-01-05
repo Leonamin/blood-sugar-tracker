@@ -1,4 +1,4 @@
-import { Time } from '@/0_model/types/Time';
+import { Time, TimeUtils } from '@/0_model/types/Time';
 import { useEffect, useState } from 'react';
 import Picker from 'react-mobile-picker'
 import SolidButton from '../button/solid-button';
@@ -21,19 +21,19 @@ const TimePickerContent = ({
   onComplete,
   isDisabled,
 }: TimePickerProps) => {
-  const selections: Record<keyof Time, string[]> = Time.selections;
+  const selections: Record<keyof Time, string[]> = TimeUtils.getTimeSelections();
 
-  const [selectedTime, setSelectedTime] = useState(Time.toStringObject(value));
+  const [selectedTime, setSelectedTime] = useState(TimeUtils.timeToStringObject(value));
 
   useEffect(() => {
-    setSelectedTime(Time.toStringObject(value));
+    setSelectedTime(TimeUtils.timeToStringObject(value));
   }, [value]);
 
   const handleChange = (
     value: Record<keyof Time, string>, key: string
   ) => {
-    const newTime = Time.toTime(value);
-    setSelectedTime(Time.toStringObject(newTime));
+    const newTime = TimeUtils.stringToTime(value);
+    setSelectedTime(TimeUtils.timeToStringObject(newTime));
     onChange(newTime);
   }
 
@@ -44,7 +44,7 @@ const TimePickerContent = ({
   }
 
   const handleComplete = () => {
-    onComplete(Time.toTime(selectedTime));
+    onComplete(TimeUtils.stringToTime(selectedTime));
     close();
   }
 

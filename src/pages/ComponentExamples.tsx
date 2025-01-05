@@ -23,7 +23,7 @@ import Badge from "@/1_components/ui/badge/badge";
 import { ReactNode, useState } from "react";
 import { Card } from "@/1_components/ui/card";
 import BottomSheet, { BottomSheetProvider, useBottomSheet } from "@/1_components/ui/overlay/bottomsheet/BottomSheet";
-import { Time } from "@/0_model/types/Time";
+import { Time, TimeUtils } from "@/0_model/types/Time";
 import TimePicker from "@/1_components/ui/picker/TimePicker";
 import CalendarPicker from "@/1_components/ui/picker/CalendarPicker";
 import { format } from "date-fns";
@@ -50,7 +50,7 @@ const ComponentExamples = () => {
   }>()
 
   const [time, setTime] = useState<Time>(
-    Time.parseFromDate(new Date())
+    TimeUtils.parseFromDate(new Date())
   )
 
   const handleConfirm = () => {
@@ -86,7 +86,7 @@ const ComponentExamples = () => {
       <h1 className="text-2xl font-bold mb-6">Time Picker Examples</h1>
       <Card className="p-6 space-y-4">
         <TimePicker
-          child={<div>{Time.toHHMMAMPM(time)}</div>}
+          child={<div>{TimeUtils.toFormattedHHMMAMPM(time)}</div>}
           initialValue={time}
           onComplete={(newTime) => {
             console.log('newTime', newTime);
