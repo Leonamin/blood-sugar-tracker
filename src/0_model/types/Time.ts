@@ -3,13 +3,12 @@ type AmPm = "AM" | "PM";
 interface Time {
   hour: number;
   minute: number;
-  ampm: string;
 }
 
 const TimeUtils = {
-  getTimeSelections: () => {
+  getTimeSelections: (is24Hour: boolean = false) => {
     return {
-      hour: Array.from({ length: 12 }, (_, i) => (i + 1).toString()),
+      hour: is24Hour ? Array.from({ length: 24 }, (_, i) => i.toString()) : Array.from({ length: 12 }, (_, i) => (i + 1).toString()),
       minute: Array.from({ length: 60 }, (_, i) => i.toString()),
       ampm: ["AM", "PM"],
     };
@@ -17,19 +16,16 @@ const TimeUtils = {
   stringToTime: (value: {
     hour: string;
     minute: string;
-    ampm: string;
   }): Time => {
     return {
       hour: parseInt(value.hour) as number,
       minute: parseInt(value.minute) as number,
-      ampm: value.ampm as AmPm,
     };
   },
   timeToStringObject: (value: Time): Record<keyof Time, string> => {
     return {
       hour: value.hour.toString(),
       minute: value.minute.toString(),
-      ampm: value.ampm,
     };
   },
   /**
@@ -50,7 +46,7 @@ const TimeUtils = {
   toFormattedHHMMAMPM: (value: Time): string => {
     return `${value.hour.toString().padStart(2, "0")}:${value.minute
       .toString()
-      .padStart(2, "0")} ${value.ampm}`;
+      .padStart(2, "0")} ${value.hour >= 12 ? "PM" : "AM"}`;
   },
   /**
    * Date 객체에서 Time 타입으로 반환합니다
@@ -59,9 +55,8 @@ const TimeUtils = {
    */
   parseFromDate: (date: Date): Time => {
     return {
-      hour: date.getHours() % 12 || 12,
+      hour: date.getHours(),
       minute: date.getMinutes(),
-      ampm: date.getHours() >= 12 ? "PM" : "AM",
     };
   },
   /**
@@ -72,9 +67,8 @@ const TimeUtils = {
   parseFromHHMM: (value: string): Time => {
     const [hour, minute] = value.split(":").map(Number);
     return {
-      hour: hour % 12 || 12,
+      hour: hour,
       minute: minute,
-      ampm: hour >= 12 ? "PM" : "AM",
     };
   },
 };

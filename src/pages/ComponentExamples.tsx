@@ -83,11 +83,24 @@ const ComponentExamples = () => {
         />
       </Card>
 
-      <h1 className="text-2xl font-bold mb-6">Time Picker Examples</h1>
+      <h1 className="text-2xl font-bold mb-6">Time Picker Examples 12Hours</h1>
       <Card className="p-6 space-y-4">
         <TimePicker
           child={<div>{TimeUtils.toFormattedHHMMAMPM(time)}</div>}
           initialValue={time}
+          onComplete={(newTime) => {
+            console.log('newTime', newTime);
+            setTime(newTime);
+          }}
+        />
+      </Card>
+
+      <h1 className="text-2xl font-bold mb-6">Time Picker Examples 24Hours</h1>
+      <Card className="p-6 space-y-4">
+        <TimePicker
+          child={<div>{TimeUtils.toFormattedHHMMAMPM(time)}</div>}
+          initialValue={time}
+          is24Hour={true}
           onComplete={(newTime) => {
             console.log('newTime', newTime);
             setTime(newTime);

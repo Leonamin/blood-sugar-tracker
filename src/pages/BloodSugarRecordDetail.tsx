@@ -11,14 +11,13 @@ import { useBloodSugarRecordDetail } from "@/5_viewmodels/bloodSugarRecordDetail
 import AppBar from "@/1_components/ui/layout/appBar";
 import Snackbar from "@/1_components/ui/overlay/snackbar/snackbar";
 import { cn } from "@/lib/utils";
-import { ClassValue } from "clsx";
 import { IconCalendar, IconClock } from "@/1_components/icons";
 import MultilineTextForm from "@/1_components/ui/form/MultilineTextForm";
 import SolidButton from "@/1_components/ui/button/solid-button";
 import { CRUDType } from "@/0_model/types/CRUDType";
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { BloodSugarUnit } from "@/0_model/types/bloodSugarUnit";
-import DateUtils  from "@/7_utils/dateUtils";
+import DateUtils from "@/7_utils/dateUtils";
 import OutlineTextField from "@/1_components/ui/textfield/OutlineTextField";
 import {
   DropdownChip,
@@ -31,6 +30,12 @@ import {
   BloodSugarCategoryUtils,
 } from "@/0_model/types/bloodSugarCategory";
 import { GlucoseLevel } from "@/0_model/types/glucoseLevel";
+import PlaceholderCard, {
+  PlaceholderVariant,
+} from "@/1_components/ui/layout/PlaceholderCard";
+import { Time } from "@/0_model/types/Time";
+import CalendarPicker from "@/1_components/ui/picker/CalendarPicker";
+import TimePicker from "@/1_components/ui/picker/TimePicker";
 
 interface BloodSugarRecordDetailContext {
   recordDetail: BloodSugarModel | null;
@@ -38,6 +43,7 @@ interface BloodSugarRecordDetailContext {
   setUnit: (unit: BloodSugarUnit) => void;
   crudType: CRUDType;
   setCrudType: (crudType: CRUDType) => void;
+  handleCreate: () => Promise<void>;
   handleDelete: () => Promise<void>;
   handleUpdate: () => Promise<void>;
   bsValue: string;
@@ -47,10 +53,8 @@ interface BloodSugarRecordDetailContext {
   setMemo: (memo: string) => void;
   category: BloodSugarCategory;
   setCategory: (category: BloodSugarCategory) => void;
-  date: Date;
-  setDate: (date: Date) => void;
-  time: string;
-  setTime: (time: string) => void;
+  dateTime: Date;
+  setDateTime: (dateTime: Date) => void;
 }
 
 const BloodSugarRecordDetailContext =
@@ -62,6 +66,7 @@ const BloodSugarRecordDetailContext =
     setCrudType: () => {},
     setUnit: () => {},
     setCategory: () => {},
+    handleCreate: () => Promise.resolve(),
     handleDelete: () => Promise.resolve(),
     handleUpdate: () => Promise.resolve(),
     bsValue: "",
@@ -69,10 +74,8 @@ const BloodSugarRecordDetailContext =
     setBsValue: () => {},
     memo: "",
     setMemo: () => {},
-    date: new Date(),
-    setDate: () => {},
-    time: "",
-    setTime: () => {},
+    dateTime: new Date(),
+    setDateTime: () => {},
   });
 
 const BloodSugarRecordDetailProvider = ({
@@ -87,11 +90,13 @@ const BloodSugarRecordDetailProvider = ({
   const uid = query.get("id");
   const initialUnit: BloodSugarUnit =
     (query.get("unit") as BloodSugarUnit) || "mg/dL";
+  const initialCrudType: CRUDType =
+    (query.get("crudType") as CRUDType) || CRUDType.Read;
 
-  const { recordDetail, updateBloodSugar, deleteBloodSugar } =
+  const { recordDetail, createBloodSugar, updateBloodSugar, deleteBloodSugar } =
     useBloodSugarRecordDetail(uid);
 
-  const [crudType, setCrudType] = useState<CRUDType>(CRUDType.Read);
+  const [crudType, setCrudType] = useState<CRUDType>(initialCrudType);
   const [unit, setUnit] = useState<BloodSugarUnit>(initialUnit);
 
   // Create Update 모드를 위한 변수
@@ -107,12 +112,26 @@ const BloodSugarRecordDetailProvider = ({
     recordDetail?.category || BloodSugarCategory.Fasting
   );
   const [memo, setMemo] = useState<string>(recordDetail?.memo || "");
-  const [date, setDate] = useState<Date>(
+  const [dateTime, setDateTime] = useState<Date>(
     recordDetail?.recordedAt || new Date()
   );
-  const [time, setTime] = useState<string>(DateUtils.toFormattedHM(date) || "");
 
   const navigate = useNavigate();
+
+  const handleCreate = async () => {
+
+    const result = await createBloodSugar({
+      value: parseInt(bsValue),
+      memo: memo,
+      category: category,
+      recordedAt: dateTime,
+      recordedDate: DateUtils.toYMD(dateTime),
+      unit: unit,
+    });
+    if (result) {
+      navigate(-1);
+    }
+  };
 
   const handleDelete = async () => {
     const result = await deleteBloodSugar(uid);
@@ -141,6 +160,7 @@ const BloodSugarRecordDetailProvider = ({
         recordDetail,
         unit,
         setUnit,
+        handleCreate,
         handleDelete,
         handleUpdate,
         bsValue,
@@ -150,10 +170,8 @@ const BloodSugarRecordDetailProvider = ({
         setCategory,
         memo,
         setMemo,
-        date,
-        setDate,
-        time,
-        setTime,
+        dateTime,
+        setDateTime,
       }}
     >
       {children}
@@ -178,26 +196,6 @@ const LabelTitle = ({ label }: { label: string }): ReactNode => (
     <span className="text-body2sb color-text-brand" aria-hidden="true">
       *
     </span>
-  </div>
-);
-
-const PlaceholderCard = ({
-  children,
-  bgColor,
-  borderColor,
-}: {
-  children: ReactNode;
-  bgColor: ClassValue;
-  borderColor: ClassValue;
-}): ReactNode => (
-  <div
-    className={cn(
-      "flex items-center justify-center py-2.5 px-4 rounded-12 border border-solid",
-      bgColor,
-      borderColor
-    )}
-  >
-    {children}
   </div>
 );
 
@@ -286,40 +284,80 @@ const SectionGlucoseData = (): ReactNode => {
 };
 
 const SectionDate = (): ReactNode => {
-  const { date, setDate, time, setTime } = useBloodSugarRecordDetailContext();
+  const { crudType, dateTime, setDateTime } =
+    useBloodSugarRecordDetailContext();
 
-  const displayTime = DateUtils.toFormattedHM(date);
-  const displayDate = DateUtils.toYMD(date);
+  const isReadOnly = crudType === CRUDType.Read || crudType === CRUDType.Update;
+
+  const displayTime = DateUtils.toFormattedHM(dateTime);
+  const displayDate = DateUtils.toYMD(dateTime);
+
+  const handleDateChange = (date: Date) => {
+    // 기존 시간 유지 후 날짜만 변경
+    const newDateTime = new Date(date);
+    newDateTime.setHours(dateTime.getHours());
+    newDateTime.setMinutes(dateTime.getMinutes());
+    setDateTime(newDateTime);
+  };
+
+  const handleTimeChange = (time: Time) => {
+    const newDateTime = new Date(dateTime);
+    newDateTime.setHours(time.hour);
+    newDateTime.setMinutes(time.minute);
+    setDateTime(newDateTime);
+  };
+
+  const getVariant = (): PlaceholderVariant => {
+    if (isReadOnly) {
+      return "disabled";
+    }
+    return "default";
+  };
+
+  const time = useMemo(() => {
+    return {
+      hour: dateTime.getHours(),
+      minute: dateTime.getMinutes(),
+    };
+  }, [dateTime]);
 
   return (
     <div className="flex gap-3">
       <div className="flex flex-col flex-1 space-y-2">
         <LabelTitle label="날짜" />
-        <PlaceholderCard
-          bgColor="color-bg-disabled"
-          borderColor="color-border-disabled"
-        >
-          <div className="flex items-center justify-between w-full">
-            <span className="text-body2r color-text-primary">
-              {displayDate}
-            </span>
-            <IconCalendar size={16} />
-          </div>
-        </PlaceholderCard>
+        <CalendarPicker
+          child={
+            <PlaceholderCard variant={getVariant()}>
+              <div className="flex items-center justify-between w-full">
+                <span className="text-body2r color-text-primary">
+                  {displayDate}
+                </span>
+                <IconCalendar size={16} />
+              </div>
+            </PlaceholderCard>
+          }
+          initialValue={dateTime}
+          onComplete={handleDateChange}
+          isDisabled={isReadOnly}
+        />
       </div>
       <div className="flex flex-col flex-1 space-y-2">
         <LabelTitle label="시간" />
-        <PlaceholderCard
-          bgColor="color-bg-disabled"
-          borderColor="color-border-disabled"
-        >
-          <div className="flex items-center justify-between w-full">
-            <span className="text-body2r color-text-primary">
-              {displayTime}
-            </span>
-            <IconClock size={16} />
-          </div>
-        </PlaceholderCard>
+        <TimePicker
+          child={
+            <PlaceholderCard variant={getVariant()}>
+              <div className="flex items-center justify-between w-full">
+                <span className="text-body2r color-text-primary">
+                  {displayTime}
+                </span>
+                <IconClock size={16} />
+              </div>
+            </PlaceholderCard>
+          }
+          initialValue={time}
+          onComplete={handleTimeChange}
+          isDisabled={isReadOnly}
+        />
       </div>
     </div>
   );
@@ -359,8 +397,31 @@ const RecordDetail = (): ReactNode => {
 };
 
 const BottomButtons = (): ReactNode => {
-  const { recordDetail, handleDelete, handleUpdate, crudType, setCrudType } =
+  const { handleCreate, handleUpdate, handleDelete, crudType, setCrudType } =
     useBloodSugarRecordDetailContext();
+
+  if (crudType === CRUDType.Create) {
+    return (
+      <div
+        className={cn(
+          "fixed bottom-0 left-0 right-0",
+          "flex items-center justify-between gap-2",
+          "px-4 pt-2 pb-12"
+        )}
+      >
+        <SolidButton
+          fullWidth
+          size="48"
+          color="primary"
+          onClick={() => {
+            handleCreate();
+          }}
+        >
+          생성
+        </SolidButton>
+      </div>
+    );
+  }
 
   // 수정 모드일 때의 버튼
   if (crudType === CRUDType.Update) {
