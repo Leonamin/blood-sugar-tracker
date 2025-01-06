@@ -14,11 +14,11 @@ const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    setSelectedDay: (state, action: PayloadAction<Date>) => {
-      state.selectedDay = action.payload.toISOString();
+    setSelectedDay: (state, action: PayloadAction<string>) => {
+      state.selectedDay = action.payload;
     },
-    setFocusedDay: (state, action: PayloadAction<Date>) => {
-      state.focusedDay = action.payload.toISOString();
+    setFocusedDay: (state, action: PayloadAction<string>) => {
+      state.focusedDay = action.payload;
     },
   },
 });

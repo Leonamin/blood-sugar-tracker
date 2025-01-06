@@ -88,11 +88,11 @@ const Calendar = () => {
   // UI 이벤트
 
   const changeSelectedDay = (day: Date) => {
-    dispatch(setSelectedDay(day));
+    dispatch(setSelectedDay(day.toISOString()));
   }
 
   const changeFocusedDay = (day: Date) => {
-    dispatch(setFocusedDay(day));
+    dispatch(setFocusedDay(day.toISOString()));
   }
 
   const handleDelete = (uid: string) => {
