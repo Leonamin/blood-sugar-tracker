@@ -94,13 +94,24 @@ const BloodSugarRecordDetailProvider = ({
     return CRUDType.Read;
   };
 
+  const getInitialDateTime = (value: string): Date => {
+    if (value === undefined) {
+      return new Date();
+    }
+    return new Date(value);
+  };
+
   // 쿼리 파라미터에서 uid 추출
   const query = new URLSearchParams(location.search);
+
+
   const uid = query.get("id");
   const initialUnit: BloodSugarUnit =
     (query.get("unit") as BloodSugarUnit) || "mg/dL";
   const initialCrudType: CRUDType =
     getInitialCrudType(query.get("crudType"));
+  const initialDateTime: Date =
+    getInitialDateTime(query.get("dateTime"));
 
 
   const { 
@@ -130,7 +141,7 @@ const BloodSugarRecordDetailProvider = ({
   );
   const [memo, setMemo] = useState<string>(recordDetail?.memo || "");
   const [dateTime, setDateTime] = useState<Date>(
-    recordDetail?.recordedAt || new Date()
+    recordDetail?.recordedAt || initialDateTime || new Date()
   );
 
   const navigate = useNavigate();
