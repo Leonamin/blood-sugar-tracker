@@ -32,6 +32,22 @@ const DateUtils = {
     return date1.getDate() === date2.getDate() &&
       date1.getMonth() === date2.getMonth() &&
       date1.getFullYear() === date2.getFullYear();
+  },
+
+  toStartOfDay: (date: Date): Date => {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+  },
+
+  toEndOfDay: (date: Date): Date => {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+  },
+
+  toStartOfMonth: (date: Date): Date => {
+    return new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0, 0);
+  },
+
+  toEndOfMonth: (date: Date): Date => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
   }
 }
 
