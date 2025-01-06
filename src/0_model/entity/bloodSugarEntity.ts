@@ -1,4 +1,6 @@
-import BloodSugarModel, {  BloodSugarWriteProps } from "../model/bloodSugarModel";
+import BloodSugarModel, {
+  BloodSugarWriteProps,
+} from "../model/bloodSugarModel";
 import { BloodSugarCategoryUtils } from "../types/bloodSugarCategory";
 import { BloodSugarUnit } from "../types/bloodSugarUnit";
 import { UnixTimestamp } from "../types/unixtimestamp";
@@ -23,13 +25,13 @@ const BloodSugarReadEntityUtils = {
       recordedAt: UnixTimestamp.fromStringToDate(entity.recordedAt),
       recordedDate: entity.recordedDate,
       memo: entity.memo,
-    }
-  }
-}
+    };
+  },
+};
 
 /**
  * 데이터베이스에 저장할 때 사용하는 엔티티
- * 
+ *
  * @value 수치 ex) 100
  * @unit 단위 ex) mg/dL
  * @category 카테고리 ex) fasting, postMeal
@@ -46,12 +48,16 @@ interface BloodSugarWriteEntity {
   memo?: string;
 }
 
-const writePropsToEntity = (props: BloodSugarWriteProps): BloodSugarWriteEntity => {
+const writePropsToEntity = (
+  props: BloodSugarWriteProps
+): BloodSugarWriteEntity => {
   return {
     value: props.value,
     unit: props.unit,
     category: props.category,
-    recordedAt: UnixTimestamp.fromDate(props.recordedAt).toString(),
+    recordedAt: props.recordedAt
+      ? UnixTimestamp.fromDate(props.recordedAt).toString()
+      : undefined,
     recordedDate: props.recordedDate,
     memo: props.memo,
   };

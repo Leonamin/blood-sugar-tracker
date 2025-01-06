@@ -59,6 +59,7 @@ class BloodSugarService {
     uid: string,
     data: BloodSugarWriteProps
   ): Promise<TaskResponse<BloodSugarModel>> {
+    console.log("updateBloodSugar", data);
     try {
       await bloodSugarRepo.updateBloodSugarRecord(uid, writePropsToEntity(data));
       const record = await bloodSugarRepo.readBloodSugarRecord(uid);

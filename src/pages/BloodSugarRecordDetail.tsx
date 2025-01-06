@@ -3,11 +3,9 @@ import {
   createContext,
   ReactNode,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
-import { useBloodSugarRecordDetail } from "@/5_viewmodels/bloodSugarRecordDetail/useBloodSugarRecordDetail";
 import AppBar from "@/1_components/ui/layout/appBar";
 import Snackbar from "@/1_components/ui/overlay/snackbar/snackbar";
 import { cn } from "@/lib/utils";
@@ -36,6 +34,7 @@ import PlaceholderCard, {
 import { Time } from "@/0_model/types/Time";
 import CalendarPicker from "@/1_components/ui/picker/CalendarPicker";
 import TimePicker from "@/1_components/ui/picker/TimePicker";
+import { useBloodSugar } from "@/3_hook/useBloodSugar";
 
 interface BloodSugarRecordDetailContext {
   recordDetail: BloodSugarModel | null;
@@ -47,7 +46,7 @@ interface BloodSugarRecordDetailContext {
   handleDelete: () => Promise<void>;
   handleUpdate: () => Promise<void>;
   bsValue: string;
-  bsIntValue: number;
+  getBsValue: (value: string) => number;
   setBsValue: (value: string) => void;
   memo: string;
   setMemo: (memo: string) => void;
@@ -63,19 +62,19 @@ const BloodSugarRecordDetailContext =
     unit: "mg/dL",
     category: BloodSugarCategory.Fasting,
     crudType: CRUDType.Read,
-    setCrudType: () => {},
-    setUnit: () => {},
-    setCategory: () => {},
+    setCrudType: () => { },
+    setUnit: () => { },
+    setCategory: () => { },
     handleCreate: () => Promise.resolve(),
     handleDelete: () => Promise.resolve(),
     handleUpdate: () => Promise.resolve(),
     bsValue: "",
-    bsIntValue: 0,
-    setBsValue: () => {},
+    getBsValue: () => 0,
+    setBsValue: () => { },
     memo: "",
-    setMemo: () => {},
+    setMemo: () => { },
     dateTime: new Date(),
-    setDateTime: () => {},
+    setDateTime: () => { },
   });
 
 const BloodSugarRecordDetailProvider = ({
@@ -85,16 +84,33 @@ const BloodSugarRecordDetailProvider = ({
 }): ReactNode => {
   const location = useLocation();
 
+  const getInitialCrudType = (value: string): CRUDType => {
+    if (value === undefined) {
+      return CRUDType.Read;
+    }
+    if (value === "create") {
+      return CRUDType.Create;
+    }
+    return CRUDType.Read;
+  };
+
   // 쿼리 파라미터에서 uid 추출
   const query = new URLSearchParams(location.search);
   const uid = query.get("id");
   const initialUnit: BloodSugarUnit =
     (query.get("unit") as BloodSugarUnit) || "mg/dL";
   const initialCrudType: CRUDType =
-    (query.get("crudType") as CRUDType) || CRUDType.Read;
+    getInitialCrudType(query.get("crudType"));
 
-  const { recordDetail, createBloodSugar, updateBloodSugar, deleteBloodSugar } =
-    useBloodSugarRecordDetail(uid);
+
+  const { 
+    getBloodSugarById,
+    createBloodSugar,
+    updateBloodSugar,
+    deleteBloodSugar,
+  } = useBloodSugar();
+
+  const recordDetail = getBloodSugarById(uid);
 
   const [crudType, setCrudType] = useState<CRUDType>(initialCrudType);
   const [unit, setUnit] = useState<BloodSugarUnit>(initialUnit);
@@ -103,10 +119,11 @@ const BloodSugarRecordDetailProvider = ({
   const [bsValue, setBsValue] = useState<string>(
     recordDetail?.value.toString() || ""
   );
-  const bsIntValue = useMemo(() => {
-    const parsed = parseInt(bsValue);
+
+  const getBsValue = (value: string): number => {
+    const parsed = parseInt(value);
     return isNaN(parsed) ? 0 : parsed;
-  }, [bsValue]);
+  };
 
   const [category, setCategory] = useState<BloodSugarCategory>(
     recordDetail?.category || BloodSugarCategory.Fasting
@@ -165,7 +182,7 @@ const BloodSugarRecordDetailProvider = ({
         handleUpdate,
         bsValue,
         setBsValue,
-        bsIntValue,
+        getBsValue,
         category,
         setCategory,
         memo,
@@ -200,7 +217,8 @@ const LabelTitle = ({ label }: { label: string }): ReactNode => (
 );
 
 const GlucoseStatusBar = (): ReactNode => {
-  const { bsIntValue, category } = useBloodSugarRecordDetailContext();
+  const { getBsValue, bsValue, category } = useBloodSugarRecordDetailContext();
+  const bsIntValue = getBsValue(bsValue);
 
   if (bsIntValue === 0) {
     return null;
@@ -382,11 +400,6 @@ const SectionMemo = (): ReactNode => {
 };
 
 const RecordDetail = (): ReactNode => {
-  // 데이터가 없으면 렌더링하지 않음
-  // if (!recordDetail) {
-  //   return null;
-  // }
-
   return (
     <div className="flex flex-col space-y-8">
       <SectionGlucoseData />
