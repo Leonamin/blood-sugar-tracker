@@ -45,15 +45,17 @@ interface BloodSugarRecordDetailContext {
   handleCreate: () => Promise<void>;
   handleDelete: () => Promise<void>;
   handleUpdate: () => Promise<void>;
-  bsValue: string;
-  getBsValue: (value: string) => number;
-  setBsValue: (value: string) => void;
+  bsInput: string;
+  getNumericBsValue: (value: string) => number;
+  setBsInput: (value: string) => void;
   memo: string;
   setMemo: (memo: string) => void;
   category: BloodSugarCategory;
   setCategory: (category: BloodSugarCategory) => void;
   dateTime: Date;
-  setDateTime: (dateTime: Date) => void;
+  handleDateChange: (date: Date) => void;
+  handleTimeChange: (time: Time) => void;
+  getGlucoseLevel: () => GlucoseLevel | null;
 }
 
 const BloodSugarRecordDetailContext =
@@ -68,13 +70,15 @@ const BloodSugarRecordDetailContext =
     handleCreate: () => Promise.resolve(),
     handleDelete: () => Promise.resolve(),
     handleUpdate: () => Promise.resolve(),
-    bsValue: "",
-    getBsValue: () => 0,
-    setBsValue: () => { },
+    bsInput: "",
+    getNumericBsValue: () => 0,
+    setBsInput: () => { },
     memo: "",
     setMemo: () => { },
     dateTime: new Date(),
-    setDateTime: () => { },
+    handleDateChange: () => { },
+    handleTimeChange: () => { },
+    getGlucoseLevel: () => null,
   });
 
 const BloodSugarRecordDetailProvider = ({
@@ -127,11 +131,11 @@ const BloodSugarRecordDetailProvider = ({
   const [unit, setUnit] = useState<BloodSugarUnit>(initialUnit);
 
   // Create Update 모드를 위한 변수
-  const [bsValue, setBsValue] = useState<string>(
+  const [bsInput, setBsInput] = useState<string>(
     recordDetail?.value.toString() || ""
   );
 
-  const getBsValue = (value: string): number => {
+  const getNumericBsValue = (value: string): number => {
     const parsed = parseInt(value);
     return isNaN(parsed) ? 0 : parsed;
   };
@@ -144,12 +148,38 @@ const BloodSugarRecordDetailProvider = ({
     recordDetail?.recordedAt || initialDateTime || new Date()
   );
 
+  // 시간
+  const handleDateChange = (date: Date) => {
+    const newDateTime = new Date(date);
+    newDateTime.setHours(dateTime.getHours());
+    newDateTime.setMinutes(dateTime.getMinutes());
+    setDateTime(newDateTime);
+  };
+
+  const handleTimeChange = (time: Time) => {
+    const newDateTime = new Date(dateTime);
+    newDateTime.setHours(time.hour);
+    newDateTime.setMinutes(time.minute);
+    setDateTime(newDateTime);
+  };
+
+  // 혈당 레벨
+  const getGlucoseLevel = (): GlucoseLevel | null => {
+    const numericValue = getNumericBsValue(bsInput);
+    if (numericValue === 0) {
+      return null;
+    }
+    return BloodSugarCategoryUtils.getGlucoseLevel(category, numericValue);
+  };
+
+  // CRUD
+
   const navigate = useNavigate();
 
   const handleCreate = async () => {
 
     const result = await createBloodSugar({
-      value: parseInt(bsValue),
+      value: parseInt(bsInput),
       memo: memo,
       category: category,
       recordedAt: dateTime,
@@ -170,7 +200,7 @@ const BloodSugarRecordDetailProvider = ({
 
   const handleUpdate = async () => {
     const result = await updateBloodSugar(uid, {
-      value: parseInt(bsValue),
+      value: parseInt(bsInput),
       memo: memo,
       category: category,
     });
@@ -191,15 +221,17 @@ const BloodSugarRecordDetailProvider = ({
         handleCreate,
         handleDelete,
         handleUpdate,
-        bsValue,
-        setBsValue,
-        getBsValue,
+        bsInput,
+        setBsInput,
+        getNumericBsValue,
         category,
         setCategory,
         memo,
         setMemo,
         dateTime,
-        setDateTime,
+        handleDateChange,
+        handleTimeChange,
+        getGlucoseLevel,
       }}
     >
       {children}
@@ -228,17 +260,13 @@ const LabelTitle = ({ label }: { label: string }): ReactNode => (
 );
 
 const GlucoseStatusBar = (): ReactNode => {
-  const { getBsValue, bsValue, category } = useBloodSugarRecordDetailContext();
-  const bsIntValue = getBsValue(bsValue);
+  const { getGlucoseLevel } = useBloodSugarRecordDetailContext();
 
-  if (bsIntValue === 0) {
+  const glucoseLevel = getGlucoseLevel();
+
+  if (glucoseLevel === null) {
     return null;
   }
-
-  const glucoseLevel = BloodSugarCategoryUtils.getGlucoseLevel(
-    category,
-    bsIntValue
-  );
 
   if (glucoseLevel === GlucoseLevel.Low) {
     return (
@@ -280,28 +308,42 @@ const GlucoseStatusBar = (): ReactNode => {
 };
 
 const SectionGlucoseData = (): ReactNode => {
-  const { unit, crudType, bsValue, setBsValue } =
+  const { unit, crudType, bsInput, setBsInput } =
     useBloodSugarRecordDetailContext();
 
   const isReadOnly = crudType === CRUDType.Read;
 
   const handleValueChange = (value: string) => {
-    const parsedValue = parseInt(value);
-    if (parsedValue > 400) {
-      setBsValue("400");
-    } else {
-      setBsValue(value);
+    console.log(value);
+    // 숫자가 아닌 문자가 입력되면 빈문자열로 초기화
+    if (!/^\d*$/.test(value)) {
+      setBsInput("");
+      return;
     }
+
+    // 빈 문자열이면 빈문자열로 초기화
+    if (value === "") {
+      setBsInput("");
+      return;
+    }
+
+    // 최대값(400) 체크
+    const numericValue = parseInt(value);
+    if (numericValue > 400) {
+      setBsInput("400");
+      return;
+    }
+
+    setBsInput(value);
   };
 
   return (
     <div className="flex flex-col space-y-2">
       <LabelTitle label="혈당" />
       <OutlineTextField
-        value={bsValue}
-        onChange={(value) => {
-          handleValueChange(value);
-        }}
+        type="number"
+        value={bsInput}
+        onChange={handleValueChange}
         suffix={
           <span className="text-caption1r color-text-primary">{unit}</span>
         }
@@ -313,28 +355,13 @@ const SectionGlucoseData = (): ReactNode => {
 };
 
 const SectionDate = (): ReactNode => {
-  const { crudType, dateTime, setDateTime } =
+  const { crudType, dateTime, handleDateChange, handleTimeChange } =
     useBloodSugarRecordDetailContext();
 
   const isReadOnly = crudType === CRUDType.Read || crudType === CRUDType.Update;
 
   const displayTime = DateUtils.toFormattedHM(dateTime);
   const displayDate = DateUtils.toYMD(dateTime);
-
-  const handleDateChange = (date: Date) => {
-    // 기존 시간 유지 후 날짜만 변경
-    const newDateTime = new Date(date);
-    newDateTime.setHours(dateTime.getHours());
-    newDateTime.setMinutes(dateTime.getMinutes());
-    setDateTime(newDateTime);
-  };
-
-  const handleTimeChange = (time: Time) => {
-    const newDateTime = new Date(dateTime);
-    newDateTime.setHours(time.hour);
-    newDateTime.setMinutes(time.minute);
-    setDateTime(newDateTime);
-  };
 
   const getVariant = (): PlaceholderVariant => {
     if (isReadOnly) {
