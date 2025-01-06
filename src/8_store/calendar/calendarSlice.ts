@@ -1,23 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CalendarState {
-  selectedDay: Date;
-  focusedDay: Date;
+  selectedDay: string;
+  focusedDay: string;
 }
 
 const initialState: CalendarState = {
-  selectedDay: new Date(),
-  focusedDay: new Date(),
+  selectedDay: new Date().toISOString(),
+  focusedDay: new Date().toISOString(),
 };
 
 const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    setSelectedDay: (state, action: PayloadAction<Date>) => {
+    setSelectedDay: (state, action: PayloadAction<string>) => {
       state.selectedDay = action.payload;
     },
-    setFocusedDay: (state, action: PayloadAction<Date>) => {
+    setFocusedDay: (state, action: PayloadAction<string>) => {
       state.focusedDay = action.payload;
     },
   },

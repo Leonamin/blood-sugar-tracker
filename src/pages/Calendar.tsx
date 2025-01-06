@@ -7,22 +7,48 @@ import { IconPlus } from "@/1_components/icons";
 import TextButton from "@/1_components/ui/button/text-button";
 import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider, MonthlyDayTileWithIndicator } from "@/1_components/ui/calendar/MonthlyCalendar";
 import { useAppDispatch } from "@/3_hook/useAppDispatch";
+import { useBloodSugarLoader } from "@/3_hook/useBloodSugarLoader";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import DateUtils  from "@/7_utils/dateUtils";
 import { NavigatorUtils } from "@/7_utils/navigatorUtils";
 import { selectBloodSugarModelsAll, selectBloodSugarModelsByDate } from "@/8_store/bloodSugar/bloodSugarSelectors";
 import { deleteBsRecordByUid } from "@/8_store/bloodSugar/bloodSugarSlice";
+import { selectFocusedDay, selectSelectedDay } from "@/8_store/calendar/calendarSelectors";
 import { setSelectedDay, setFocusedDay } from "@/8_store/calendar/calendarSlice";
 import { RootState } from "@/8_store/store";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Calendar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const selectedDay = useSelector((state: RootState) => state.calendar.selectedDay);
-  const focusedDay = useSelector((state: RootState) => state.calendar.focusedDay);
+  const selectedDay = useSelector((state: RootState) => selectSelectedDay(state));
+  const focusedDay = useSelector((state: RootState) => selectFocusedDay(state));
+  const { loadBloodSugarData } = useBloodSugarLoader();
+
+  useEffect(() => {
+    const loadMonthData = async () => {
+      // focusedDay의 이전 달 1일
+      const startDate = new Date(
+        focusedDay.getFullYear(),
+        focusedDay.getMonth() - 1,
+        1
+      );
+      
+      // focusedDay의 다음 달 마지막 날
+      const endDate = new Date(
+        focusedDay.getFullYear(),
+        focusedDay.getMonth() + 2,
+        0
+      );
+
+      await loadBloodSugarData(startDate, endDate);
+    };
+
+    loadMonthData();
+  }, [focusedDay, loadBloodSugarData]);
 
   const bloodSugars = useSelector((state: RootState) =>
     selectBloodSugarModelsAll(state)
@@ -62,11 +88,11 @@ const Calendar = () => {
   // UI 이벤트
 
   const changeSelectedDay = (day: Date) => {
-    dispatch(setSelectedDay(day));
+    dispatch(setSelectedDay(day.toISOString()));
   }
 
   const changeFocusedDay = (day: Date) => {
-    dispatch(setFocusedDay(day));
+    dispatch(setFocusedDay(day.toISOString()));
   }
 
   const handleDelete = (uid: string) => {

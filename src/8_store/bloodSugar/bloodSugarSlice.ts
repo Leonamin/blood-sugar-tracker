@@ -1,15 +1,19 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import BloodSugarModel, { BloodSugarWriteProps } from '@/0_model/model/bloodSugarModel';
+import BloodSugarModel, { BloodSugarWriteProps, serializeBloodSugar, SerializedBloodSugarModel } from '@/0_model/model/bloodSugarModel';
 import { bloodSugarService } from '@/2_services/bloodSugarService';
 
 interface BloodSugarState {
-  records: BloodSugarModel[];
+  records: SerializedBloodSugarModel[];
   loading: boolean;
+  currentLoadedFrom: string | null;
+  currentLoadedTo: string | null;
 }
 
 const initialState: BloodSugarState = {
   records: [],
   loading: false,
+  currentLoadedFrom: null,
+  currentLoadedTo: null,
 };
 
 
@@ -46,15 +50,15 @@ const deleteBsRecordByUid = createAsyncThunk<void, string>(
   }
 )
 
-const fetchBsRecords = createAsyncThunk<BloodSugarModel[], {from: Date; to: Date}>(
+const fetchBsRecords = createAsyncThunk<SerializedBloodSugarModel[], {from: Date; to: Date}>(
   'bloodSugar/fetchRecords',
   async (range: {
     from: Date;
     to: Date;
-  }): Promise<BloodSugarModel[]> => {
+  }): Promise<SerializedBloodSugarModel[]> => {
     const response = await bloodSugarService.getBloodSugarByRange(range.from, range.to);
     if (response.success) {
-      return response.data;
+      return response.data.map(record => serializeBloodSugar(record));
     } else {
       throw new Error(response.error);
     }
@@ -83,7 +87,7 @@ export const bloodSugarSlice = createSlice({
      * @param action 
      */
     addRecord: (state, action: PayloadAction<BloodSugarModel>) => {
-      state.records.push(action.payload);
+      state.records.push(serializeBloodSugar(action.payload));
     },
     /**
      * Service에서 삭제된 데이터를 삭제하는 액션
@@ -103,7 +107,7 @@ export const bloodSugarSlice = createSlice({
     updateRecordByUid: (state, action: PayloadAction<BloodSugarModel>) => {
       const index = state.records.findIndex(record => record.uid === action.payload.uid);
       if (index !== -1) {
-        state.records[index] = action.payload;
+        state.records[index] = serializeBloodSugar(action.payload);
       }
     },
   },
@@ -121,14 +125,30 @@ export const bloodSugarSlice = createSlice({
         (a, b) =>
           new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime()
       );
+
+      const calledFrom = action.meta.arg.from;
+      const calledTo = action.meta.arg.to;
+
+      const isInitialLoading = !state.currentLoadedFrom && !state.currentLoadedTo;
+      const isCalledFromOutOfRange = calledFrom < new Date(state.currentLoadedFrom);
+      const isCalledToOutOfRange = calledTo > new Date(state.currentLoadedTo);
+
+      if (isInitialLoading || isCalledFromOutOfRange) {
+        state.currentLoadedFrom = calledFrom.toISOString();
+        state.currentLoadedTo = calledTo.toISOString();
+      } else if (isCalledToOutOfRange) {
+        state.currentLoadedTo = calledTo.toISOString();
+      } else if (isCalledFromOutOfRange) {
+        state.currentLoadedFrom = calledFrom.toISOString();
+      }
     });
     builder.addCase(fetchBsRecordByUid.fulfilled, (state, action) => {
       const newUid = action.payload.uid;
       const existingIndex = state.records.findIndex(record => record.uid === newUid);
       if (existingIndex !== -1) {
-        state.records[existingIndex] = action.payload;
+        state.records[existingIndex] = serializeBloodSugar(action.payload);
       } else {
-        state.records.push(action.payload);
+        state.records.push(serializeBloodSugar(action.payload));
       }
       state.records.sort(
         (a, b) =>

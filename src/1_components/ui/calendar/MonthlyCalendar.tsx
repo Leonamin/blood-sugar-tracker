@@ -178,7 +178,16 @@ export const MonthlyCalendar = ({
                 {days.map((date, i) => {
                     if (!date) return <div key={`empty-${i}`} />;
 
-                    return dayTileBuilder(date);  // 커스텀 빌더 사용
+                    return (
+                        <div key={date.toISOString()}
+                            className={cn(
+                                "flex items-center justify-center w-full h-full",
+                                dayTileRatioStyle,
+                            )}
+                        >
+                            {dayTileBuilder(date)}
+                        </div>
+                    )
                 })}
             </div>
         </div>
@@ -267,7 +276,7 @@ const MonthlyDayTile = ({
             key={date.toISOString()}
             onClick={() => handleDayClick?.(date)}
             className={cn(
-                "flex items-center justify-center relative",
+                "flex items-center justify-center relative w-full h-full",
                 dayTileRatioStyle,
                 normalDateStyle,
                 isSelected && selectedDateStyle,
@@ -312,7 +321,7 @@ export const MonthlyDayTileWithIndicator = ({
             key={date.toISOString()}
             onClick={() => handleDayClick?.(date)}
             className={cn(
-                "flex items-center justify-center relative",
+                "flex items-center justify-center relative w-full h-full",
                 dayTileRatioStyle,
                 normalDateStyle,
                 isSelected && selectedDateStyle,

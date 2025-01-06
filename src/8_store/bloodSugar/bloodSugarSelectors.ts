@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import BloodSugarModel from '@/0_model/model/bloodSugarModel';
+import BloodSugarModel, { deserializeBloodSugar } from '@/0_model/model/bloodSugarModel';
 import DateUtils from '@/7_utils/dateUtils';
 
 // 기본 선택자
@@ -9,7 +9,7 @@ const selectBloodSugarRecords = (state: RootState) => state.bloodSugarRecords.re
 // Props를 Model로 변환하는 선택자
 export const selectBloodSugarModels = createSelector(
   [selectBloodSugarRecords],
-  (records): BloodSugarModel[] => records.map(props => new BloodSugarModel(props))
+  (records): BloodSugarModel[] => records.map(props => deserializeBloodSugar(props))
 );
 
 // 모든 데이터를 가져오는 선택자
