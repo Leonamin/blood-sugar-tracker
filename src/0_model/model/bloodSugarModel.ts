@@ -36,6 +36,15 @@ export const deserializeBloodSugar = (serialized: SerializedBloodSugarModel): Bl
   recordedAt: new Date(serialized.recordedAt)
 });
 
+export interface SerializedBloodSugarWriteProps {
+  value?: number;
+  unit?: BloodSugarUnit;
+  category?: BloodSugarCategory;
+  recordedAt?: string;
+  recordedDate?: string;
+  memo?: string;
+}
+
 export interface BloodSugarWriteProps {
   value?: number;
   unit?: BloodSugarUnit;
@@ -44,5 +53,15 @@ export interface BloodSugarWriteProps {
   recordedDate?: string;
   memo?: string;
 }
+
+export const serializeBloodSugarWriteProps = (model: BloodSugarWriteProps): SerializedBloodSugarWriteProps => ({
+  ...model,
+  recordedAt: model.recordedAt?.toISOString()
+});
+
+export const deserializeBloodSugarWriteProps = (serialized: SerializedBloodSugarWriteProps): BloodSugarWriteProps => ({
+  ...serialized,
+  recordedAt: serialized.recordedAt ? new Date(serialized.recordedAt) : undefined
+});
 
 export default BloodSugarModel;
