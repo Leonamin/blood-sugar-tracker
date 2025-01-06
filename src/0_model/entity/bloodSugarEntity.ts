@@ -15,7 +15,7 @@ export interface BloodSugarReadEntity {
 
 const BloodSugarReadEntityUtils = {
   toModel(entity: BloodSugarReadEntity): BloodSugarModel {
-    return new BloodSugarModel({
+    return {
       uid: entity.uid,
       value: entity.value,
       unit: entity.unit,
@@ -23,7 +23,7 @@ const BloodSugarReadEntityUtils = {
       recordedAt: UnixTimestamp.fromStringToDate(entity.recordedAt),
       recordedDate: entity.recordedDate,
       memo: entity.memo,
-    });
+    }
   }
 }
 
