@@ -13,7 +13,7 @@ export const selectBloodSugarModels = createSelector(
 );
 
 // 모든 데이터를 가져오는 선택자
-export const selectBloodSugarModelsAll = createSelector(
+export const selectAllBloodSugarModels = createSelector(
   [selectBloodSugarModels],
   (models): BloodSugarModel[] => models
 );

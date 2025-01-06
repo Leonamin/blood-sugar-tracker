@@ -7,7 +7,8 @@ import {
 } from '@/8_store/bloodSugar/bloodSugarSlice';
 import { 
   selectBloodSugarModelsByDate,
-  selectBloodSugarModelById 
+  selectBloodSugarModelById, 
+  selectAllBloodSugarModels
 } from '@/8_store/bloodSugar/bloodSugarSelectors';
 import { useAppDispatch } from '@/3_hook/useAppDispatch';
 import { useAppSelector } from '@/3_hook/useAppSelector';
@@ -79,6 +80,10 @@ export function useBloodSugar() {
   };
 
   // 조회 함수들
+  const getAllBloodSugars = () => {
+    return useAppSelector(state => selectAllBloodSugarModels(state));
+  };
+
   const getBloodSugarsByDate = (date: Date) => {
     return useAppSelector(state => selectBloodSugarModelsByDate(state, date));
   };
@@ -93,6 +98,7 @@ export function useBloodSugar() {
     createBloodSugar,
     updateBloodSugar,
     deleteBloodSugar,
+    getAllBloodSugars,
     getBloodSugarsByDate,
     getBloodSugarById,
     loading
