@@ -9,6 +9,9 @@ export const useBloodSugarLoader = () => {
     (state) => state.bloodSugarRecords
   );
 
+  const currentLoadedFromDate = currentLoadedFrom ? new Date(currentLoadedFrom) : null;
+  const currentLoadedToDate = currentLoadedTo ? new Date(currentLoadedTo) : null;
+
   const loadBloodSugarData = useCallback(
     async (from: Date, to: Date) => {
       // 이미 로딩 중이면 무시
@@ -16,11 +19,11 @@ export const useBloodSugarLoader = () => {
         return;
       }
 
-      const isInitialLoading = !currentLoadedFrom && !currentLoadedTo;
+      const isInitialLoading = !currentLoadedFromDate && !currentLoadedToDate;
 
       // 요청된 범위가 현재 로드된 범위 내에 있는지 확인
-      const isWithinLoadedRange = currentLoadedFrom && currentLoadedTo && 
-        from >= currentLoadedFrom && to <= currentLoadedTo;
+      const isWithinLoadedRange = currentLoadedFromDate && currentLoadedToDate && 
+        from >= currentLoadedFromDate && to <= currentLoadedToDate;
 
       // 이미 로드된 범위 내에 있다면 새로운 요청을 하지 않음
       if (isWithinLoadedRange && !isInitialLoading) {

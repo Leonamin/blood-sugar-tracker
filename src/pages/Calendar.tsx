@@ -13,6 +13,7 @@ import DateUtils  from "@/7_utils/dateUtils";
 import { NavigatorUtils } from "@/7_utils/navigatorUtils";
 import { selectBloodSugarModelsAll, selectBloodSugarModelsByDate } from "@/8_store/bloodSugar/bloodSugarSelectors";
 import { deleteBsRecordByUid } from "@/8_store/bloodSugar/bloodSugarSlice";
+import { selectFocusedDay, selectSelectedDay } from "@/8_store/calendar/calendarSelectors";
 import { setSelectedDay, setFocusedDay } from "@/8_store/calendar/calendarSlice";
 import { RootState } from "@/8_store/store";
 import { cn } from "@/lib/utils";
@@ -23,8 +24,8 @@ import { useNavigate } from "react-router-dom";
 const Calendar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const selectedDay = useSelector((state: RootState) => state.calendar.selectedDay);
-  const focusedDay = useSelector((state: RootState) => state.calendar.focusedDay);
+  const selectedDay = useSelector((state: RootState) => selectSelectedDay(state));
+  const focusedDay = useSelector((state: RootState) => selectFocusedDay(state));
   const { loadBloodSugarData } = useBloodSugarLoader();
 
   useEffect(() => {
