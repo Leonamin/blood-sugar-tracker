@@ -5,11 +5,15 @@ import { bloodSugarService } from '@/2_services/bloodSugarService';
 interface BloodSugarState {
   records: BloodSugarModel[];
   loading: boolean;
+  currentLoadedFrom: Date | null;
+  currentLoadedTo: Date | null;
 }
 
 const initialState: BloodSugarState = {
   records: [],
   loading: false,
+  currentLoadedFrom: null,
+  currentLoadedTo: null,
 };
 
 
@@ -121,6 +125,22 @@ export const bloodSugarSlice = createSlice({
         (a, b) =>
           new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime()
       );
+
+      const calledFrom = action.meta.arg.from;
+      const calledTo = action.meta.arg.to;
+
+      const isInitialLoading = !state.currentLoadedFrom && !state.currentLoadedTo;
+      const isCalledFromOutOfRange = calledFrom < state.currentLoadedFrom;
+      const isCalledToOutOfRange = calledTo > state.currentLoadedTo;
+
+      if (isInitialLoading || isCalledFromOutOfRange) {
+        state.currentLoadedFrom = calledFrom;
+        state.currentLoadedTo = calledTo;
+      } else if (isCalledToOutOfRange) {
+        state.currentLoadedTo = calledTo;
+      } else if (isCalledFromOutOfRange) {
+        state.currentLoadedFrom = calledFrom;
+      }
     });
     builder.addCase(fetchBsRecordByUid.fulfilled, (state, action) => {
       const newUid = action.payload.uid;

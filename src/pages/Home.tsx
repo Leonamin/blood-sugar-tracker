@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { NavigatorUtils } from "@/7_utils/navigatorUtils";
 import DateUtils from "@/7_utils/dateUtils";
+import { useBloodSugarLoader } from "@/3_hook/useBloodSugarLoader";
 
 const Home = () => {
   const { bloodSugars, fetchBloodSugars, addBloodSugar, deleteBloodSugar } =
@@ -30,7 +31,7 @@ const Home = () => {
   const [category, setCategory] = useState(BloodSugarCategory.Fasting);
   const visibilityState = usePageVisibility();
   const navigate = useNavigate();
-
+  const { loadBloodSugarData } = useBloodSugarLoader();
   const [today, setToday] = useState(new Date());
 
   useEffect(() => {
@@ -38,10 +39,25 @@ const Home = () => {
   }, [visibilityState]);
 
   useEffect(() => {
-    fetchBloodSugars({
-      from: UnixTimestamp.toStartUnixTimestamp(today),
-      to: UnixTimestamp.toEndUnixTimestamp(today),
-    });
+    const loadMonthData = async () => {
+      // today 이전 달 1일
+      const startDate = new Date(
+        today.getFullYear(),
+        today.getMonth() - 1,
+        1
+      );
+      
+      // today의 다음 달 마지막 날
+      const endDate = new Date(
+        today.getFullYear(),
+        today.getMonth() + 2,
+        0
+      );
+
+      await loadBloodSugarData(startDate, endDate);
+    };
+
+    loadMonthData();
   }, [today]);
 
   useEffect(() => {
