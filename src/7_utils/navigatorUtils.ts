@@ -6,7 +6,8 @@ export const NavigatorUtils = {
     navigate: NavigateFunction,
     id?: string,
     crudType?: CRUDType,
+    dateTime?: Date,
   ) {
-    navigate(`/record-detail?id=${id}&crudType=${crudType}`);
+    navigate(`/record-detail?id=${id}&crudType=${crudType}&dateTime=${dateTime?.toISOString()}`);
   }
 }

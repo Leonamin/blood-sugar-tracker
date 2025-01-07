@@ -1,6 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useHome } from "@/5_viewmodels/home/useHome";
-import { UnixTimestamp } from "@/0_model/types/unixtimestamp";
 import BloodSugarRecordTile from "@/6_view/home/0_components/BloodSugarRecordTile";
 import BloodSugarInputForm from "@/6_view/home/0_components/BloodSugarInputForm";
 import { cn } from "@/lib/utils";
@@ -21,51 +19,34 @@ import { useNavigate } from "react-router-dom";
 import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { NavigatorUtils } from "@/7_utils/navigatorUtils";
 import DateUtils from "@/7_utils/dateUtils";
-import { useBloodSugarLoader } from "@/3_hook/useBloodSugarLoader";
+import { useBloodSugar } from "@/3_hook/useBloodSugar";
 
 const Home = () => {
-  const { bloodSugars, fetchBloodSugars, addBloodSugar, deleteBloodSugar } =
-    useHome();
+  const {
+    loadMonthlyRecords,
+    createBloodSugar,
+    deleteBloodSugar,
+    getBloodSugarsByDate,
+  } = useBloodSugar();
+
+  const visibilityState = usePageVisibility();
+  const navigate = useNavigate();
+
+
   const [value, setValue] = useState("0");
   const [memo, setMemo] = useState("");
   const [category, setCategory] = useState(BloodSugarCategory.Fasting);
-  const visibilityState = usePageVisibility();
-  const navigate = useNavigate();
-  const { loadBloodSugarData } = useBloodSugarLoader();
   const [today, setToday] = useState(new Date());
+
+  const bloodSugars = getBloodSugarsByDate(today);
+
+  useEffect(() => {
+    loadMonthlyRecords(today);
+  }, [today]);
 
   useEffect(() => {
     setToday(new Date());
   }, [visibilityState]);
-
-  useEffect(() => {
-    const loadMonthData = async () => {
-      // today 이전 달 1일
-      const startDate = new Date(
-        today.getFullYear(),
-        today.getMonth() - 1,
-        1
-      );
-      
-      // today의 다음 달 마지막 날
-      const endDate = new Date(
-        today.getFullYear(),
-        today.getMonth() + 2,
-        0
-      );
-
-      await loadBloodSugarData(startDate, endDate);
-    };
-
-    loadMonthData();
-  }, [today]);
-
-  useEffect(() => {
-    fetchBloodSugars({
-      from: UnixTimestamp.toStartUnixTimestamp(today),
-      to: UnixTimestamp.toEndUnixTimestamp(today),
-    });
-  }, []);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,10 +61,6 @@ const Home = () => {
 
   const handleDelete = async (id: string) => {
     await deleteBloodSugar(id);
-    await fetchBloodSugars({
-      from: UnixTimestamp.toStartUnixTimestamp(today),
-      to: UnixTimestamp.toEndUnixTimestamp(today),
-    });
   };
 
   const handleEdit = async (id: string) => {
@@ -91,17 +68,18 @@ const Home = () => {
   };
 
   const processFormSubmit = async () => {
-    console.log(memo);
     if (Utils.isNaN(parseInt(value))) return;
 
-    await addBloodSugar(parseInt(value), selectedCategory.value, memo);
-    await fetchBloodSugars({
-      from: UnixTimestamp.toStartUnixTimestamp(today),
-      to: UnixTimestamp.toEndUnixTimestamp(today),
+    await createBloodSugar({
+      value: parseInt(value),
+      category: selectedCategory.value,
+      memo: memo,
+      recordedAt: new Date(),
     });
+    await loadMonthlyRecords(today);
 
     // 입력 폼 초기화
-    setValue("");
+    setValue("0");
     setMemo("");
   };
 
@@ -115,6 +93,8 @@ const Home = () => {
     }
   };
 
+  // 값 설정
+
   const maxValue = 400;
   const handleValueChange = (value: string) => {
     const parsedValue = parseInt(value);
@@ -124,6 +104,8 @@ const Home = () => {
       setValue(value);
     }
   };
+
+  // 카테고리 설정
 
   const categoryData = useMemo(
     () => [
@@ -141,9 +123,9 @@ const Home = () => {
     []
   );
 
-  const selectedCategory = useMemo(() => 
+  const selectedCategory = useMemo(() =>
     categoryData.find((data) => data.value === category) || categoryData[0]
-  , [category, categoryData]);
+    , [category, categoryData]);
 
   const handleCategoryChange = (category: DropdownData<BloodSugarCategory>) => {
     setCategory(category.value);
