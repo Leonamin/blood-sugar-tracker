@@ -35,6 +35,8 @@ import { Time } from "@/0_model/types/Time";
 import CalendarPicker from "@/1_components/ui/picker/CalendarPicker";
 import TimePicker from "@/1_components/ui/picker/TimePicker";
 import { useBloodSugar } from "@/3_hook/useBloodSugar";
+import { useToast } from "@/3_hook/useToast";
+
 
 interface BloodSugarRecordDetailContext {
   recordDetail: BloodSugarModel | null;
@@ -87,6 +89,8 @@ const BloodSugarRecordDetailProvider = ({
   children: ReactNode;
 }): ReactNode => {
   const location = useLocation();
+
+  const { notifySuccess, notifyError } = useToast();
 
   const getInitialCrudType = (value: string): CRUDType => {
     if (value === undefined) {
@@ -187,14 +191,20 @@ const BloodSugarRecordDetailProvider = ({
       unit: unit,
     });
     if (result) {
+      notifySuccess("기록이 저장되었습니다.");
       navigate(-1);
+    } else {
+      notifyError("기록 저장에 실패했습니다.");
     }
   };
 
   const handleDelete = async () => {
     const result = await deleteBloodSugar(uid);
     if (result) {
+      notifySuccess("기록이 삭제되었습니다.");
       navigate(-1);
+    } else {
+      notifyError("기록 삭제에 실패했습니다.");
     }
   };
 
@@ -206,7 +216,10 @@ const BloodSugarRecordDetailProvider = ({
     });
 
     if (result) {
+      notifySuccess("기록이 수정되었습니다.");
       setCrudType(CRUDType.Read);
+    } else {
+      notifyError("기록 수정에 실패했습니다.");
     }
   };
 

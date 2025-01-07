@@ -20,6 +20,7 @@ import BloodSugarModel from "@/0_model/model/bloodSugarModel";
 import { NavigatorUtils } from "@/7_utils/navigatorUtils";
 import DateUtils from "@/7_utils/dateUtils";
 import { useBloodSugar } from "@/3_hook/useBloodSugar";
+import { useToast } from "@/3_hook/useToast";
 
 const Home = () => {
   const {
@@ -32,6 +33,7 @@ const Home = () => {
   const visibilityState = usePageVisibility();
   const navigate = useNavigate();
 
+  const { notifySuccess, notifyError } = useToast();
 
   const [value, setValue] = useState("0");
   const [memo, setMemo] = useState("");
@@ -42,7 +44,7 @@ const Home = () => {
 
   useEffect(() => {
     loadMonthlyRecords(today);
-  }, [today]);
+  }, [today, loadMonthlyRecords]);
 
   useEffect(() => {
     setToday(new Date());
@@ -60,7 +62,12 @@ const Home = () => {
   };
 
   const handleDelete = async (id: string) => {
-    await deleteBloodSugar(id);
+    const isSuccess = await deleteBloodSugar(id);
+    if (isSuccess) {
+      notifySuccess("기록이 삭제되었습니다.");
+    } else {
+      notifyError("기록 삭제에 실패했습니다.");
+    }
   };
 
   const handleEdit = async (id: string) => {
@@ -70,12 +77,19 @@ const Home = () => {
   const processFormSubmit = async () => {
     if (Utils.isNaN(parseInt(value))) return;
 
-    await createBloodSugar({
+    const isSuccess = await createBloodSugar({
       value: parseInt(value),
       category: selectedCategory.value,
       memo: memo,
       recordedAt: new Date(),
     });
+
+    if (isSuccess) {
+      notifySuccess("기록이 저장되었습니다.");
+    } else {
+      notifyError("기록 저장에 실패했습니다.");
+    }
+
     await loadMonthlyRecords(today);
 
     // 입력 폼 초기화
