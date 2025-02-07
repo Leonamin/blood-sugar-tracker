@@ -20,13 +20,15 @@ import { DateRangePickerBottomSheet } from "@/1_components/ui/picker/DateRangePi
 import { DropdownChip, DropdownData, DropdownList, DropdownProvider, useDropdown } from "@/1_components/ui/dropdown/dropdown";
 import { MonthlyCalendar, MonthlyCalendarHeader, MonthlyCalendarProvider } from "@/1_components/ui/calendar/MonthlyCalendar";
 import Badge from "@/1_components/ui/badge/badge";
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { Card } from "@/1_components/ui/card";
 import BottomSheet, { BottomSheetProvider, useBottomSheet } from "@/1_components/ui/overlay/bottomsheet/BottomSheet";
 import { Time, TimeUtils } from "@/0_model/types/Time";
 import TimePicker from "@/1_components/ui/picker/TimePicker";
 import CalendarPicker from "@/1_components/ui/picker/CalendarPicker";
 import { format } from "date-fns";
+import SegmentedControl from "@/1_components/ui/button/segmented-control";
+
 
 const ComponentExamples = () => {
   const [isChecked1, setIsChecked1] = useState(false);
@@ -53,6 +55,23 @@ const ComponentExamples = () => {
     TimeUtils.parseFromDate(new Date())
   )
 
+  const segments = [
+    {
+      label: "주간",
+      value: "weekly",
+    },
+    {
+      label: "월간",
+      value: "monthly",
+    },
+    {
+      label: "연간",
+      value: "yearly",
+    }
+  ]
+
+  const [selectedValue1, setSelectedValue1] = useState(segments[0].value);
+
   const handleConfirm = () => {
     console.log('confirmed!');
   };
@@ -72,6 +91,11 @@ const ComponentExamples = () => {
     <div className="p-4 pb-20 animate-fade-in">
 
       <h1 className="text-2xl font-bold mb-6">Calendar Picker Examples</h1>
+      <SegmentedControl
+        name="group-1"
+        callback={(val) => setSelectedValue1(val)}
+        segments={segments}
+      />
       <Card className="p-6 space-y-4">
         <CalendarPicker
           child={<div>{format(date, 'yyyy-MM-dd')}</div>}
